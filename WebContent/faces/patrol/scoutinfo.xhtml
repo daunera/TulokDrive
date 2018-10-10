@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<h:outputStylesheet name="css/styles.css" />
+</h:head>
+<h:body>
+	<ui:composition template="/faces/patrol/patrolFrame.xhtml">
+		<ui:define name="innerContent">
+
+			<b:form>
+				<b:row styleClass="pulledRow">
+					<div>
+						<h:outputLabel value="Cserkész adatok" styleClass="tabTitle" />
+						<span style="padding-right: 15px; float: right"> <b:commandButton
+								value="Szerkesztés" iconAwesome="pencil"
+								rendered="#{not userController.edit}"
+								action="#{userController.changeEdit()}" look="info" size="md" />
+							<b:commandButton value="Mentés" iconAwesome="save"
+								rendered="#{userController.edit}"
+								action="#{patrolController.saveScoutEdit()}" look="warning"
+								size="md" style="margin: 0px 5px 0px 0px" /> <b:commandButton
+								value="Vissza" iconAwesome="arrow-left"
+								rendered="#{userController.edit}"
+								action="#{patrolController.undoEdit()}" look="default" size="md" />
+						</span>
+					</div>
+				</b:row>
+				<b:dataTable value="#{patrolController.scoutList}" var="scout"
+					info="false" paginated="false" searching="false"
+					scrollHorizontally="true">
+					<b:dataTableColumn label="Név">
+						<b:link value="#{scout.person.getFullName()}"
+							href="#{scout.getScoutUrl()}"
+							rendered="#{not userController.edit}" />
+						<h:outputText value="#{scout.person.getFullName()}"
+							rendered="#{userController.edit}" />
+					</b:dataTableColumn>
+					<b:dataTableColumn label="ECSET-kód">
+						<h:outputText value="#{scout.ecsetcode}"
+							rendered="#{not userController.edit}" />
+						<b:inputText value="#{scout.ecsetcode}"
+							rendered="#{userController.edit}" fieldSize="sm" />
+					</b:dataTableColumn>
+					<b:dataTableColumn label="Aktivitás">
+						<h:outputText value="#{scout.status.label}"
+							rendered="#{not userController.edit}" />
+						<b:selectOneMenu value="#{scout.status}"
+							rendered="#{userController.edit}">
+							<f:selectItems value="#{enums.statuses}" var="status"
+								itemValue="#{status}" itemLabel="#{status.label}" />
+						</b:selectOneMenu>
+					</b:dataTableColumn>
+					<b:dataTableColumn label="Belépés ideje">
+						<h:outputText value="#{scout.getSimpleJoindate()}"
+							rendered="#{not userController.edit}" />
+						<b:datepicker value="#{scout.joindate}"
+							rendered="#{userController.edit}" mode="popup"
+							changeMonth="true" changeYear="true" />
+					</b:dataTableColumn>
+					<b:dataTableColumn label="Kilépés ideje">
+						<h:outputText value="#{scout.getSimpleLeavedate()}"
+							rendered="#{not userController.edit}" />
+						<b:datepicker value="#{scout.leavedate}"
+							rendered="#{userController.edit}" mode="popup"
+							changeMonth="true" changeYear="true" />
+					</b:dataTableColumn>
+					<b:dataTableColumn label="Tagkártya">
+						<h:outputText value="#{scout.scoutcard.label}"
+							rendered="#{not userController.edit}" />
+						<b:selectOneMenu value="#{scout.scoutcard}"
+							rendered="#{userController.edit}">
+							<f:selectItems value="#{enums.cards}" var="card"
+								itemValue="#{card}" itemLabel="#{card.label}" />
+						</b:selectOneMenu>
+					</b:dataTableColumn>
+				</b:dataTable>
+			</b:form>
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

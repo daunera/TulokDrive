@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:t="http://tulok.vzma.hu/tags">
+<h:body>
+
+	<ui:composition>
+
+		<c:if test="#{empty edit}">
+			<c:set var="edit" value="#{userController.edit}" />
+		</c:if>
+		
+		<c:if test="#{empty styleClass}">
+			<c:set var="styleClass" value="address_modal" />
+		</c:if>
+
+		<b:modal title="Cím szerkesztése" styleClass="#{styleClass}"
+			rendered="#{edit}">
+			<b:tabView pills="true" activeIndex="0">
+				<b:tab title="Meglévő címek">
+					<br />
+					<h:outputLabel value="Válassz a meglévő címek közül:" />
+					<b:selectOneMenu value="#{addressBean.selectedAddress}" ajax="true"
+						update="addressInputs">
+						<f:selectItems value="#{addressBean.addresses}" var="item"
+							itemLabel="#{item.getFullAddressWithPhone()}" itemValue="#{item}" />
+					</b:selectOneMenu>
+					<b:panelGrid colSpans="2,10" id="addressInputs">
+						<h:outputLabel value="Ország:" />
+						<b:inputText value="#{addressBean.selectedAddress.country}" />
+						<h:outputLabel value="Irányítószám:" />
+						<b:row>
+							<b:inputText value="#{addressBean.selectedAddress.postcode}"
+								span="3" />
+							<b:row>
+								<b:column span="2">
+									<h:outputLabel value="Város*:" />
+								</b:column>
+								<b:column span="6">
+									<b:inputText value="#{addressBean.selectedAddress.city}" />
+								</b:column>
+							</b:row>
+						</b:row>
+						<h:outputLabel value="Utca, házszám:" />
+						<b:inputText value="#{addressBean.selectedAddress.street}" />
+						<h:outputLabel value="Egyéb:" />
+						<b:inputText value="#{addressBean.selectedAddress.other}" />
+						<h:outputLabel value="Telefon:" />
+						<b:inputText value="#{addressBean.selectedAddress.phone}" />
+					</b:panelGrid>
+					<t:modalFooter mode="modify"
+						action="#{addressBean.saveAddress(scout, addressBean.selectedAddress)}"
+						deleteAction="#{addressBean.deleteAddress(scout)}" />
+				</b:tab>
+				<b:tab title="Új cím hozzáadása">
+					<br />
+					<h:outputLabel value="Hozz létre új címet:" />
+					<br />
+					<br />
+					<b:panelGrid colSpans="2,10">
+						<h:outputLabel value="Ország:" />
+						<b:inputText value="#{addressBean.newAddress.country}" />
+						<h:outputLabel value="Irányítószám:" />
+						<b:row>
+							<b:inputText value="#{addressBean.newAddress.postcode}" span="3" />
+							<b:row>
+								<b:column span="2">
+									<h:outputLabel value="Város:" />
+								</b:column>
+								<b:column span="6">
+									<b:inputText value="#{addressBean.newAddress.city}" />
+								</b:column>
+							</b:row>
+						</b:row>
+						<h:outputLabel value="Utca, házszám:" />
+						<b:inputText value="#{addressBean.newAddress.street}" />
+						<h:outputLabel value="Egyéb:" />
+						<b:inputText value="#{addressBean.newAddress.other}" />
+						<h:outputLabel value="Telefon:" />
+						<b:inputText value="#{addressBean.newAddress.phone}" />
+					</b:panelGrid>
+					<t:modalFooter mode="create"
+						action="#{addressBean.saveAddress(scout, addressBean.newAddress)}" />
+				</b:tab>
+
+			</b:tabView>
+
+		</b:modal>
+
+
+
+	</ui:composition>
+</h:body>
+</html>

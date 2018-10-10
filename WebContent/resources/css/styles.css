@@ -1,0 +1,93 @@
+* {
+	box-sizing: border-box;
+}
+
+*:before, *:after {
+	box-sizing: border-box;
+}
+
+html, body {
+	height: 100%;
+	position: relative;
+}
+
+.main-container {
+	min-height: 100vh; /* will cover the 100% of viewport */
+	overflow: hidden;
+	display: block;
+	position: relative;
+	padding-bottom: 40px; /* height of your footer */
+}
+
+.welcomeBody {
+	background: linear-gradient(to right, dimgray, darkgray);
+	padding: 0px 10px 0px 10px;
+}
+
+.centeredSmallPanel {
+	max-width: 400px;
+	margin: 60px auto auto auto;
+}
+
+.centeredSmallNotification {
+	max-width: 400px;
+	margin: auto;
+}
+
+.loginBackButton {
+	position: fixed;
+	left: 10px;
+	top: 10px;
+}
+
+.pulledRow {
+	margin-left: 0px !important;
+	margin-right: 0px !important;
+}
+
+.fakeTabPadding {
+	padding: 10px 20px 0px 20px;
+}
+
+.panelNoPadding {
+	margin: 0px -16px;
+}
+
+.tableNoHeader thead {
+	display: none;
+}
+
+.tabTitle {
+	font-size: 200%;
+}
+
+.subTitle {
+	font-size: 180%;
+	padding-right: 10px;
+}
+
+.coffee {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	color: #eeeeee;
+	font-size: 90%;
+}
+
+.footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	color: #6e808d;
+	font-size: 90%;
+}
+
+.solidLine {
+	border-top: 1px solid #eeeeee;
+}

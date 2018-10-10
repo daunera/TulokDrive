@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:t="http://tulok.vzma.hu/tags">
+<h:head>
+	<h:outputStylesheet name="css/styles.css" />
+</h:head>
+<h:body>
+	<ui:composition template="/faces/profile/profileFrame.xhtml">
+		<ui:define name="innerContent">
+
+			<b:form>
+				<t:pageHeader title="Személyes adatok"
+					saveBean="#{profileController}" saveMethod="saveEdit"
+					undoBean="#{profileController}" undoMethod="undoEdit" />
+					
+				<t:table>
+					<t:rowWithLabel label="Vezetéknév">
+						<t:textField value="#{profileController.scout.person.lastname}" />
+					</t:rowWithLabel>
+					<t:rowWithLabel label="Keresztnév">
+						<t:textField value="#{profileController.scout.person.firstname}" />
+					</t:rowWithLabel>
+					<t:rowWithLabel label="Becenév">
+						<t:textField value="#{profileController.scout.person.nickname}" />
+					</t:rowWithLabel>
+					<t:rowWithLabel label="Nem">
+						<t:dropdown value="#{profileController.scout.person.gender}"
+							list="#{enums.genders}" />
+					</t:rowWithLabel>
+					<t:rowWithLabel label="Születési hely">
+						<t:textField value="#{profileController.scout.person.birthplace}" />
+					</t:rowWithLabel>
+					<t:rowWithLabel label="Születési idő">
+						<t:datepicker value="#{profileController.scout.person.birthdate}" />
+					</t:rowWithLabel>
+					<t:rowWithLabel label="Névnap">
+						<t:textField value="#{profileController.scout.person.nameday}"
+							mask="99-99" placeholder="hh-nn" />
+					</t:rowWithLabel>
+					<t:rowWithLabel label="Email">
+						<t:textField value="#{profileController.scout.person.email}"
+							mask="email" />
+					</t:rowWithLabel>
+					<t:rowWithLabel label="Telefon">
+						<t:textField value="#{profileController.scout.person.phone}" />
+					</t:rowWithLabel>
+					<t:rowWithLabel label="Cím">
+						<t:textField
+							value="#{profileController.scout.person.address.getFullAddress()}"
+							readonly="true">
+							<f:facet name="append">
+								<b:commandButton value="Módosít" iconAwesome="edit" ajax="true"
+									update="@(.address_modal)"
+									onclick="ajax:addressBean.setForModal(profileController.scout)"
+									oncomplete="$('.address_modal').modal();return false;" />
+							</f:facet>
+						</t:textField>
+					</t:rowWithLabel>
+					<t:rowWithLabel label="Otthoni telefon">
+						<t:textField
+							value="#{profileController.scout.person.address.phone}"
+							readonly="true"
+							tooltip="Az otthoni telefon a címhez tartozik, külön nem módosíthatod" />
+					</t:rowWithLabel>
+					<t:rowWithLabel label="Vallás">
+						<t:dropdown value="#{profileController.scout.person.religion}"
+							list="#{enums.religions}" />
+					</t:rowWithLabel>
+					<t:rowWithLabel label="Szem.ig.szám">
+						<t:textField
+							value="#{profileController.scout.person.personcardid}" />
+					</t:rowWithLabel>
+					<t:rowWithLabel label="OM-azonosító">
+						<t:textField value="#{profileController.scout.person.omid}" />
+					</t:rowWithLabel>
+					<t:rowWithLabel label="Diákig.szám">
+						<t:textField
+							value="#{profileController.scout.person.studentcardid}" />
+					</t:rowWithLabel>
+					<t:rowWithLabel label="TAJ-szám">
+						<t:textField value="#{profileController.scout.person.tajid}" />
+					</t:rowWithLabel>
+					<t:rowWithLabel label="Ételérzékenység">
+						<t:textArea
+							value="#{profileController.scout.person.foodsensitivity}" />
+					</t:rowWithLabel>
+					<t:rowWithLabel label="Betegség">
+						<t:textArea value="#{profileController.scout.person.disease}" />
+					</t:rowWithLabel>
+					<t:rowWithLabel label="Egyéb">
+						<t:textArea value="#{profileController.scout.person.other}" />
+					</t:rowWithLabel>
+				</t:table>
+
+				<t:addressModal scout="#{profileController.scout}" />
+
+			</b:form>
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

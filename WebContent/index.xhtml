@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<h:outputStylesheet name="css/styles.css" />
+</h:head>
+<h:body>
+	<ui:composition template="/faces/template/layout/commonLayout.xhtml">
+
+		<ui:param name="pageTitle" value="Főoldal" />
+		<ui:param name="hideBread" value="true" />
+
+		<ui:define name="content">
+
+			<b:panelGrid colSpans="3,5,4">
+				<b:panel styleClass="side-menu" title="Menü" collapsible="true">
+
+					<ui:insert name="side-menu">
+						<ui:include src="/faces/template/layout/commonMenu.xhtml" />
+					</ui:insert>
+
+				</b:panel>
+
+				<b:panel title="Hírek" collapsible="false">
+					<ui:repeat var="news" value="#{mainPage.actualNews}"
+						varStatus="var">
+						<b:panel>
+							<h:outputText value="#{news.text}" />
+							<f:facet name="footer">
+								<h:outputText value="Küldő: " />
+								<b:link value="#{news.submitter.scout.person.getFullName()}"
+									href="#{news.submitter.scout.getScoutUrl()}" />
+								<h:outputText value=", aktuális #{news.getSimpleExpire()}-ig" />
+							</f:facet>
+						</b:panel>
+					</ui:repeat>
+				</b:panel>
+				<b:panel title="Szülinaptár" collapsible="false">
+					<h:outputLabel value="Közelgő születésnapok:" />
+					<div style="padding-bottom: 20px;" />
+					<ui:repeat var="boi" value="#{mainPage.happyBois}" varStatus="var">
+						<h:outputText
+							value="#{boi.birthdate.getMonth()+1}.#{boi.birthdate.getDate()} - " />
+						<b:link value="#{boi.getFullName()}"
+							href="#{boi.scout.getScoutUrl()}" />
+						<h:outputText value=" (#{boi.getAge()+1} éves)" />
+						<b:row rendered="#{not var.last}">
+							<hr style="margin: 10px;" />
+						</b:row>
+					</ui:repeat>
+				</b:panel>
+			</b:panelGrid>
+
+		</ui:define>
+
+	</ui:composition>
+</h:body>
+</html>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:o="http://omnifaces.org/ui" xmlns:t="http://tulok.vzma.hu/tags">
+<h:body>
+
+	<ui:composition>
+
+		<c:if test="#{empty edit}">
+			<c:set var="edit" value="#{userController.edit}" />
+		</c:if>
+
+		<c:if test="#{empty styleClass}">
+			<c:set var="styleClass" value="promise_modal" />
+		</c:if>
+
+		<c:if test="#{empty styleClass}">
+			<c:set var="styleClass" value="promise_modal" />
+		</c:if>
+
+		<c:if test="#{empty promiseBean.selectedPromise.id}">
+			<c:set var="new" value="true" />
+			<c:set var="title" value="Új fogadalom" />
+		</c:if>
+		<c:if test="#{not empty promiseBean.selectedPromise.id}">
+			<c:set var="new" value="false" />
+			<c:set var="title"
+				value="#{promiseBean.selectedPromise.type.label} szerkesztése" />
+		</c:if>
+
+		<b:modal title="#{title}" styleClass="#{styleClass}"
+			rendered="#{edit}">
+			<b:panelGrid colSpans="4,8">
+				<h:outputLabel value="Típus:" rendered="#{new}" />
+				<b:selectOneMenu value="#{promiseBean.selectedPromise.type}"
+					rendered="#{new}">
+					<f:selectItems value="#{enums.promises}" var="promise"
+						itemValue="#{promise}" itemLabel="#{promise.label}" />
+				</b:selectOneMenu>
+				<h:outputLabel value="Dátum:" />
+				<b:datepicker value="#{promiseBean.selectedPromise.date}"
+					mode="popup-icon" changeMonth="true" changeYear="true" />
+				<h:outputLabel value="Helyszín:" />
+				<b:inputText value="#{promiseBean.selectedPromise.place}" />
+			</b:panelGrid>
+			<c:if test="#{not new}">
+				<t:modalFooter mode="modify"
+					action="#{promiseBean.savePromise(promiseBean.selectedPromise)}"
+					deleteAction="#{promiseBean.deletePromise(promiseBean.selectedPromise)}" />
+			</c:if>
+			<c:if test="#{new}">
+				<t:modalFooter mode="create"
+					action="#{promiseBean.savePromise(promiseBean.selectedPromise)}" />
+			</c:if>
+		</b:modal>
+
+	</ui:composition>
+</h:body>
+</html>

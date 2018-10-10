@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui">
+<h:head>
+	<title>Engedj be! | TulokDrive</title>
+	<h:outputStylesheet name="css/styles.css" />
+	<h:outputStylesheet name="css/bootstrap.min.css" />
+	<h:outputStylesheet name="css/bootstrap-default.css" />
+	<link rel="shortcut icon" type="image/x-icon"
+		href="#{resource['images/favicon.ico']}" />
+</h:head>
+<h:body class="welcomeBody">
+
+	<div class="main-container">
+		<div class="loginBackButton">
+			<b:button value="Vissza a csapathonlapra" iconAwesome="arrow-left"
+				href="http://varosmajor.cserkesz.hu" />
+		</div>
+
+		<b:panel collapsible="false" style-class="centeredSmallPanel">
+
+			<div class="text-center">
+				<h:graphicImage name="images/logo.svg" style="margin-bottom:15px;"
+					width="140" height="140" />
+			</div>
+
+			<b:form>
+				<b:panelGrid colSpans="12">
+					<b:inputText id="username" placeholder="Felhasználónév"
+						value="#{authentication.username}" required="true" offset="1"
+						span="10">
+						<f:facet name="prepend">
+							<b:icon name="user" />
+						</f:facet>
+					</b:inputText>
+					<b:inputSecret id="password" placeholder="Jelszó"
+						value="#{authentication.password}" required="true" offset="1"
+						span="10">
+						<f:facet name="prepend">
+							<b:iconAwesome name="key" />
+						</f:facet>
+					</b:inputSecret>
+					<b:commandButton value="Belépés" action="#{authentication.login}"
+						span="10" offset="1" />
+					<b:button look="link" value="Elfelejtett jelszó"
+						href="#{authentication.getUrl('forgot')}" style="width:100%;text-align:right" span="5" offset="6" />
+					<b:focus target="username" />
+				</b:panelGrid>
+			</b:form>
+
+		</b:panel>
+
+		<br />
+		<b:alert id="errorMessage" severity="danger"
+			rendered="#{authentication.alertErr}"
+			style-class="centeredSmallNotification" closable="true">
+			<strong>Bukta!</strong> Hibás felhasználónév vagy jelszó
+	</b:alert>
+
+		<div class="coffee">
+			100
+			<b:iconAwesome name="coffee"
+				tooltip="Toncsi ennyi kávé fogyasztott el a honlap fejlesztése közben. Néha hívd meg egy sörre :))" />
+			Városmajori cserkészek
+		</div>
+	</div>
+
+</h:body>
+</html>

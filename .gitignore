@@ -1,0 +1,14 @@
+.metadata/
+.settings/
+.classpath
+.project
+build/
+WebContent/WEB-INF/lib
+TODO.txt
+sonar-project.properties
+.scannerwork/
+uml/
+/target/
+.env
+TODO.md
+console-log.txt

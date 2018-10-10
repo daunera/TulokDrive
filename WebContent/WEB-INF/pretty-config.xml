@@ -1,0 +1,145 @@
+<pretty-config xmlns="http://ocpsoft.com/prettyfaces/3.3.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://ocpsoft.com/prettyfaces/3.3.0
+                                   		http://ocpsoft.com/xml/ns/prettyfaces/ocpsoft-pretty-faces-3.3.0.xsd">
+
+	<url-mapping id="forgotpw">
+		<pattern value="/forgot" />
+		<view-id value="/faces/forgotpw.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="login">
+		<pattern value="/login" />
+		<view-id value="/faces/login.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="error">
+		<pattern value="/error/db" />
+		<view-id value="/faces/error/db.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="permission">
+		<pattern value="/error/permission" />
+		<view-id value="/faces/error/permission.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="profilePersonal">
+		<pattern value="/scout/#{profileController.scoutid}" />
+		<view-id value="/faces/profile/personal.xhtml" />
+		<action>#{profileController.loadData}</action>
+	</url-mapping>
+
+	<url-mapping id="profileParents">
+		<pattern value="/scout/#{profileController.scoutid}/parents" />
+		<view-id value="/faces/profile/parents.xhtml" />
+		<action>#{profileController.loadData}</action>
+	</url-mapping>
+
+	<url-mapping id="profileScout">
+		<pattern value="/scout/#{profileController.scoutid}/scoutinfo" />
+		<view-id value="/faces/profile/scoutinfo.xhtml" />
+		<action>#{profileController.loadData}</action>
+	</url-mapping>
+
+	<url-mapping id="profileLeader">
+		<pattern value="/scout/#{profileController.scoutid}/leader" />
+		<view-id value="/faces/profile/leader.xhtml" />
+		<action>#{profileController.loadData}</action>
+	</url-mapping>
+
+	<url-mapping id="patrolInfo">
+		<pattern value="/patrol/#{patrolController.patrolid}" />
+		<view-id value="/faces/patrol/info.xhtml" />
+		<action>#{patrolController.loadData}</action>
+	</url-mapping>
+
+	<url-mapping id="patrolPersonal">
+		<pattern value="/patrol/#{patrolController.patrolid}/personal" />
+		<view-id value="/faces/patrol/personal.xhtml" />
+		<action>#{patrolController.loadData}</action>
+	</url-mapping>
+
+	<url-mapping id="patrolParents">
+		<pattern value="/patrol/#{patrolController.patrolid}/parents" />
+		<view-id value="/faces/patrol/parents.xhtml" />
+		<action>#{patrolController.loadData}</action>
+	</url-mapping>
+
+	<url-mapping id="patrolScout">
+		<pattern value="/patrol/#{patrolController.patrolid}/scoutinfo" />
+		<view-id value="/faces/patrol/scoutinfo.xhtml" />
+		<action>#{patrolController.loadData}</action>
+	</url-mapping>
+
+	<url-mapping id="patrolChallenges">
+		<pattern value="/patrol/#{patrolController.patrolid}/challenges" />
+		<view-id value="/faces/patrol/challenges.xhtml" />
+		<action>#{patrolController.loadData}</action>
+	</url-mapping>
+
+	<url-mapping id="patrolPromises">
+		<pattern value="/patrol/#{patrolController.patrolid}/promises" />
+		<view-id value="/faces/patrol/promises.xhtml" />
+		<action>#{patrolController.loadData}</action>
+	</url-mapping>
+
+	<url-mapping id="patrolFees">
+		<pattern value="/patrol/#{patrolController.patrolid}/fees" />
+		<view-id value="/faces/patrol/fees.xhtml" />
+		<action>#{patrolController.loadData}</action>
+	</url-mapping>
+
+	<url-mapping id="teamInfo">
+		<pattern value="/team/info" />
+		<view-id value="/faces/team/info.xhtml" />
+		<action>#{teamController.loadData}</action>
+	</url-mapping>
+
+	<url-mapping id="teamLeader">
+		<pattern value="/team/leader" />
+		<view-id value="/faces/team/leader.xhtml" />
+		<action>#{teamController.loadData}</action>
+	</url-mapping>
+
+	<url-mapping id="teamGroup">
+		<pattern value="/team/group" />
+		<view-id value="/faces/team/group.xhtml" />
+		<action>#{teamController.loadData}</action>
+	</url-mapping>
+
+	<url-mapping id="teamScouts">
+		<pattern value="/team/scouts" />
+		<view-id value="/faces/team/scouts.xhtml" />
+		<action>#{teamController.loadData}</action>
+	</url-mapping>
+
+	<url-mapping id="teamNews">
+		<pattern value="/team/news" />
+		<view-id value="/faces/team/news.xhtml" />
+		<action>#{teamController.loadData}</action>
+	</url-mapping>
+	
+	<url-mapping id="uniforms">
+		<pattern value="/uniforms" />
+		<view-id value="/faces/uniform/uniform.xhtml" />
+		<action>#{uniformController.loadData}</action>
+	</url-mapping>
+
+	<url-mapping id="settings">
+		<pattern value="/user/settings" />
+		<view-id value="/faces/settings.xhtml" />
+		<!-- action>#{userController.loadData}</action-->
+	</url-mapping>
+	
+	<url-mapping id="logout">
+		<pattern value="/logout" />
+		<action>#{authentication.logout}</action>
+	</url-mapping>
+
+	<url-mapping id="mainPage">
+		<pattern value="/" />
+		<view-id value="/index.xhtml" />
+		<action>#{mainPage.loadData}</action>
+	</url-mapping>
+
+</pretty-config>

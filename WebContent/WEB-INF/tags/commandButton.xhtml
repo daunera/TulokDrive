@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:t="http://tulok.vzma.hu/tags">
+<h:body>
+
+	<ui:composition>
+	
+		<c:if test="#{empty edit}">
+			<c:set var="edit" value="#{userController.edit}" />
+		</c:if>
+
+		<c:if test="#{empty line}">
+			<c:set var="lineStyleClass" value="solidLine" />
+		</c:if>
+
+		<c:if test="#{not empty line and not line}">
+			<c:set var="lineStyleClass" value="" />
+		</c:if>
+
+		<tr valign="middle" class="#{lineStyleClass}">
+			<td style="padding: 10px 0;"><ui:insert /></td>
+		</tr>
+
+		<b:commandButton iconAwesome="pencil" size="xs"
+			style="margin-right:5px" ajax="true" update="@(.edit_promise_modal)"
+			onclick="ajax:profileScout.setForEditPromiseModal(item)"
+			oncomplete="$('.edit_promise_modal').modal();return false;"
+			rendered="#{edit}" />
+
+	</ui:composition>
+</h:body>
+</html>

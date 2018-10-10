@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:t="http://tulok.vzma.hu/tags">
+<h:head>
+	<h:outputStylesheet name="css/styles.css" />
+</h:head>
+<h:body>
+	<ui:composition template="/faces/template/layout/commonLayout.xhtml">
+
+		<ui:param name="pageTitle" value="Cserkészing kölcsönzés" />
+		<ui:param name="pageLink"
+			value="#{userController.getRootUrl()}uniforms" />
+
+		<ui:define name="content">
+
+			<b:panel collapsible="false">
+				<b:form>
+					<t:pageHeader title="Cserkészing kölcsönzés"
+						undoBean="#{userController}" undoMethod="changeEdit" />
+					<b:tabView pills="true">
+						<b:tab title="Aktív kölcsönzések">
+							<b:dataTable value="#{uniformController.activeRents}" var="rent"
+								info="false" paginated="false" scrollX="true" border="false">
+								<b:dataTableColumn label="Név" style="width:20%;">
+									<b:link value="#{rent.scout.person.getFullName()}"
+										href="#{rent.scout.getScoutUrl()}" />
+								</b:dataTableColumn>
+								<b:dataTableColumn label="Őrs" style="width:13%;">
+									<ui:repeat var="patrol"
+										value="#{userController.orderSet(rent.scout.patrols)}"
+										varStatus="var">
+										<b:link value="#{patrol.getName()}"
+											href="#{patrol.getPatrolUrl()}" />
+										<h:outputText value=", " rendered="#{not var.last}" />
+									</ui:repeat>
+								</b:dataTableColumn>
+
+								<b:dataTableColumn label="Kezdete" order="asc">
+									<t:datepicker value="#{rent.begindate}" mode="popup" />
+								</b:dataTableColumn>
+								<b:dataTableColumn label="Méret">
+									<t:dropdown list="#{enums.sizes}" value="#{rent.uniformsize}" />
+								</b:dataTableColumn>
+								<b:dataTableColumn label="Pénz">
+									<t:textField value="#{rent.price}" />
+								</b:dataTableColumn>
+								<b:dataTableColumn label="Visszavétel">
+									<h:outputText value="#{rent.getPlannedReturnDate()}">
+										<f:convertDateTime pattern="yyyy.MM.dd" />
+									</h:outputText>
+								</b:dataTableColumn>
+								<b:dataTableColumn label="Most visszajár">
+									<h:outputText value="#{rent.getActualReturnPrice()}" />
+								</b:dataTableColumn>
+							</b:dataTable>
+						</b:tab>
+						<b:tab title="Visszahozott ingek">
+							<b:dataTable value="#{uniformController.returnedRents}"
+								var="rent" info="false" paginated="false"
+								scrollHorizontally="true">
+								<b:dataTableColumn label="Név" style="width:20%;">
+									<b:link value="#{rent.scout.person.getFullName()}"
+										href="#{rent.scout.getScoutUrl()}" />
+								</b:dataTableColumn>
+								<b:dataTableColumn label="Őrs" style="width:13%;">
+									<ui:repeat var="patrol"
+										value="#{userController.orderSet(rent.scout.patrols)}"
+										varStatus="var">
+										<b:link value="#{patrol.getName()}"
+											href="#{patrol.getPatrolUrl()}" />
+										<h:outputText value=", " rendered="#{not var.last}" />
+									</ui:repeat>
+								</b:dataTableColumn>
+								<b:dataTableColumn label="Kezdete">
+									<t:datepicker value="#{rent.begindate}" mode="popup" />
+								</b:dataTableColumn>
+								<b:dataTableColumn label="Méret">
+									<t:dropdown list="#{enums.sizes}" value="#{rent.uniformsize}" />
+								</b:dataTableColumn>
+								<b:dataTableColumn label="Visszavéve">
+									<h:outputText value="#{rent.getReturndate()}">
+										<f:convertDateTime pattern="yyyy.MM.dd" />
+									</h:outputText>
+								</b:dataTableColumn>
+							</b:dataTable>
+						</b:tab>
+						<b:tab title="Új kölcsönzés">
+						</b:tab>
+					</b:tabView>
+				</b:form>
+			</b:panel>
+
+		</ui:define>
+
+	</ui:composition>
+</h:body>
+</html>

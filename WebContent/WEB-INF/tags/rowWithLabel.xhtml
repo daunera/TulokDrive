@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:t="http://tulok.vzma.hu/tags">
+<h:body>
+
+	<ui:composition>
+
+		<c:if test="#{empty fCol}">
+			<c:set var="fCol" value="25" />
+			<c:set var="sCol" value="75" />
+		</c:if>
+
+		<c:if test="#{empty line}">
+			<c:set var="lineStyleClass" value="solidLine" />
+		</c:if>
+
+		<c:if test="#{not empty line and not line}">
+			<c:set var="lineStyleClass" value="" />
+		</c:if>
+
+		<tr valign="middle" class="#{lineStyleClass}">
+			<td width="#{fCol}%" style="padding: 10px 0;"><h:outputLabel
+					value="#{label}" /></td>
+			<td width="#{sCol}%" style="padding: 10px 0;"><ui:insert /></td>
+		</tr>
+
+	</ui:composition>
+</h:body>
+</html>

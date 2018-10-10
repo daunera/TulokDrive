@@ -46,7 +46,8 @@
 					<b:commandButton value="Belépés" action="#{authentication.login}"
 						span="10" offset="1" />
 					<b:button look="link" value="Elfelejtett jelszó"
-						href="#{authentication.getUrl('forgot')}" style="width:100%;text-align:right" span="5" offset="6" />
+						href="#{authentication.getUrl('forgot')}"
+						style="width:100%;text-align:right" span="5" offset="6" />
 					<b:focus target="username" />
 				</b:panelGrid>
 			</b:form>
@@ -58,12 +59,13 @@
 			rendered="#{authentication.alertErr}"
 			style-class="centeredSmallNotification" closable="true">
 			<strong>Bukta!</strong> Hibás felhasználónév vagy jelszó
-	</b:alert>
-
+		</b:alert>
+		
 		<div class="coffee">
-			100
-			<b:iconAwesome name="coffee"
-				tooltip="Toncsi ennyi kávé fogyasztott el a honlap fejlesztése közben. Néha hívd meg egy sörre :))" />
+			<h:outputText value="#{now}">
+				<f:convertDateTime pattern="yyyy " type="date" />
+			</h:outputText>
+			<b:iconAwesome name="heart" />
 			Városmajori cserkészek
 		</div>
 	</div>

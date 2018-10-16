@@ -15,25 +15,28 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import hu.tobias.entities.Leader;
 import hu.tobias.services.dao.LeaderDao;
+import hu.tobias.services.utils.Utils;
 
 @Named(value = "authentication")
 @ViewScoped
 public class Authentication implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private String username;
 	private String password;
-	
+
 	private String originalURL;
 	private boolean alertErr;
 	private boolean alertPw;
-		
+
 	@EJB
 	private LeaderDao userService;
-	
+
 	@EJB
 	private EmailSessionBean emailBean;
 
@@ -76,8 +79,13 @@ public class Authentication implements Serializable {
 		HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
 
 		try {
-			request.login(username, password);
 			Leader user = userService.findUserByUsername(username);
+			if (Utils.isEmpty(user.getSalt())) {
+				user.setSalt(BCrypt.gensalt());
+				userService.update(user);
+			}
+			request.login(username, BCrypt.hashpw(password, user.getSalt()));
+
 			user.setLastlogin(new Date());
 			userService.update(user);
 			externalContext.getSessionMap().put("user", user);
@@ -125,11 +133,11 @@ public class Authentication implements Serializable {
 	public void setAlertPw(boolean alertPw) {
 		this.alertPw = alertPw;
 	}
-	
+
 	public String getUrl() {
 		return FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/";
 	}
-	
+
 	public String getUrl(String s) {
 		return FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/" + s;
 	}

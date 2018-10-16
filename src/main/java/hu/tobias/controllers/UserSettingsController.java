@@ -8,6 +8,8 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import hu.tobias.services.dao.LeaderDao;
 import hu.tobias.services.dao.UserrolesDao;
 import hu.tobias.services.utils.Utils;
@@ -145,10 +147,15 @@ public class UserSettingsController implements Serializable {
 
 	public boolean checkPasswords() {
 		boolean okay = true;
+		if (Utils.isEmpty(userController.getLeader().getSalt())) {
+			userController.getLeader().setSalt(BCrypt.gensalt());
+			leaderService.update(userController.getLeader());
+		}
+
 		if (Utils.isEmpty(oldPassword) || Utils.isEmpty(newPassword) || Utils.isEmpty(newPasswordAgain)) {
 			setErrorMessage("Üres valamelyik mező");
 			okay = false;
-		} else if (!(Utils.sha256(oldPassword).equals(userController.getLeader().getPassword()))) {
+		} else if (!(BCrypt.checkpw(oldPassword, userController.getLeader().getPassword()))) {
 			setErrorMessage("A régi jelszavad helytelen");
 			okay = false;
 		} else if (!newPassword.equals(newPasswordAgain)) {

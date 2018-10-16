@@ -23,9 +23,9 @@ insert into scout (id, ecsetcode, person_id, status, joindate, leavedate, scoutc
 insert into scout (id, ecsetcode, person_id, status) values(301,'CB3081-8', 203, 2);
 insert into scout (id, ecsetcode, person_id, status) values(306,'ABCDEF-0', 208, 1);
 
-insert into leader (id, username, password, scout_id, leadername, food, becomeleader, leaderpromise, keynum, god, uniformer) values (400,'admin','8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918',300,'Mukaka','itóka', '2015-01-01 01:01:01', '2015-01-01 01:01:01','36900', 1, 0);
-insert into leader (id, username, password, scout_id, god, uniformer) values (401,'kis','30c952fab122c3f9759f02a6d95c3758b246b4fee239957b2d4fee46e26170c4', 301, 0, 1);
-insert into leader (id, username, password, scout_id, god, uniformer) values (402,'ad','30c952fab122c3f9759f02a6d95c3758b246b4fee239957b2d4fee46e26170c4', 306, 0, 0);
+insert into leader (id, username, password, salt, scout_id, leadername, food, becomeleader, leaderpromise, keynum, god, uniformer) values (400,'admin','$2a$10$zpsVY2/dc/W4Qndx4uG6/.zsnSgY3zbsgKsvpGvQvWMqwAndR8rqS', '$2a$10$zpsVY2/dc/W4Qndx4uG6/.', 300,'Mukaka','itóka', '2015-01-01 01:01:01', '2015-01-01 01:01:01','36900', 1, 0);
+insert into leader (id, username, password, salt, scout_id, god, uniformer) values (401,'kis','$2a$10$zpsVY2/dc/W4Qndx4uG6/.zsnSgY3zbsgKsvpGvQvWMqwAndR8rqS', '$2a$10$zpsVY2/dc/W4Qndx4uG6/.', 301, 0, 1);
+insert into leader (id, username, password, salt, scout_id, god, uniformer) values (402,'ad','$2a$10$zpsVY2/dc/W4Qndx4uG6/.zsnSgY3zbsgKsvpGvQvWMqwAndR8rqS', '$2a$10$zpsVY2/dc/W4Qndx4uG6/.', 306, 0, 0);
 
 insert into userroles (id, username, role, leader_id) values (1000, 'admin', 'ADMIN', 400);
 insert into userroles (id, username, role, leader_id) values (1001, 'kis', 'ADMIN', 401);

@@ -8,6 +8,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import hu.tobias.services.utils.Utils;
 
 @Entity
@@ -15,7 +17,7 @@ import hu.tobias.services.utils.Utils;
 public class Leader implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@NotNull
@@ -29,7 +31,7 @@ public class Leader implements Serializable {
 	@OneToOne
 	@JoinColumn(name = "scout_id")
 	private Scout scout;
-	
+
 	@OneToOne(mappedBy = "leader")
 	private Userroles role;
 
@@ -39,7 +41,7 @@ public class Leader implements Serializable {
 	private Date leaderpromise;
 	private String keynum;
 	private Date keydate;
-	
+
 	private Date lastlogin = new Date();
 
 	@ManyToMany(mappedBy = "leaders", fetch = FetchType.EAGER)
@@ -48,17 +50,22 @@ public class Leader implements Serializable {
 	private Boolean god = false;
 	private Boolean uniformer = false;
 
+	private String salt;
+
 	public Leader() {
+		this.salt = BCrypt.gensalt();
 	}
 
 	public Leader(Integer id) {
 		this.id = id;
+		this.salt = BCrypt.gensalt();
 	}
 
 	public Leader(Integer id, String username, String password) {
 		this.id = id;
 		this.username = username;
-		this.password = Utils.sha256(password);
+		this.salt = BCrypt.gensalt();
+		this.password = BCrypt.hashpw(password, salt);
 	}
 
 	public Integer getId() {
@@ -74,7 +81,7 @@ public class Leader implements Serializable {
 	}
 
 	public void setPassword(String password) {
-		this.password = Utils.sha256(password);
+		this.password = BCrypt.hashpw(password, getSalt());
 	}
 
 	public String getUsername() {
@@ -194,41 +201,52 @@ public class Leader implements Serializable {
 	}
 
 	@Override
-	public boolean equals(Object obj) {	
+	public boolean equals(Object obj) {
 		if (obj instanceof Leader) {
 			Leader o = (Leader) obj;
 			return this.id.equals(o.id);
 		}
 		return false;
 	}
-	
+
 	public String getExtraInfo() {
 		if (getGod())
 			return "adminisztrátor";
 		return null;
 	}
-	
+
 	public String getEmail() {
 		return this.scout.getPerson().getEmail();
 	}
-	
+
 	public String getFullName() {
 		return this.scout.getPerson().getFullName();
 	}
-	
+
 	public String getPersonalName() {
 		return this.scout.getPerson().getPersonalName();
 	}
-	
+
 	public Boolean isAGod() {
 		return god;
 	}
-	
+
 	public Boolean isAUniformer() {
-		if(isAGod())
+		if (isAGod())
 			return true;
 		else
 			return uniformer;
+	}
+
+	public String getSalt() {
+		if (Utils.isEmpty(this.salt)) {
+			this.salt = BCrypt.gensalt();
+		}
+		return salt;
+	}
+
+	public void setSalt(String salt) {
+		this.salt = salt;
 	}
 
 }

@@ -101,7 +101,7 @@ public class EmailSessionBean {
 		mail.setToAddress(toAddress);
 		mail.setToName(toName);
 		mail.setSubject("Megváltozott a TulokDrive jelszavad");
-		mail.setTitle("Megváltozott a jelsazavd");
+		mail.setTitle("Megváltozott a jelszavad");
 		mail.addLine("Egy admin új jelszót állított be neked.");
 		mail.addLine("Jelszavad: " + newPw);
 

@@ -62,7 +62,7 @@ public class Permission implements Serializable {
 	}
 	
 	public boolean checkTeamPermission() {
-		userController.reloadUserName();
+		userController.reloadUser();
 		if (userController.getLeader().isAGod())
 			return true;
 
@@ -71,7 +71,7 @@ public class Permission implements Serializable {
 	}
 	
 	public boolean checkUniformPermission() {
-		userController.reloadUserName();
+		userController.reloadUser();
 		if (userController.getLeader().isAUniformer())
 			return true;
 		userController.redirectRelative("error/permission");

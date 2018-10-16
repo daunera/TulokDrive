@@ -100,7 +100,7 @@ public class ProfileController implements Serializable {
 	
 	public void saveEdit() {
 		personService.update(scout.getPerson());
-		userController.reloadUserName();
+		userController.reloadUser();
 		userController.changeEdit();
 	}
 	

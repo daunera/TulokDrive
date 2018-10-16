@@ -192,10 +192,6 @@ public class Leader implements Serializable {
 	public String getSimpleKeydate() {
 		return Utils.simpleDate(keydate);
 	}
-	
-	public String getLastLogin() {
-		return Utils.simpleDatetime(lastlogin);
-	}
 
 	@Override
 	public boolean equals(Object obj) {	

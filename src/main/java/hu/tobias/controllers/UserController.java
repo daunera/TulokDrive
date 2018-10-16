@@ -79,7 +79,7 @@ public class UserController implements Serializable {
 			return null;
 	}
 
-	public void reloadUserName() {
+	public void reloadUser() {
 		try {
 			leader = leaderService.findById(leader.getId());
 		} catch (NotFoundEntityException e) {
@@ -89,7 +89,7 @@ public class UserController implements Serializable {
 	}
 
 	public void reloadPatrolName() {
-		reloadUserName();
+		reloadUser();
 		patrols = new ArrayList<Patrol>(leader.getPatrols());
 		Collections.sort(patrols, new PatrolNameComparator());
 	}

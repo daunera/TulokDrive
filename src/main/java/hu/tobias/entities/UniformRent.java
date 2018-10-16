@@ -1,10 +1,7 @@
 package hu.tobias.entities;
 
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.concurrent.TimeUnit;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import hu.tobias.entities.Leader;
 import hu.tobias.services.dao.LeaderDao;
-import hu.tobias.services.utils.Utils;
 
 @Named(value = "authentication")
 @ViewScoped
@@ -27,10 +26,11 @@ public class Authentication implements Serializable {
 	
 	private String username;
 	private String password;
+	
 	private String originalURL;
 	private boolean alertErr;
 	private boolean alertPw;
-	
+		
 	@EJB
 	private LeaderDao userService;
 	
@@ -92,23 +92,6 @@ public class Authentication implements Serializable {
 		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 		externalContext.invalidateSession();
 		externalContext.redirect(externalContext.getRequestContextPath());
-	}
-
-	public void getNewPassword() {
-		alertPw = false;
-		alertErr = false;
-		try {
-			if (username != "") {
-				Leader user = userService.findUserByUsername(username);
-				String newPw = Utils.generatePassword();
-				user.setPassword(newPw);
-				userService.update(user);
-				emailBean.sendNewGeneratedPwMail(user.getEmail(), user.getPersonalName(), newPw);
-				alertPw = true;
-			}
-		} catch (Exception e) {
-			alertErr = true;
-		}
 	}
 
 	public String getUsername() {

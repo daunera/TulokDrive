@@ -275,8 +275,8 @@ public class TeamLeaderController implements Serializable {
 		l.setPassword(pw);
 		leaderService.update(l);
 
-		emailBean.sendNewGeneratedPwMail(l.getScout().getPerson().getEmail(), l.getScout().getPerson().getPersonalName(),
-				pw);
+		emailBean.sendPwChangedMailFromAdmin(l.getScout().getPerson().getEmail(),
+				l.getScout().getPerson().getPersonalName(), pw);
 	}
 
 }

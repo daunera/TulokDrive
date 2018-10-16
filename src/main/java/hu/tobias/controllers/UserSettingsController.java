@@ -101,7 +101,7 @@ public class UserSettingsController implements Serializable {
 		if (!isError) {
 			userController.getLeader().setPassword(newPassword);
 			leaderService.update(userController.getLeader());
-			emailBean.sendPwChangedMail(userController.getLeader().getEmail(), userController.getLeader().getPersonalName());
+			emailBean.sendPwChangedMailFromSettings(userController.getLeader().getEmail(), userController.getLeader().getPersonalName());
 		}
 	}
 

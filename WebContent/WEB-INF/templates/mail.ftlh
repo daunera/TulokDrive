@@ -17,7 +17,7 @@
 								<p>${line}</p>
 								</#list>
 								<p align="center">
-									<a href="http://tulok.vzma.hu" style="-webkit-appearance: none; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; background: #343d46; border: 1px solid #666666; color: #fff; cursor: pointer; display: inline-block; font-weight: 700; line-height: 20px; margin: 10px 0px; padding: 10px 50px; text-decoration: none;"> Irány a honlap! </a>
+									<a href="${mail.link}" style="-webkit-appearance: none; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; background: #343d46; border: 1px solid #666666; color: #fff; cursor: pointer; display: inline-block; font-weight: 700; line-height: 20px; margin: 10px 0px; padding: 10px 50px; text-decoration: none;"> Irány a honlap! </a>
 								</p> 
 								<p style="margin-bottom: 10px;"> Szép napot! <br> &#x1F984; MuuuBot </p>
 							</td>

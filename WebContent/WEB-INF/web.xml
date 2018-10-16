@@ -55,6 +55,7 @@
             <web-resource-name>app</web-resource-name>
             <url-pattern>/login</url-pattern>
             <url-pattern>/forgot</url-pattern>
+            <url-pattern>/newpw/*</url-pattern>
             <url-pattern>/javax.faces.resource/*</url-pattern>
         </web-resource-collection>
     </security-constraint>

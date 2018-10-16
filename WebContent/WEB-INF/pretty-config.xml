@@ -12,6 +12,12 @@
 		<pattern value="/login" />
 		<view-id value="/faces/login.xhtml" />
 	</url-mapping>
+	
+	<url-mapping id="newPassword">
+		<pattern value="/newpw/#{passwordController.code}" />
+		<view-id value="/faces/newpassword.xhtml" />
+		<action>#{passwordController.loadData}</action>
+	</url-mapping>
 
 	<url-mapping id="error">
 		<pattern value="/error/db" />

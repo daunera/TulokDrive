@@ -84,26 +84,53 @@ public class EmailSessionBean {
 		return sw.toString();
 	}
 
-	public void sendNewGeneratedPwMail(String toAddress, String toName, String newPw) {
+	public void sendPwChangedMailFromSettings(String toAddress, String toName) {
 		Email mail = new Email();
 		mail.setToAddress(toAddress);
 		mail.setToName(toName);
-		mail.setSubject("Új TulokDrive jelszó");
-		mail.setTitle("Új jelszavad lett");
-		mail.addLine("Új jelszót állítottam be neked. Mostantól ezzel fogsz tudni belépni, de bármikor megváltoztathatod a beállításaidnál.");
-		mail.addLine("Jelszavad: "+ newPw);
+		mail.setSubject("Megváltozott a TulokDrive jelszavad");
+		mail.setTitle("Megváltoztattad a jelszavad");
+		mail.addLine("A beállításoknál megváltoztattad a saját jelszavad.");
+		mail.addLine("Amennyiben mégsem te voltál, akkor kicsit gáz van :/");
 
 		sendEmail(mail);
 	}
 
-	public void sendPwChangedMail(String toAddress, String toName) {
+	public void sendPwChangedMailFromAdmin(String toAddress, String toName, String newPw) {
 		Email mail = new Email();
 		mail.setToAddress(toAddress);
 		mail.setToName(toName);
-		mail.setSubject("TulokDrive jelszót váltottál");
+		mail.setSubject("Megváltozott a TulokDrive jelszavad");
+		mail.setTitle("Megváltozott a jelsazavd");
+		mail.addLine("Egy admin új jelszót állított be neked.");
+		mail.addLine("Jelszavad: " + newPw);
+
+		sendEmail(mail);
+	}
+
+	public void sendPwChangedMailFromForgot(String toAddress, String toName, String newPw) {
+		Email mail = new Email();
+		mail.setToAddress(toAddress);
+		mail.setToName(toName);
+		mail.setSubject("Megváltozott a TulokDrive jelszavad");
 		mail.setTitle("Megváltoztattad a jelszavad");
-		mail.addLine("A beállításoknál megváltoztattad a saját jelszavad.");
-		mail.addLine("Amennyiben mégsem te voltál, akkor kicsit gáz van :/");
+		mail.addLine("Új jelszót állítottál be magadnak, mert az előzőt elfelejtetted vagy nem tom.");
+		mail.addLine("Jelszavad: " + newPw);
+
+		sendEmail(mail);
+	}
+
+	public void sendToDoPwChangeMail(String toAddress, String toName, String link) {
+		Email mail = new Email();
+		mail.setToAddress(toAddress);
+		mail.setToName(toName);
+		mail.setSubject("TulokDrive jelszóváltás");
+		mail.setTitle("Szeretnél jelszót váltani?");
+		mail.addLine("Valaki jelszóváltást igényelt a honlapon a te felhasználód számára.");
+		mail.addLine("Amennyiben nem te voltál, akkor nincs semmi teendőd.");
+		mail.addLine(
+				"Ha viszont váltanál, akkor katt a gombra, mert csak 24 óráig van lehetőséged ezen a linken jelszót váltani!");
+		mail.setLink(link);
 
 		sendEmail(mail);
 	}

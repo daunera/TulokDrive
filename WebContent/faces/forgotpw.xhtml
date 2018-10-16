@@ -14,20 +14,24 @@
 </h:head>
 <h:body class="welcomeBody">
 
-	<div class="main-container" >
+	<div class="main-container">
 		<b:panel collapsible="false" style-class="centeredSmallPanel">
 			<h2 style="margin-top: 0px; font-weight: bold;">Elfelejtetted a
 				jelszavad?</h2>
 			<p align="justify">Ne csüggedj, itt meg fogod tudni oldani! :)</p>
 			<p align="justify">Add meg az alábbi mezőbe a felhasználóneved és
-				a hozzátartozó email címre kapsz egy emailt az új jelszavaddal,
-				amivel utána könnyedén be fogsz tudni lépni.</p>
-			<p>Kérdésed van még? <a href="mailto:dauner.agoston+tulokdrive@cserkesz.hu?subject=TulokDrive+visszajelzés">Írj emailt!</a></p>
+				a hozzátartozó email címre kapsz egy emailt, aminek segítségével új
+				jelszót állíthatsz be magadnak.</p>
+			<p>
+				Kérdésed van még? <a
+					href="mailto:dauner.agoston+tulokdrive@cserkesz.hu?subject=TulokDrive+visszajelzés">Írj
+					emailt!</a>
+			</p>
 			<h:form id="forgotForm">
-				<b:inputText id="username" value="#{authentication.username}"
+				<b:inputText id="username" value="#{passwordController.username}"
 					placeholder="Felhasználónév" required="true" />
-				<b:commandButton value="Küld a jelszavam"
-					action="#{authentication.getNewPassword()}" />
+				<b:commandButton value="Küldj emailt"
+					action="#{passwordController.getNewPassword()}" />
 				<b:button look="link" value="Vissza a belépéshez"
 					href="#{authentication.getUrl()}" />
 				<b:focus target="username" />
@@ -35,13 +39,13 @@
 
 		</b:panel>
 		<br />
-		<b:alert severity="success" rendered="#{authentication.alertPw}"
+		<b:alert severity="success" rendered="#{passwordController.alertDone}"
 			style-class="centeredSmallNotification" closable="true">
-			<strong>Siker!</strong> Elkültük az új jelszavad emailben
+			<strong>Siker!</strong> Elkültük az emailt!
 		</b:alert>
-		<b:alert severity="danger" rendered="#{authentication.alertErr}"
+		<b:alert severity="danger" rendered="#{passwordController.alertError}"
 			style-class="centeredSmallNotification" closable="true">
-			<strong>Hiba!</strong> Nincs jelszó ehhez a felhasználónévhez
+			<strong>Hiba!</strong> #{passwordController.errorMessage}
 		</b:alert>
 		<div class="footerLight">
 			<h:outputText value="#{now}">

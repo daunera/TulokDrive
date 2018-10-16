@@ -5,16 +5,9 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
-import java.util.List;
-import java.util.Set;
 
 import org.apache.commons.lang3.RandomStringUtils;
-
-import hu.tobias.entities.Patrol;
-import hu.tobias.services.comparator.PatrolNameComparator;
 
 public class Utils {
 

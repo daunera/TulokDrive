@@ -4,7 +4,8 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:t="http://tulok.vzma.hu/tags">
 <h:head>
 	<h:outputStylesheet name="css/styles.css" />
 </h:head>
@@ -13,27 +14,20 @@
 		<ui:define name="innerContent">
 
 			<b:form>
-				<b:row styleClass="pulledRow">
-					<h:outputLabel value="Hírek kezelése" styleClass="tabTitle" />
-					<span style="padding-right: 15px; float: right"> <b:commandButton
-							value="Új hír" iconAwesome="plus" ajax="true"
-							update="@(.new_news_modal)"
-							onclick="ajax:teamNews.setForNewNews(userController.leader)"
-							oncomplete="$('.new_news_modal').modal();return false;" size="md"
-							style="margin: 0px 5px 0px 0px" rendered="#{userController.edit}" />
-						<b:commandButton value="Szerkesztés" iconAwesome="pencil"
-							rendered="#{not userController.edit}"
-							action="#{userController.changeEdit()}" look="info" size="md" />
-						<b:commandButton value="Vissza" iconAwesome="arrow-left"
-							rendered="#{userController.edit}"
-							action="#{userController.changeEdit()}" size="md" />
-					</span>
-				</b:row>
+				<t:pageHeader title="Hírek kezelése" undoBean="#{userController}"
+					undoMethod="changeEdit" saveButton="false">
+					<b:commandButton value="Új hír" iconAwesome="plus" ajax="true"
+						update="@(.new_news_modal)"
+						onclick="ajax:teamNews.setForNewNews(userController.leader)"
+						oncomplete="$('.new_news_modal').modal();return false;" size="md"
+						style="margin: 0px 5px 0px 0px" rendered="#{userController.edit}" />
+				</t:pageHeader>
 
 				<b:dataTable value="#{teamNews.actualNews}" var="news" info="false"
 					paginated="false" searching="false">
 					<b:dataTableColumn label="Beküldő">
-						<b:link value="#{news.submitter.scout.person.getFullName()}" href="#{news.submitter.scout.getScoutUrl()}" />
+						<b:link value="#{news.submitter.scout.person.getFullName()}"
+							href="#{news.submitter.scout.getScoutUrl()}" />
 					</b:dataTableColumn>
 					<b:dataTableColumn label="Beküldés ideje">
 						<h:outputText value="#{news.getSimpleCreated()}" />

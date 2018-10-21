@@ -4,7 +4,8 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:t="http://tulok.vzma.hu/tags">
 <h:head>
 	<h:outputStylesheet name="css/styles.css" />
 </h:head>
@@ -13,29 +14,16 @@
 		<ui:define name="innerContent">
 
 			<b:form>
-				<b:row styleClass="pulledRow">
-					<div>
-						<h:outputLabel value="Vezetők" styleClass="tabTitle" />
-						<span style="padding-right: 15px; float: right"> <b:commandButton
-								value="Új vezető" iconAwesome="plus" ajax="true"
-								update="@(.new_leader_modal)"
-								onclick="ajax:teamLeader.setForNewLeaderModal()"
-								oncomplete="$('.new_leader_modal').modal();return false;"
-								size="md" style="margin: 0px 5px 0px 0px"
-								rendered="#{userController.edit}" /> <b:commandButton
-								value="Szerkesztés" iconAwesome="pencil"
-								rendered="#{not userController.edit}"
-								action="#{userController.changeEdit()}" look="info" size="md" />
-							<b:commandButton value="Mentés" iconAwesome="save"
-								rendered="#{userController.edit}"
-								action="#{teamLeader.saveEdit()}" look="warning" size="md"
-								style="margin: 0px 5px 0px 0px" /> <b:commandButton
-								value="Vissza" iconAwesome="arrow-left"
-								rendered="#{userController.edit}"
-								action="#{userController.changeEdit()}" size="md" />
-						</span>
-					</div>
-				</b:row>
+				<t:pageHeader title="Vezetők" saveBean="#{teamLeader}"
+					saveMethod="saveEdit" undoBean="#{userController}"
+					undoMethod="changeEdit">
+					<b:commandButton value="Új vezető" iconAwesome="plus" ajax="true"
+						update="@(.new_leader_modal)"
+						onclick="ajax:teamLeader.setForNewLeaderModal()"
+						oncomplete="$('.new_leader_modal').modal();return false;"
+						size="md" style="margin: 0px 5px 0px 0px"
+						rendered="#{userController.edit}" />
+				</t:pageHeader>
 
 				<b:tabView pills="true">
 
@@ -69,7 +57,7 @@
 										value="#{teamLeader.orderSet(leader.patrols)}" varStatus="var">
 										<b:link value="#{patrol.getName()} őrs"
 											href="#{patrol.getPatrolUrl()}" />
-										<h:outputText value=", " rendered="#{not var.last}"/>
+										<h:outputText value=", " rendered="#{not var.last}" />
 									</ui:repeat>
 								</div>
 							</b:dataTableColumn>
@@ -165,14 +153,15 @@
 									rendered="#{userController.edit}" />
 							</b:dataTableColumn>
 							<b:dataTableColumn label="Utolsó bejelentkezés">
-								<h:outputText value="#{leader.lastlogin}"/>
+								<h:outputText value="#{leader.lastlogin}" />
 							</b:dataTableColumn>
-							<b:dataTableColumn label="Jelszó" rendered="#{userController.edit}">
-								<b:commandButton ajax="true" value="Új jelszó generálás" look="link"
-										update="@(.new_password_modal)"
-										onclick="ajax:teamLeader.setForNewPasswordModal(leader)"
-										oncomplete="$('.new_password_modal').modal();return false;"
-										rendered="#{userController.edit}" />
+							<b:dataTableColumn label="Jelszó"
+								rendered="#{userController.edit}">
+								<b:commandButton ajax="true" value="Új jelszó generálás"
+									look="link" update="@(.new_password_modal)"
+									onclick="ajax:teamLeader.setForNewPasswordModal(leader)"
+									oncomplete="$('.new_password_modal').modal();return false;"
+									rendered="#{userController.edit}" />
 							</b:dataTableColumn>
 							<b:dataTableColumn label="" rendered="#{userController.edit}">
 								<div>
@@ -194,7 +183,9 @@
 					<b:panelGrid colSpans="12" offset="1">
 						<b:selectBooleanCheckbox value="#{teamLeader.editedLeader.god}"
 							caption="adminisztrátor (cspk jogkör)" />
-						<b:selectBooleanCheckbox value="#{teamLeader.editedLeader.uniformer}" caption="cserkészing felelős" />
+						<b:selectBooleanCheckbox
+							value="#{teamLeader.editedLeader.uniformer}"
+							caption="cserkészing felelős" />
 						<b:selectBooleanCheckbox value="" caption="szülinaptáros"
 							disabled="true" />
 						<b:selectBooleanCheckbox value="" caption="csapatotthon gondnok"
@@ -243,7 +234,8 @@
 								rendered="#{not empty teamLeader.choosablePatrol}">
 								<h:outputLabel
 									value="Válassz a listából egy őrsöt, amihez hozzá szeretnéd adni:" />
-								<b:selectOneMenu value="#{teamLeader.patrolToAdd}" rendered="#{not empty teamLeader.patrolToAdd}">
+								<b:selectOneMenu value="#{teamLeader.patrolToAdd}"
+									rendered="#{not empty teamLeader.patrolToAdd}">
 									<f:selectItems value="#{teamLeader.choosablePatrol}"
 										var="patrol" itemValue="#{patrol}"
 										itemLabel="#{patrol.name} őrs" />
@@ -276,7 +268,8 @@
 							<b:panelGrid colSpans="12">
 								<h:outputLabel
 									value="Válassz a listából egy őrsöt, amiről törölni szeretnéd:" />
-								<b:selectOneMenu value="#{teamLeader.patrolToDelete}" rendered="#{not empty teamLeader.patrolToDelete}">
+								<b:selectOneMenu value="#{teamLeader.patrolToDelete}"
+									rendered="#{not empty teamLeader.patrolToDelete}">
 									<f:selectItems
 										value="#{teamLeader.orderSet(teamLeader.editedLeader.patrols)}"
 										var="patrol" itemValue="#{patrol}"
@@ -295,15 +288,15 @@
 						</b:tab>
 					</b:tabView>
 				</b:modal>
-				
+
 				<b:modal
 					title="#{teamLeader.editedLeader.scout.person.getFullName()} vezetőnek új jelszó generálása"
 					styleClass="new_password_modal" rendered="#{userController.edit}">
-					<b:panelGrid  colSpans="3,9">
-						<h:outputLabel value="Generált jelszó:"/>
-						<h:outputText value="#{teamLeader.generatedPassword}"/>
+					<b:panelGrid colSpans="3,9">
+						<h:outputLabel value="Generált jelszó:" />
+						<h:outputText value="#{teamLeader.generatedPassword}" />
 					</b:panelGrid>
-					<br/>
+					<br />
 					<b:panelGrid colSpans="12">
 						<h:outputLabel
 							value="Biztosan szeretnél új jelszót generálni a #{teamLeader.editedLeader.scout.person.getFullName()} nevű vezetőnek?" />

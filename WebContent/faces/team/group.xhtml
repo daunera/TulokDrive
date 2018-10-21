@@ -4,7 +4,8 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:t="http://tulok.vzma.hu/tags">
 <h:head>
 	<h:outputStylesheet name="css/styles.css" />
 </h:head>
@@ -13,29 +14,16 @@
 		<ui:define name="innerContent">
 
 			<b:form>
-				<b:row styleClass="pulledRow">
-					<div>
-						<h:outputLabel value="Őrsök" styleClass="tabTitle" />
-						<span style="padding-right: 15px; float: right"> <b:commandButton
-								value="Új őrs" iconAwesome="plus" ajax="true"
-								update="@(.new_patrol_modal)"
-								onclick="ajax:teamGroup.setForNewPatrolModal()"
-								oncomplete="$('.new_patrol_modal').modal();return false;"
-								size="md" style="margin: 0px 5px 0px 0px"
-								rendered="#{userController.edit}" /> <b:commandButton
-								value="Szerkesztés" iconAwesome="pencil"
-								rendered="#{not userController.edit}"
-								action="#{userController.changeEdit()}" look="info" size="md" />
-							<b:commandButton value="Mentés" iconAwesome="save"
-								rendered="#{userController.edit}"
-								action="#{teamGroup.saveEdit()}" look="warning" size="md"
-								style="margin: 0px 5px 0px 0px" /> <b:commandButton
-								value="Vissza" iconAwesome="arrow-left"
-								rendered="#{userController.edit}"
-								action="#{userController.changeEdit()}" size="md" />
-						</span>
-					</div>
-				</b:row>
+				<t:pageHeader title="Őrsök" saveBean="#{teamGroup}"
+					saveMethod="saveEdit" undoBean="#{userController}"
+					undoMethod="changeEdit">
+					<b:commandButton value="Új őrs" iconAwesome="plus" ajax="true"
+						update="@(.new_patrol_modal)"
+						onclick="ajax:teamGroup.setForNewPatrolModal()"
+						oncomplete="$('.new_patrol_modal').modal();return false;"
+						size="md" style="margin: 0px 5px 0px 0px"
+						rendered="#{userController.edit}" />
+				</t:pageHeader>
 				<b:dataTable value="#{teamGroup.patrols}" var="patrol" info="false"
 					paginated="false" searching="false" scrollHorizontally="true">
 					<b:dataTableColumn label="Név">
@@ -80,14 +68,14 @@
 							changeYear="true" />
 					</b:dataTableColumn>
 					<b:dataTableColumn label="" rendered="#{userController.edit}">
-								<div>
-									<b:commandButton iconAwesome="trash" ajax="true"
-										update="@(.delete_patrol_modal)"
-										onclick="ajax:teamGroup.setForPatrolDeleteModal(patrol)"
-										oncomplete="$('.delete_patrol_modal').modal();return false;"
-										rendered="#{userController.edit}" />
-								</div>
-							</b:dataTableColumn>
+						<div>
+							<b:commandButton iconAwesome="trash" ajax="true"
+								update="@(.delete_patrol_modal)"
+								onclick="ajax:teamGroup.setForPatrolDeleteModal(patrol)"
+								oncomplete="$('.delete_patrol_modal').modal();return false;"
+								rendered="#{userController.edit}" />
+						</div>
+					</b:dataTableColumn>
 				</b:dataTable>
 
 				<b:modal title="Új őrs létrehozása" styleClass="new_patrol_modal"

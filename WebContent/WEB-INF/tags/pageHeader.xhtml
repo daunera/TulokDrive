@@ -26,7 +26,8 @@
 		<b:row styleClass="pulledRow">
 			<div>
 				<h:outputLabel value="#{title}" styleClass="tabTitle" />
-				<span style="padding-right: 15px; float: right"> 
+				<span style="padding-right: 15px; float: right">
+					<ui:insert/>
 					<b:commandButton
 						value="Szerkesztés" iconAwesome="pencil"
 						rendered="#{not edit}"

@@ -14,24 +14,24 @@
 			<c:set var="edit" value="#{userController.edit}" />
 		</c:if>
 
+		<c:if test="#{empty autoPopup}">
+			<c:set var="autoPopup" value="true" />
+		</c:if>
+
 		<c:if test="#{empty mode}">
-			<c:set var="mode" value="popup-icon" />
+			<c:set var="mode" value="popup" />
 		</c:if>
 
-		<c:if test="#{empty changeMonth}">
-			<c:set var="changeMonth" value="true" />
-		</c:if>
-
-		<c:if test="#{empty changeYear}">
-			<c:set var="changeYear" value="true" />
+		<c:if test="#{empty showIcon}">
+			<c:set var="showIcon" value="true" />
 		</c:if>
 
 		<h:outputText value="#{value}" rendered="#{not edit}">
-			<f:convertDateTime pattern="yyyy.MM.dd"/>
+			<f:convertDateTime pattern="yyyy.MM.dd" />
 		</h:outputText>
-		<b:datepicker value="#{value}" mode="#{mode}"
-			changeMonth="#{changeMonth}" changeYear="#{changeYear}"
-			rendered="#{edit}" />
+		<b:dateTimePicker value="#{value}" mode="#{mode}" rendered="#{edit}"
+			format="YYYY.MM.DD" showTime="false" allowInputToggle="#{autoPopup}"
+			showIcon="#{showIcon}" />
 
 	</ui:composition>
 </h:body>

@@ -94,13 +94,13 @@
 		</attribute>
 		<attribute>
 			<name>mode</name>
-			<!-- modes: inline, popup, popup-icon, icon-popup, toggle-icon, icon-toggle -->
+			<!-- popup modes: inline, popup, plain -->
 		</attribute>
 		<attribute>
-			<name>changeMonth</name>
+			<name>autoPopup</name>
 		</attribute>
 		<attribute>
-			<name>changeYear</name>
+			<name>showIcon</name>
 		</attribute>
 	</tag>
 	<tag>

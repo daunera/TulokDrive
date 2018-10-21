@@ -12,7 +12,7 @@
 		<pattern value="/login" />
 		<view-id value="/faces/login.xhtml" />
 	</url-mapping>
-	
+
 	<url-mapping id="newPassword">
 		<pattern value="/newpw/#{passwordController.code}" />
 		<view-id value="/faces/newpassword.xhtml" />
@@ -50,7 +50,7 @@
 	<url-mapping id="profileLeader">
 		<pattern value="/scout/#{profileController.scoutid}/leader" />
 		<view-id value="/faces/profile/leader.xhtml" />
-		<action>#{profileController.loadData}</action>
+		<action>#{profileLeader.loadData}</action>
 	</url-mapping>
 
 	<url-mapping id="patrolInfo">
@@ -124,7 +124,7 @@
 		<view-id value="/faces/team/news.xhtml" />
 		<action>#{teamController.loadData}</action>
 	</url-mapping>
-	
+
 	<url-mapping id="uniforms">
 		<pattern value="/uniforms" />
 		<view-id value="/faces/uniform/uniform.xhtml" />
@@ -134,9 +134,9 @@
 	<url-mapping id="settings">
 		<pattern value="/user/settings" />
 		<view-id value="/faces/settings.xhtml" />
-		<!-- action>#{userController.loadData}</action-->
+		<!-- action>#{userController.loadData}</action -->
 	</url-mapping>
-	
+
 	<url-mapping id="logout">
 		<pattern value="/logout" />
 		<action>#{authentication.logout}</action>

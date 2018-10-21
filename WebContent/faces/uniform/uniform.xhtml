@@ -41,7 +41,7 @@
 								</b:dataTableColumn>
 
 								<b:dataTableColumn label="Kezdete" order="asc">
-									<t:datepicker value="#{rent.begindate}" mode="popup" />
+									<t:datepicker value="#{rent.begindate}" showIcon="false" />
 								</b:dataTableColumn>
 								<b:dataTableColumn label="Méret">
 									<t:dropdown list="#{enums.sizes}" value="#{rent.uniformsize}" />
@@ -77,7 +77,7 @@
 									</ui:repeat>
 								</b:dataTableColumn>
 								<b:dataTableColumn label="Kezdete">
-									<t:datepicker value="#{rent.begindate}" mode="popup" />
+									<t:datepicker value="#{rent.begindate}" showIcon="false" />
 								</b:dataTableColumn>
 								<b:dataTableColumn label="Méret">
 									<t:dropdown list="#{enums.sizes}" value="#{rent.uniformsize}" />

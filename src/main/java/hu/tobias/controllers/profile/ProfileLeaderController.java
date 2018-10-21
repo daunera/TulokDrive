@@ -18,7 +18,7 @@ public class ProfileLeaderController implements Serializable {
 
 	@EJB
 	private LeaderDao leaderService;
-	
+
 	@Inject
 	private ProfileController profileController;
 
@@ -28,7 +28,16 @@ public class ProfileLeaderController implements Serializable {
 	@PostConstruct
 	public void init() {
 	}
-	
+
+	public void loadData() {
+		profileController.loadData();
+
+		if (profileController.getScout().getLeader() == null) {
+			profileController.getUserController()
+					.redirectRelative("scout/" + profileController.getScout().getId().toString());
+		}
+	}
+
 	public ProfileController getProfileController() {
 		return profileController;
 	}

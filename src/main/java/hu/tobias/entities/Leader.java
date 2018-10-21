@@ -210,9 +210,15 @@ public class Leader implements Serializable {
 	}
 
 	public String getExtraInfo() {
+		String permissions = "";
 		if (getGod())
-			return "adminisztrátor";
-		return null;
+			permissions += "adminisztrátor, ";
+		if (getUniformer() || getGod())
+			permissions += "cserkészingfelelős, ";
+		if (Utils.isEmpty(permissions))
+			return null;
+		else
+			return permissions.substring(0, permissions.length() - 2);
 	}
 
 	public String getEmail() {

@@ -15,23 +15,10 @@
 		<ui:define name="innerContent">
 
 			<b:form>
-				<b:row styleClass="pulledRow">
-					<div>
-						<h:outputLabel value="Cserkész adatok" styleClass="tabTitle" />
-						<span style="padding-right: 15px; float: right"> <b:commandButton
-								value="Szerkesztés" iconAwesome="pencil"
-								rendered="#{not userController.edit}"
-								action="#{userController.changeEdit()}" look="info" size="md" />
-							<b:commandButton value="Mentés" iconAwesome="save"
-								rendered="#{userController.edit}"
-								action="#{patrolController.saveScoutEdit()}" look="warning"
-								size="md" style="margin: 0px 5px 0px 0px" /> <b:commandButton
-								value="Vissza" iconAwesome="arrow-left"
-								rendered="#{userController.edit}"
-								action="#{patrolController.undoEdit()}" look="default" size="md" />
-						</span>
-					</div>
-				</b:row>
+				<t:pageHeader title="Cserkész adatok" saveBean="#{patrolController}"
+					saveMethod="saveScoutEdit" undoBean="#{patrolController}"
+					undoMethod="undoEdit" />
+
 				<b:dataTable value="#{patrolController.scoutList}" var="scout"
 					info="false" paginated="false" searching="false"
 					scrollHorizontally="true">
@@ -46,7 +33,7 @@
 						<h:outputText value="#{scout.ecsetcode}"
 							rendered="#{not userController.edit}" />
 						<b:inputText value="#{scout.ecsetcode}"
-							rendered="#{userController.edit}" fieldSize="sm" />
+							rendered="#{userController.edit}" />
 					</b:dataTableColumn>
 					<b:dataTableColumn label="Aktivitás">
 						<h:outputText value="#{scout.status.label}"
@@ -61,15 +48,15 @@
 						<h:outputText value="#{scout.getSimpleJoindate()}"
 							rendered="#{not userController.edit}" />
 						<b:datepicker value="#{scout.joindate}"
-							rendered="#{userController.edit}" mode="popup"
-							changeMonth="true" changeYear="true" />
+							rendered="#{userController.edit}" mode="popup" changeMonth="true"
+							changeYear="true" />
 					</b:dataTableColumn>
 					<b:dataTableColumn label="Kilépés ideje">
 						<h:outputText value="#{scout.getSimpleLeavedate()}"
 							rendered="#{not userController.edit}" />
 						<b:datepicker value="#{scout.leavedate}"
-							rendered="#{userController.edit}" mode="popup"
-							changeMonth="true" changeYear="true" />
+							rendered="#{userController.edit}" mode="popup" changeMonth="true"
+							changeYear="true" />
 					</b:dataTableColumn>
 					<b:dataTableColumn label="Tagkártya">
 						<h:outputText value="#{scout.scoutcard.label}"

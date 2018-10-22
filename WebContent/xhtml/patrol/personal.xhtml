@@ -15,23 +15,10 @@
 		<ui:define name="innerContent">
 
 			<b:form>
-				<b:row styleClass="pulledRow">
-					<div>
-						<h:outputLabel value="Személyes adatok" styleClass="tabTitle" />
-						<span style="padding-right: 15px; float: right"> <b:commandButton
-								value="Szerkesztés" iconAwesome="pencil"
-								rendered="#{not userController.edit}"
-								action="#{userController.changeEdit()}" look="info" size="md" />
-							<b:commandButton value="Mentés" iconAwesome="save"
-								rendered="#{userController.edit}"
-								action="#{patrolPersonal.saveEdit()}" look="warning" size="md"
-								style="margin: 0px 5px 0px 0px" /> <b:commandButton
-								value="Vissza" iconAwesome="arrow-left"
-								rendered="#{userController.edit}"
-								action="#{patrolController.undoEdit()}" look="default" size="md" />
-						</span>
-					</div>
-				</b:row>
+				<t:pageHeader title="Személyes adatok" saveBean="#{patrolPersonal}"
+					saveMethod="saveEdit" undoBean="#{patrolController}"
+					undoMethod="undoEdit" />
+
 				<b:tabView pills="true">
 					<b:tab title="Név és születés">
 						<b:dataTable value="#{patrolController.scoutList}" var="scout"

@@ -15,19 +15,9 @@
 		<ui:define name="innerContent">
 
 			<b:form>
-				<b:row styleClass="pulledRow">
-					<div>
-						<h:outputLabel value="Fogadalmak" styleClass="tabTitle" />
-						<span style="padding-right: 15px; float: right"> <b:commandButton
-								value="Szerkesztés" iconAwesome="pencil"
-								rendered="#{not userController.edit}"
-								action="#{userController.changeEdit()}" look="info" size="md" />
-							<b:commandButton value="Vissza" iconAwesome="arrow-left"
-								rendered="#{userController.edit}"
-								action="#{patrolController.undoEdit()}" look="default" size="md" />
-						</span>
-					</div>
-				</b:row>
+				<t:pageHeader title="Fogadalmak" saveButton="false" undoBean="#{patrolController}"
+					undoMethod="undoEdit" />
+
 				<b:dataTable value="#{patrolController.scoutList}" var="scout"
 					info="false" paginated="false" searching="false"
 					scrollHorizontally="true">

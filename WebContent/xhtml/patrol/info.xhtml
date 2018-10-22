@@ -15,176 +15,127 @@
 		<ui:define name="innerContent">
 
 			<b:form>
-				<b:row styleClass="pulledRow">
-					<div>
-						<h:outputLabel value="Őrsi adatok" styleClass="tabTitle" />
-						<span style="padding-right: 15px; float: right"> <b:commandButton
-								value="Szerkesztés" iconAwesome="pencil"
-								rendered="#{not userController.edit}"
-								action="#{userController.changeEdit()}" look="info" size="md" />
-							<b:commandButton value="Mentés" iconAwesome="save"
-								rendered="#{userController.edit}"
-								action="#{patrolInfo.saveEdit()}" look="warning" size="md"
-								style="margin: 0px 5px 0px 0px" /> <b:commandButton
-								value="Vissza" iconAwesome="arrow-left"
-								rendered="#{userController.edit}"
-								action="#{patrolController.undoEdit()}" look="default" size="md" />
-						</span>
-					</div>
-				</b:row>
-				<b:panelGrid colSpans="6,6">
+				<t:pageHeader title="Őrsi adatok" saveBean="#{patrolInfo}"
+					saveMethod="saveEdit" undoBean="#{patrolController}"
+					undoMethod="undoEdit" />
+				<t:table>
+					<t:rowWithLabel label="Őrs neve">
+						<t:textField value="#{patrolController.patrol.name}" />
+					</t:rowWithLabel>
+					<t:rowWithLabel label="Alakulás ideje">
+						<t:datepicker value="#{patrolController.patrol.birthdate}" />
+					</t:rowWithLabel>
+					<t:rowWithLabel label="Nem">
+						<t:dropdown list="#{enums.genders}"
+							value="#{patrolController.patrol.gender}" />
+					</t:rowWithLabel>
+				</t:table>
 
-					<b:panelGrid colSpans="12">
-						<b:panelGrid colSpans="4,8">
-							<h:outputLabel value="Őrs neve:" />
+				<b:panelGrid colSpans="12">
+					<h:outputText value="Őrsvezetők:" styleClass="subTitle" />
+					<b:dataTable value="#{patrolController.patrol.leaders}" var="item"
+						info="false" paginated="false" searching="false"
+						rowHighlight="false" styleClass="tableNoHeader"
+						rendered="#{not empty patrolController.patrol.leaders}">
+						<b:dataTableColumn>
+							<b:row>
+								<b:link value="#{item.scout.person.getFullName()}"
+									href="#{item.scout.getScoutUrl()}" style="padding-right:5px;"
+									span="8" />
+							</b:row>
+						</b:dataTableColumn>
+					</b:dataTable>
+					<h:outputText
+						value="A szerkesztés gombra kattintva tudsz új őrstagot hozzáadni"
+						rendered="#{empty patrolController.scoutList}" />
+
+					<b:row styleClass="pulledRow">
+						<h:outputText value="Őrstagok:" styleClass="subTitle" />
+						<b:button value="Új őrstag" iconAwesome="plus" size="md"
+							rendered="#{userController.edit}"
+							onclick="$('.scout_modal').modal()" />
+					</b:row>
+					<b:dataTable value="#{patrolController.scoutList}" var="item"
+						info="false" paginated="false" searching="false"
+						rowHighlight="false" styleClass="tableNoHeader"
+						rendered="#{not empty patrolController.scoutList}">
+						<b:dataTableColumn style="width:20px">
+							<div align="center">
+								#{patrolController.scoutList.indexOf(item)+1}.</div>
+						</b:dataTableColumn>
+						<b:dataTableColumn>
 							<b:row styleClass="pulledRow">
-								<h:outputText value="#{patrolController.patrol.name}"
-									rendered="#{not userController.edit}" />
-								<b:inputText value="#{patrolController.patrol.name}"
+								<b:link value="#{item.person.getFullName()}"
+									href="#{item.getScoutUrl()}" style="padding-right:5px;" />
+								<b:commandButton iconAwesome="trash" value="Töröl" size="xs"
+									action="#{patrolInfo.deleteScout(item)}"
 									rendered="#{userController.edit}" />
 							</b:row>
-							<h:outputLabel value="Alakulás ideje:" />
-							<b:row styleClass="pulledRow">
-								<h:outputText
-									value="#{patrolController.patrol.getSimpleBirthdate()}"
-									rendered="#{not userController.edit}" />
-								<b:datepicker value="#{patrolController.patrol.birthdate}"
-									rendered="#{userController.edit}" mode="popup-icon"
-									changeMonth="true" changeYear="true" />
-							</b:row>
-							<h:outputLabel value="Nem:" />
-							<b:row styleClass="pulledRow">
-								<h:outputText value="#{patrolController.patrol.gender.label}"
-									rendered="#{not userController.edit}" />
-								<b:selectOneMenu value="#{patrolController.patrol.gender}"
-									rendered="#{userController.edit}">
+						</b:dataTableColumn>
+					</b:dataTable>
+					<h:outputText
+						value="A szerkesztés gombra kattintva tudsz új őrstagot hozzáadni"
+						rendered="#{empty patrolController.scoutList}" />
+				</b:panelGrid>
+
+				<b:modal
+					title="Új cserkész a(z) #{patrolController.patrol.getName()} őrsbe"
+					rendered="#{userController.edit}" styleClass="scout_modal">
+					<b:tabView pills="true">
+						<b:tab title="Új cserkész létrehozása">
+							<br />
+							<b:panelGrid colSpans="4,8">
+								<h:outputLabel value="Vezetéknév:" />
+								<b:inputText value="#{patrolInfo.newScout.person.lastname}" />
+								<h:outputLabel value="Keresztnév:" />
+								<b:inputText value="#{patrolInfo.newScout.person.firstname}" />
+								<h:outputLabel value="Nem:" />
+								<b:selectOneMenu value="#{patrolInfo.newScout.person.gender}">
 									<f:selectItems value="#{enums.genders}" var="gender"
 										itemValue="#{gender}" itemLabel="#{gender.label}" />
 								</b:selectOneMenu>
-							</b:row>
-						</b:panelGrid>
-						<br />
-						<b:panelGrid colSpans="12">
-							<b:row styleClass="pulledRow">
-								<h:outputText value="Őrsvezetők:" styleClass="subTitle" />
-							</b:row>
-							<b:panelGrid colSpans="12">
-
-								<b:dataTable value="#{patrolController.patrol.leaders}"
-									var="item" info="false" paginated="false" searching="false"
-									rowHighlight="false" styleClass="tableNoHeader"
-									rendered="#{not empty patrolController.patrol.leaders}">
-									<b:dataTableColumn>
-										<b:row>
-											<b:link value="#{item.scout.person.getFullName()}"
-												href="#{item.scout.getScoutUrl()}"
-												style="padding-right:5px;" span="8" />
-										</b:row>
-									</b:dataTableColumn>
-								</b:dataTable>
-								<h:outputText
-									value="A szerkesztés gombra kattintva tudsz új őrstagot hozzáadni"
-									rendered="#{empty patrolController.scoutList}" />
-
+								<h:outputLabel value="Születési dátum:" />
+								<b:datepicker value="#{patrolInfo.newScout.person.birthdate}"
+									mode="popup-icon" changeMonth="true" changeYear="true" />
 							</b:panelGrid>
-						</b:panelGrid>
-						<b:panelGrid colSpans="12">
-							<b:row styleClass="pulledRow">
-								<h:outputText value="Őrstagok:" styleClass="subTitle" />
-								<b:button value="Új őrstag" iconAwesome="plus" size="md"
-									rendered="#{userController.edit}"
-									onclick="$('.scout_modal').modal()" />
-							</b:row>
+							<h:outputText
+								value="Minden más adatot a személyes oldalon tudsz majd beállítani." />
+							<hr style="margin: 10px;" />
 							<b:panelGrid colSpans="12">
+								<b:row>
+									<div align="right" style="padding-right: 10px;">
 
-								<b:dataTable value="#{patrolController.scoutList}" var="item"
-									info="false" paginated="false" searching="false"
-									rowHighlight="false" styleClass="tableNoHeader"
-									rendered="#{not empty patrolController.scoutList}">
-									<b:dataTableColumn style="width:20px">
-										<div align="center">
-											#{patrolController.scoutList.indexOf(item)+1}.</div>
-									</b:dataTableColumn>
-									<b:dataTableColumn>
-										<b:row>
-											<b:link value="#{item.person.getFullName()}"
-												href="#{item.getScoutUrl()}" style="padding-right:5px;"
-												span="8" />
-											<div align="center">
-												<b:commandButton iconAwesome="trash" value="Töröl" size="xs"
-													action="#{patrolInfo.deleteScout(item)}"
-													rendered="#{userController.edit}" />
-											</div>
-										</b:row>
-									</b:dataTableColumn>
-								</b:dataTable>
-								<h:outputText
-									value="A szerkesztés gombra kattintva tudsz új őrstagot hozzáadni"
-									rendered="#{empty patrolController.scoutList}" />
-
+										<b:button value="Vissza" iconAwesome="arrow-left"
+											dismiss="modal" style="margin: 0px 5px 0px 0px;" />
+										<b:commandButton value="Létrehozás" iconAwesome="save"
+											action="#{patrolInfo.saveNewScout()}" />
+									</div>
+								</b:row>
 							</b:panelGrid>
-						</b:panelGrid>
-					</b:panelGrid>
+						</b:tab>
+						<b:tab title="Meglévő cserkészek közül választás">
+							<br />
+							<b:panelGrid colSpans="4,8">
+								<h:outputLabel value="Válassz a listából:" />
+								<b:selectOneMenu value="#{patrolInfo.selectedScout}">
+									<f:selectItems value="#{patrolInfo.allScouts}" var="scout"
+										itemValue="#{scout}" itemLabel="#{scout.person.getFullName()}" />
+								</b:selectOneMenu>
+							</b:panelGrid>
+							<b:panelGrid colSpans="12">
+								<b:row>
+									<div align="right" style="padding-right: 10px;">
+										<b:button value="Vissza" iconAwesome="arrow-left"
+											dismiss="modal" style="margin: 0px 5px 0px 0px;" />
+										<b:commandButton value="Kiválasztás" iconAwesome="save"
+											action="#{patrolInfo.saveSelectedScout(patrolInfo.selectedScout)}" />
+									</div>
+								</b:row>
+							</b:panelGrid>
+						</b:tab>
+					</b:tabView>
+				</b:modal>
 
-					<b:modal
-						title="Új cserkész a(z) #{patrolController.patrol.getName()} őrsbe"
-						rendered="#{userController.edit}" styleClass="scout_modal">
-						<b:tabView pills="true">
-							<b:tab title="Új cserkész létrehozása">
-								<br />
-								<b:panelGrid colSpans="4,8">
-									<h:outputLabel value="Vezetéknév:" />
-									<b:inputText value="#{patrolInfo.newScout.person.lastname}" />
-									<h:outputLabel value="Keresztnév:" />
-									<b:inputText value="#{patrolInfo.newScout.person.firstname}" />
-									<h:outputLabel value="Nem:" />
-									<b:selectOneMenu value="#{patrolInfo.newScout.person.gender}">
-										<f:selectItems value="#{enums.genders}" var="gender"
-											itemValue="#{gender}" itemLabel="#{gender.label}" />
-									</b:selectOneMenu>
-									<h:outputLabel value="Születési dátum:" />
-									<b:datepicker value="#{patrolInfo.newScout.person.birthdate}"
-										mode="popup-icon" changeMonth="true" changeYear="true" />
-								</b:panelGrid>
-								<h:outputText
-									value="Minden más adatot a személyes oldalon tudsz majd beállítani." />
-								<hr style="margin: 10px;" />
-								<b:panelGrid colSpans="12">
-									<b:row>
-										<div align="right" style="padding-right: 10px;">
-
-											<b:button value="Vissza" iconAwesome="arrow-left"
-												dismiss="modal" style="margin: 0px 5px 0px 0px;" />
-											<b:commandButton value="Létrehozás" iconAwesome="save"
-												action="#{patrolInfo.saveNewScout()}" />
-										</div>
-									</b:row>
-								</b:panelGrid>
-							</b:tab>
-							<b:tab title="Meglévő cserkészek közül választás">
-								<br />
-								<b:panelGrid colSpans="4,8">
-									<h:outputLabel value="Válassz a listából:" />
-									<b:selectOneMenu value="#{patrolInfo.selectedScout}">
-										<f:selectItems value="#{patrolInfo.allScouts}" var="scout"
-											itemValue="#{scout}"
-											itemLabel="#{scout.person.getFullName()}" />
-									</b:selectOneMenu>
-								</b:panelGrid>
-								<b:panelGrid colSpans="12">
-									<b:row>
-										<div align="right" style="padding-right: 10px;">
-											<b:button value="Vissza" iconAwesome="arrow-left"
-												dismiss="modal" style="margin: 0px 5px 0px 0px;" />
-											<b:commandButton value="Kiválasztás" iconAwesome="save"
-												action="#{patrolInfo.saveSelectedScout(patrolInfo.selectedScout)}" />
-										</div>
-									</b:row>
-								</b:panelGrid>
-							</b:tab>
-						</b:tabView>
-					</b:modal>
-				</b:panelGrid>
 			</b:form>
 
 		</ui:define>

@@ -15,27 +15,14 @@
 		<ui:define name="innerContent">
 
 			<b:form>
-				<b:panelGrid colSpans="2,2,8">
-					<h:outputLabel value="Tagdíjak" styleClass="tabTitle" />
-					<b:selectOneMenu value="#{patrolFee.selectedYear}" ajax="true"
-						update="feeDataTable">
-						<f:selectItems value="#{patrolFee.years}" var="year"
-							itemValue="#{year}" itemLabel="#{year}" />
-					</b:selectOneMenu>
-					<b:panelGrid colSpans="12">
-						<b:row styleClass="pulledRow">
-							<span style="padding-right: 15px; float: right"> <b:commandButton
-									value="Szerkesztés" iconAwesome="pencil"
-									rendered="#{not userController.edit}"
-									action="#{userController.changeEdit()}" look="info" size="md" />
-								<b:commandButton value="Vissza" iconAwesome="arrow-left"
-									rendered="#{userController.edit}"
-									action="#{userController.changeEdit()}" look="default"
-									size="md" />
-							</span>
-						</b:row>
-					</b:panelGrid>
-				</b:panelGrid>
+				<t:pageHeader title="Tagdíjak" saveButton="false"
+					undoBean="#{userController}" undoMethod="changeEdit" />
+				<b:selectOneMenu value="#{patrolFee.selectedYear}" ajax="true"
+					update="feeDataTable">
+					<f:selectItems value="#{patrolFee.years}" var="year"
+						itemValue="#{year}" itemLabel="#{year}" />
+				</b:selectOneMenu>
+
 				<b:dataTable value="#{patrolController.scoutList}" var="scout"
 					info="false" paginated="false" searching="false"
 					scrollHorizontally="true" id="feeDataTable">
@@ -113,8 +100,8 @@
 							<div align="right" style="padding-right: 10px;">
 								<b:commandButton value="Törlés" iconAwesome="trash"
 									action="#{patrolFee.deleteFee(patrolFee.selectedFee)}" />
-								<b:button value="Vissza" iconAwesome="arrow-left" dismiss="modal"
-									style="margin: 0px 5px;" />
+								<b:button value="Vissza" iconAwesome="arrow-left"
+									dismiss="modal" style="margin: 0px 5px;" />
 								<b:commandButton value="Módosít" iconAwesome="save"
 									action="#{patrolFee.saveFee(patrolFee.selectedFee)}" />
 							</div>
@@ -144,8 +131,8 @@
 						<hr style="margin: 10px;" />
 						<b:row>
 							<div align="right" style="padding-right: 10px;">
-								<b:button value="Vissza" iconAwesome="arrow-left" dismiss="modal"
-									style="margin: 0px 5px;" />
+								<b:button value="Vissza" iconAwesome="arrow-left"
+									dismiss="modal" style="margin: 0px 5px;" />
 								<b:commandButton value="Mentés" iconAwesome="save"
 									action="#{patrolFee.saveFee(patrolFee.newFee)}" />
 							</div>

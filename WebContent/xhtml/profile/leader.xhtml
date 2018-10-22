@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:t="http://tulok.vzma.hu/tags">
+<h:head>
+	<h:outputStylesheet name="css/styles.css" />
+</h:head>
+<h:body>
+	<ui:composition template="/xhtml/profile/profileFrame.xhtml">
+		<ui:define name="innerContent">
+
+			<b:form>
+				<t:pageHeader title="Vezetői adatok" saveBean="#{profileLeader}"
+					saveMethod="saveEdit" undoBean="#{profileController}"
+					undoMethod="undoEdit" />
+				<t:table>
+					<t:rowWithLabel label="Vezető lett">
+						<t:datepicker
+							value="#{profileController.scout.leader.becomeleader}" />
+					</t:rowWithLabel>
+				</t:table>
+				<t:table>
+					<h:outputText value="Vezetői őrs" styleClass="subTitle" />
+					<t:rowWithLabel label="Egy dátum">
+						<t:datepicker
+							value="#{profileController.scout.leader.leaderpromise}" />
+					</t:rowWithLabel>
+					<t:rowWithLabel label="Egy szó">
+						<t:textField value="#{profileController.scout.leader.leadername}" />
+					</t:rowWithLabel>
+					<t:rowWithLabel label="Mégegy">
+						<t:textField value="#{profileController.scout.leader.food}" />
+					</t:rowWithLabel>
+				</t:table>
+				<t:table>
+					<h:outputText value="Csotthonkulcs" styleClass="subTitle" />
+					<t:rowWithLabel label="Sorszám">
+						<t:textField value="#{profileController.scout.leader.keynum}" />
+					</t:rowWithLabel>
+					<t:rowWithLabel label="Átvétel ideje">
+						<t:datepicker value="#{profileController.scout.leader.keydate}" />
+					</t:rowWithLabel>
+				</t:table>
+				<b:panelGrid colSpans="12">
+					<h:outputText value="Vezetett egységek" styleClass="subTitle" />
+					<b:dataTable value="#{profileController.scout.leader.patrols}"
+						var="item" info="false" paginated="false" searching="false"
+						rowHighlight="false" styleClass="tableNoHeader"
+						rendered="#{not empty profileController.scout.leader.patrols}">
+						<b:dataTableColumn>
+							<b:link value="#{item.getName()} őrs"
+								href="#{item.getPatrolUrl()}" />
+						</b:dataTableColumn>
+					</b:dataTable>
+					<h:outputText value="Nincs megbizatásod"
+						rendered="#{empty profileController.scout.leader.patrols}" />
+				</b:panelGrid>
+				<t:table>
+					<h:outputText value="Egyéb jogosultságok" styleClass="subTitle" />
+					<t:row>
+						<h:outputText
+							value="#{profileController.scout.leader.getExtraInfo()}" />
+					</t:row>
+				</t:table>
+
+
+			</b:form>
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

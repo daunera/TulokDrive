@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:t="http://tulok.vzma.hu/tags">
+<h:head>
+	<h:outputStylesheet name="css/styles.css" />
+</h:head>
+<h:body>
+	<ui:composition template="/xhtml/layout/commonLayout.xhtml">
+
+		<ui:param name="pageTitle" value="Hiba" />
+
+		<ui:define name="content">
+
+			<b:panel title="Hozzáférési hiba" collapsible="false">
+				<div align="center">
+					<b:panelGrid colSpans="12">
+						<b:iconAwesome name="ban" size="5x" />
+						<h:outputLabel value="Ajjaj, rossz zsebben turkálsz!"
+							styleClass="tabTitle" />
+						<h:outputText value="Olyat akarsz, amit nem szabad?" />
+						<br />
+						<h:outputText
+							value="Nincs hozzáférésed a megtekinteni kívánt oldalhoz :("
+							styleClass="subTitle" />
+					</b:panelGrid>
+				</div>
+			</b:panel>
+
+		</ui:define>
+
+	</ui:composition>
+</h:body>
+</html>

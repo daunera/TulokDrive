@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:t="http://tulok.vzma.hu/tags">
+<h:head>
+	<h:outputStylesheet name="css/styles.css" />
+</h:head>
+<h:body>
+	<ui:composition template="/xhtml/layout/commonLayout.xhtml">
+
+		<ui:param name="pageTitle"
+			value="#{profileController.scout.person.getFullName()}" />
+		<ui:param name="pageLink"
+			value="#{profileController.scout.getScoutUrl()}" />
+
+		<ui:define name="content">
+
+			<b:panel title="#{pageTitle}" collapsible="false" contentClass="panelNoPadding">
+						
+				<b:tabLinks>
+					<b:navLink value="Személyes"
+						href="#{profileController.scout.getScoutUrl()}"
+						active="#{profileController.isThisActiveTab('PERSONAL')}" />
+					<b:navLink value="Szülők"
+						href="#{profileController.scout.getScoutUrl()}/parents"
+						active="#{profileController.isThisActiveTab('PARENTS')}" />
+					<b:navLink value="Cserkész"
+						href="#{profileController.scout.getScoutUrl()}/scoutinfo"
+						active="#{profileController.isThisActiveTab('SCOUTINFO')}" />
+					<b:navLink value="Vezetői"
+						href="#{profileController.scout.getScoutUrl()}/leader"
+						active="#{profileController.isThisActiveTab('LEADER')}"
+						rendered="#{profileController.scout.isALeader()}" />
+					<b:navLink value="Beállítások"
+						href="#{userController.getRootUrl()}user/settings" icon-awesome="gear"
+						rendered="#{profileController.scout.id eq userController.leader.scout.id}" />
+				</b:tabLinks>
+				<div class="fakeTabPadding">
+					<b:form>
+
+						<ui:insert name="innerContent">
+							<ui:include src="/xhtml/layout/commonContent.xhtml" />
+						</ui:insert>
+
+					</b:form>
+				</div>
+			</b:panel>
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

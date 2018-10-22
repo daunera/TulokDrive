@@ -153,6 +153,22 @@
 		<source>tags/table.xhtml</source>
 	</tag>
 	<tag>
+		<tag-name>entityLink</tag-name>
+		<source>tags/entityLink.xhtml</source>
+		<attribute>
+			<name>edit</name>
+		</attribute>
+		<attribute>
+			<name>mode</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>entity</name>
+			<required>true</required>
+		</attribute>
+	</tag>
+
+	<tag>
 		<tag-name>addressModal</tag-name>
 		<source>tags/modals/addressModal.xhtml</source>
 		<attribute>

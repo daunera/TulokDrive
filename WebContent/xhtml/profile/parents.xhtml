@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:t="http://tulok.vzma.hu/tags">
+<h:head>
+	<h:outputStylesheet name="css/styles.css" />
+</h:head>
+<h:body>
+	<ui:composition template="/xhtml/profile/profileFrame.xhtml">
+		<ui:define name="innerContent">
+
+			<b:form>
+				<t:pageHeader title="Szülők adatai" undoBean="#{profileController}"
+					undoMethod="undoEdit" saveButton="false" />
+				<b:panelGrid colSpans="6,6">
+					<b:panelGrid colSpans="12">
+						<b:panelGrid colSpans="3,9">
+							<h:outputText value="Anya" styleClass="subTitle" />
+							<b:commandButton value="Módosít" iconAwesome="pencil" ajax="true"
+								update="@(.parent_modal)"
+								onclick="ajax:parentBean.setForModal(profileController.scout, 'FEMALE')"
+								oncomplete="$('.parent_modal').modal();return false;"
+								rendered="#{userController.edit}" />
+						</b:panelGrid>
+						<t:table>
+							<t:rowWithLabel label="Vezetéknév">
+								<h:outputText
+									value="#{profileController.scout.person.mother.lastname}" />
+							</t:rowWithLabel>
+							<t:rowWithLabel label="Keresztnév">
+								<h:outputText
+									value="#{profileController.scout.person.mother.firstname}" />
+							</t:rowWithLabel>
+							<t:rowWithLabel label="Email">
+								<h:outputText
+									value="#{profileController.scout.person.mother.email}" />
+							</t:rowWithLabel>
+							<t:rowWithLabel label="Telefon">
+								<h:outputText
+									value="#{profileController.scout.person.mother.phone}" />
+							</t:rowWithLabel>
+							<t:rowWithLabel label="Egyéb">
+								<h:outputText
+									value="#{profileController.scout.person.mother.other}" />
+							</t:rowWithLabel>
+						</t:table>
+					</b:panelGrid>
+					<b:panelGrid colSpans="12">
+						<b:panelGrid colSpans="3,9">
+							<h:outputText value="Apa" styleClass="subTitle" />
+							<b:commandButton value="Módosít" iconAwesome="pencil" ajax="true"
+								update="@(.parent_modal)"
+								onclick="ajax:parentBean.setForModal(profileController.scout, 'MALE')"
+								oncomplete="$('.parent_modal').modal();return false;"
+								rendered="#{userController.edit}" />
+						</b:panelGrid>
+						<t:table>
+							<t:rowWithLabel label="Vezetéknév">
+								<h:outputText
+									value="#{profileController.scout.person.father.lastname}" />
+							</t:rowWithLabel>
+							<t:rowWithLabel label="Keresztnév">
+								<h:outputText
+									value="#{profileController.scout.person.father.firstname}" />
+							</t:rowWithLabel>
+							<t:rowWithLabel label="Email">
+								<h:outputText
+									value="#{profileController.scout.person.father.email}" />
+							</t:rowWithLabel>
+							<t:rowWithLabel label="Telefon">
+								<h:outputText
+									value="#{profileController.scout.person.father.phone}" />
+							</t:rowWithLabel>
+							<t:rowWithLabel label="Egyéb">
+								<h:outputText
+									value="#{profileController.scout.person.father.other}" />
+							</t:rowWithLabel>
+						</t:table>
+					</b:panelGrid>
+				</b:panelGrid>
+
+				<t:parentModal scout="#{profileController.scout}"/>
+			</b:form>
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

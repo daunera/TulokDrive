@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:t="http://tulok.vzma.hu/tags">
+<h:head>
+	<h:outputStylesheet name="css/styles.css" />
+</h:head>
+<h:body>
+	<ui:composition template="/xhtml/team/teamFrame.xhtml">
+		<ui:define name="innerContent">
+
+			<b:form>
+				<t:pageHeader title="Vezetők" saveBean="#{teamLeader}"
+					saveMethod="saveEdit" undoBean="#{userController}"
+					undoMethod="changeEdit">
+					<b:commandButton value="Új vezető" iconAwesome="plus" ajax="true"
+						update="@(.new_leader_modal)"
+						onclick="ajax:teamLeader.setForNewLeaderModal()"
+						oncomplete="$('.new_leader_modal').modal();return false;"
+						size="md" style="margin: 0px 5px 0px 0px"
+						rendered="#{userController.edit}" />
+				</t:pageHeader>
+
+				<b:tabView pills="true">
+
+					<b:tab title="Névsor">
+						<b:dataTable value="#{teamLeader.leaders}" var="leader"
+							info="false" paginated="false" searching="false"
+							scrollHorizontally="true">
+							<b:dataTableColumn label="Név">
+								<b:link value="#{leader.scout.person.getFullName()}"
+									href="#{leader.scout.getScoutUrl()}"
+									rendered="#{not userController.edit}" />
+								<h:outputText value="#{leader.scout.person.getFullName()}"
+									rendered="#{userController.edit}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Vezető lett">
+								<h:outputText value="#{leader.getSimpleBecomedate()}"
+									rendered="#{not userController.edit}" />
+								<b:datepicker value="#{leader.becomeleader}"
+									rendered="#{userController.edit}" mode="popup"
+									changeMonth="true" changeYear="true" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Vezetett egységek">
+								<div>
+									<b:commandButton iconAwesome="pencil" ajax="true"
+										update="@(.set_patrol_modal)"
+										onclick="ajax:teamLeader.setForSetPatrolModal(leader)"
+										oncomplete="$('.set_patrol_modal').modal();return false;"
+										size="xs" style="margin: 0px 5px 0px 0px"
+										rendered="#{userController.edit}" />
+									<ui:repeat var="patrol"
+										value="#{teamLeader.orderSet(leader.patrols)}" varStatus="var">
+										<b:link value="#{patrol.getName()} őrs"
+											href="#{patrol.getPatrolUrl()}" />
+										<h:outputText value=", " rendered="#{not var.last}" />
+									</ui:repeat>
+								</div>
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Egyéb jogosultság">
+								<div>
+									<b:commandButton iconAwesome="pencil" ajax="true"
+										update="@(.extra_leader_modal)"
+										onclick="ajax:teamLeader.setForLeaderModal(leader)"
+										oncomplete="$('.extra_leader_modal').modal();return false;"
+										size="xs" style="margin: 0px 5px 0px 0px"
+										rendered="#{userController.edit}" />
+									<h:outputText value="#{leader.getExtraInfo()}" />
+								</div>
+							</b:dataTableColumn>
+						</b:dataTable>
+					</b:tab>
+
+					<b:tab title="Vezetői őrsi adatok">
+						<b:dataTable value="#{teamLeader.leaders}" var="leader"
+							info="false" paginated="false" searching="false"
+							scrollHorizontally="true">
+							<b:dataTableColumn label="Név">
+								<b:link value="#{leader.scout.person.getFullName()}"
+									href="#{leader.scout.getScoutUrl()}"
+									rendered="#{not userController.edit}" />
+								<h:outputText value="#{leader.scout.person.getFullName()}"
+									rendered="#{userController.edit}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Egy dátum">
+								<h:outputText value="#{leader.getSimplePromisedate()}"
+									rendered="#{not userController.edit}" />
+								<b:datepicker value="#{leader.leaderpromise}"
+									rendered="#{userController.edit}" mode="popup"
+									changeMonth="true" changeYear="true" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Egy szó">
+								<h:outputText value="#{leader.leadername}"
+									rendered="#{not userController.edit}" />
+								<b:inputText value="#{leader.leadername}"
+									rendered="#{userController.edit}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Mégegy">
+								<h:outputText value="#{leader.food}"
+									rendered="#{not userController.edit}" />
+								<b:inputText value="#{leader.food}"
+									rendered="#{userController.edit}" />
+							</b:dataTableColumn>
+						</b:dataTable>
+					</b:tab>
+
+					<b:tab title="Csotthonkulcs">
+						<b:dataTable value="#{teamLeader.leaders}" var="leader"
+							info="false" paginated="false" searching="false"
+							scrollHorizontally="true">
+							<b:dataTableColumn label="Név">
+								<b:link value="#{leader.scout.person.getFullName()}"
+									href="#{leader.scout.getScoutUrl()}"
+									rendered="#{not userController.edit}" />
+								<h:outputText value="#{leader.scout.person.getFullName()}"
+									rendered="#{userController.edit}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Kulcs sorszám">
+								<h:outputText value="#{leader.keynum}"
+									rendered="#{not userController.edit}" />
+								<b:inputText value="#{leader.keynum}"
+									rendered="#{userController.edit}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Átvétel ideje">
+								<h:outputText value="#{leader.getSimpleKeydate()}"
+									rendered="#{not userController.edit}" />
+								<b:datepicker value="#{leader.keydate}"
+									rendered="#{userController.edit}" mode="popup"
+									changeMonth="true" changeYear="true" />
+							</b:dataTableColumn>
+						</b:dataTable>
+					</b:tab>
+
+					<b:tab title="Felhasználók">
+						<b:dataTable value="#{teamLeader.leaders}" var="leader"
+							info="false" paginated="false" searching="false"
+							scrollHorizontally="true">
+							<b:dataTableColumn label="Név">
+								<b:link value="#{leader.scout.person.getFullName()}"
+									href="#{leader.scout.getScoutUrl()}"
+									rendered="#{not userController.edit}" />
+								<h:outputText value="#{leader.scout.person.getFullName()}"
+									rendered="#{userController.edit}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Felhasználónév">
+								<h:outputText value="#{leader.username}"
+									rendered="#{not userController.edit}" />
+								<b:inputText value="#{leader.username}"
+									rendered="#{userController.edit}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Utolsó bejelentkezés">
+								<h:outputText value="#{leader.lastlogin}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Jelszó"
+								rendered="#{userController.edit}">
+								<b:commandButton ajax="true" value="Új jelszó generálás"
+									look="link" update="@(.new_password_modal)"
+									onclick="ajax:teamLeader.setForNewPasswordModal(leader)"
+									oncomplete="$('.new_password_modal').modal();return false;"
+									rendered="#{userController.edit}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="" rendered="#{userController.edit}">
+								<div>
+									<b:commandButton iconAwesome="trash" ajax="true"
+										update="@(.delete_leader_modal)"
+										onclick="ajax:teamLeader.setForLeaderModal(leader)"
+										oncomplete="$('.delete_leader_modal').modal();return false;"
+										rendered="#{userController.edit}" />
+								</div>
+							</b:dataTableColumn>
+						</b:dataTable>
+					</b:tab>
+
+				</b:tabView>
+
+				<b:modal
+					title="#{teamLeader.editedLeader.scout.person.getFullName()} egyéb jogosulságai"
+					styleClass="extra_leader_modal" rendered="#{userController.edit}">
+					<b:panelGrid colSpans="12" offset="1">
+						<b:selectBooleanCheckbox value="#{teamLeader.editedLeader.god}"
+							caption="adminisztrátor (cspk jogkör)" />
+						<b:selectBooleanCheckbox
+							value="#{teamLeader.editedLeader.uniformer}"
+							caption="cserkészing felelős" />
+						<b:selectBooleanCheckbox value="" caption="szülinaptáros"
+							disabled="true" />
+						<b:selectBooleanCheckbox value="" caption="csapatotthon gondnok"
+							disabled="true" />
+						<b:selectBooleanCheckbox value="" caption="takarítás felelős"
+							disabled="true" />
+					</b:panelGrid>
+					<b:panelGrid colSpans="12">
+						<hr style="margin: 10px;" />
+						<b:row>
+							<div align="right" style="padding-right: 10px;">
+								<b:button value="Vissza" iconAwesome="arrow-left"
+									dismiss="modal" style="margin: 0px 5px;" />
+								<b:commandButton value="Mentés" iconAwesome="save"
+									action="#{teamLeader.saveExtraPermissions(teamLeader.editedLeader)}" />
+							</div>
+						</b:row>
+					</b:panelGrid>
+				</b:modal>
+
+				<b:modal
+					title="#{teamLeader.editedLeader.scout.person.getFullName()} vezető törlése"
+					styleClass="delete_leader_modal" rendered="#{userController.edit}">
+					<b:panelGrid colSpans="12">
+						<h:outputLabel
+							value="Biztosan szeretnéd törölni a #{teamLeader.editedLeader.scout.person.getFullName()} nevű vezetőt?" />
+						<hr style="margin: 10px;" />
+						<b:row>
+							<div align="right" style="padding-right: 10px;">
+								<b:button value="Vissza" iconAwesome="arrow-left"
+									dismiss="modal" style="margin: 0px 5px;" />
+								<b:commandButton value="Törlés" iconAwesome="trash"
+									action="#{teamLeader.deleteLeader(teamLeader.editedLeader)}" />
+							</div>
+						</b:row>
+					</b:panelGrid>
+				</b:modal>
+
+				<b:modal
+					title="#{teamLeader.editedLeader.scout.person.getFullName()} vezetett őrseinek szerkesztése"
+					styleClass="set_patrol_modal" rendered="#{userController.edit}">
+					<b:tabView pills="true" activeIndex="0">
+						<b:tab title="Új őrs">
+							<br />
+							<b:panelGrid colSpans="12"
+								rendered="#{not empty teamLeader.choosablePatrol}">
+								<h:outputLabel
+									value="Válassz a listából egy őrsöt, amihez hozzá szeretnéd adni:" />
+								<b:selectOneMenu value="#{teamLeader.patrolToAdd}"
+									rendered="#{not empty teamLeader.patrolToAdd}">
+									<f:selectItems value="#{teamLeader.choosablePatrol}"
+										var="patrol" itemValue="#{patrol}"
+										itemLabel="#{patrol.name} őrs" />
+								</b:selectOneMenu>
+								<hr style="margin: 10px;" />
+								<b:row>
+									<div align="right" style="padding-right: 10px;">
+										<b:button value="Vissza" iconAwesome="arrow-left"
+											dismiss="modal" style="margin: 0px 5px;" />
+										<b:commandButton value="Hozzáad" iconAwesome="save"
+											action="#{teamLeader.addPatrol(teamLeader.editedLeader, teamLeader.patrolToAdd)}" />
+									</div>
+								</b:row>
+							</b:panelGrid>
+							<b:panelGrid colSpans="12"
+								rendered="#{empty teamLeader.choosablePatrol}">
+								<h:outputText value="Nincs olyan őrs, akihez hozzáadhatnád." />
+								<hr style="margin: 10px;" />
+								<b:row>
+									<div align="right" style="padding-right: 10px;">
+										<b:button value="Vissza" iconAwesome="arrow-left"
+											dismiss="modal" />
+									</div>
+								</b:row>
+							</b:panelGrid>
+						</b:tab>
+						<b:tab title="Őrs törlése"
+							rendered="#{not empty teamLeader.editedLeader.patrols}">
+							<br />
+							<b:panelGrid colSpans="12">
+								<h:outputLabel
+									value="Válassz a listából egy őrsöt, amiről törölni szeretnéd:" />
+								<b:selectOneMenu value="#{teamLeader.patrolToDelete}"
+									rendered="#{not empty teamLeader.patrolToDelete}">
+									<f:selectItems
+										value="#{teamLeader.orderSet(teamLeader.editedLeader.patrols)}"
+										var="patrol" itemValue="#{patrol}"
+										itemLabel="#{patrol.name} őrs" />
+								</b:selectOneMenu>
+								<hr style="margin: 10px;" />
+								<b:row>
+									<div align="right" style="padding-right: 10px;">
+										<b:button value="Vissza" iconAwesome="arrow-left"
+											dismiss="modal" style="margin: 0px 5px;" />
+										<b:commandButton value="Töröl" iconAwesome="trash"
+											action="#{teamLeader.deletePatrol(teamLeader.editedLeader, teamLeader.patrolToDelete)}" />
+									</div>
+								</b:row>
+							</b:panelGrid>
+						</b:tab>
+					</b:tabView>
+				</b:modal>
+
+				<b:modal
+					title="#{teamLeader.editedLeader.scout.person.getFullName()} vezetőnek új jelszó generálása"
+					styleClass="new_password_modal" rendered="#{userController.edit}">
+					<b:panelGrid colSpans="3,9">
+						<h:outputLabel value="Generált jelszó:" />
+						<h:outputText value="#{teamLeader.generatedPassword}" />
+					</b:panelGrid>
+					<br />
+					<b:panelGrid colSpans="12">
+						<h:outputLabel
+							value="Biztosan szeretnél új jelszót generálni a #{teamLeader.editedLeader.scout.person.getFullName()} nevű vezetőnek?" />
+						<hr style="margin: 10px;" />
+						<b:row>
+							<div align="right" style="padding-right: 10px;">
+								<b:button value="Vissza" iconAwesome="arrow-left"
+									dismiss="modal" style="margin: 0px 5px;" />
+								<b:commandButton value="Igen" iconAwesome="save"
+									action="#{teamLeader.saveNewGeneratedPassword(teamLeader.editedLeader, teamLeader.generatedPassword)}" />
+							</div>
+						</b:row>
+					</b:panelGrid>
+				</b:modal>
+
+			</b:form>
+
+			<b:form>
+				<b:modal title="Új vezető hozzáadása" styleClass="new_leader_modal"
+					rendered="#{userController.edit}">
+					<b:panelGrid colSpans="4,8">
+						<h:outputLabel value="Válassz cserkészt:*" />
+						<b:selectOneMenu value="#{teamLeader.newLeader.scout}"
+							required="true">
+							<f:selectItems value="#{teamLeader.scouts}" var="scout"
+								itemValue="#{scout}" itemLabel="#{scout.person.getFullName()}" />
+						</b:selectOneMenu>
+						<h:outputLabel value="Vezető lett:" />
+						<b:datepicker value="#{teamLeader.newLeader.becomeleader}"
+							mode="popup-icon" changeMonth="true" changeYear="true" />
+						<h:outputLabel value="Felhasználónév:*" />
+						<b:inputText value="#{teamLeader.newLeader.username}"
+							required="true" />
+						<h:outputLabel value="Email:*" />
+						<b:inputText value="#{teamLeader.newLeader.scout.person.email}"
+							required="true" />
+						<h:outputLabel value="Jelszó:" />
+						<h:outputText value="#{teamLeader.generatedPassword}" />
+					</b:panelGrid>
+					<div align="right">
+						<h:outputText value="*kötelező kitölteni" />
+					</div>
+					<b:panelGrid colSpans="12">
+						<hr style="margin: 10px;" />
+						<b:row>
+							<div align="right" style="padding-right: 10px;">
+								<b:button value="Vissza" iconAwesome="arrow-left"
+									dismiss="modal" style="margin: 0px 5px;" />
+								<b:commandButton value="Létrehoz" iconAwesome="save" ajax="true"
+									onclick="ajax:teamLeader.saveLeader(teamLeader.newLeader)"
+									process="@form" />
+							</div>
+						</b:row>
+					</b:panelGrid>
+				</b:modal>
+			</b:form>
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

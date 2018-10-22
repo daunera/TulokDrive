@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:t="http://tulok.vzma.hu/tags">
+<h:head>
+	<h:outputStylesheet name="css/styles.css" />
+</h:head>
+<h:body>
+	<ui:composition template="/xhtml/team/teamFrame.xhtml">
+		<ui:define name="innerContent">
+
+			<b:form>
+				<b:row styleClass="pulledRow">
+					<h:outputLabel value="Cserkészek névsora" styleClass="tabTitle" />
+				</b:row>
+				<b:dataTable value="#{teamInfo.scouts}" var="scout" info="false"
+					paginated="false">
+					<b:dataTableColumn label="Név">
+						<b:link value="#{scout.person.getFullName()}"
+							href="#{scout.getScoutUrl()}" />
+					</b:dataTableColumn>
+					<b:dataTableColumn label="Aktivitás">
+						<h:outputText value="#{scout.status.label}" />
+					</b:dataTableColumn>
+					<b:dataTableColumn label="Nem">
+						<h:outputText value="#{scout.person.gender.label}" />
+					</b:dataTableColumn>
+					<b:dataTableColumn label="Vallás">
+						<h:outputText value="#{scout.person.religion.label}" />
+					</b:dataTableColumn>
+				</b:dataTable>
+
+			</b:form>
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

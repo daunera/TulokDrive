@@ -7,21 +7,18 @@
 	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:t="http://tulok.vzma.hu/tags">
+<h:head>
+	<h:outputStylesheet name="css/styles.css" />
+</h:head>
 <h:body>
-
 	<ui:composition>
-
-		<c:if test="#{empty edit}">
-			<c:set var="edit" value="#{userController.edit}" />
-		</c:if>
-
-		<h:outputText value="#{value}" rendered="#{not edit}" />
-		<b:inputText value="#{value}" rendered="#{edit}" mask="#{mask}"
-			placeholder="#{placeholder}" readonly="#{readonly}"
-			tooltip="#{tooltip}">
-			<ui:insert />
-		</b:inputText>
-		
+		<div class="footer">
+			<h:outputText value="#{now}">
+				<f:convertDateTime pattern="yyyy " type="date" />
+			</h:outputText>
+			<b:iconAwesome name="heart"/>
+			Városmajori cserkészek
+		</div>
 	</ui:composition>
 </h:body>
 </html>

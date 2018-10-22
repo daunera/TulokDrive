@@ -77,5 +77,38 @@ public class Permission implements Serializable {
 		userController.redirectRelative("error/permission");
 		return false;
 	}
+	
+	public boolean checkScoutPermissionNoRedir(Integer scoutid) {
+		userController.reloadPatrolName();
+		if (userController.getLeader().isAGod())
+			return true;
+		if (userController.getLeader().getScout().getId().equals(scoutid))
+			return true;
+
+		for (Patrol p : userController.getPatrols()) {
+			for (Scout s : p.getScouts()) {
+				if (s.getId().equals(scoutid))
+					return true;
+			}
+		}
+
+		return false;
+	}
+
+	public boolean checkPatrolPermissionNoRedir(Integer patrolid) {
+		userController.reloadPatrolName();
+		if (userController.getLeader().isAGod())
+			return true;
+
+		for (Patrol p : userController.getPatrols())
+			if (p.getId().equals(patrolid))
+				return true;
+
+		for (Patrol p : userController.getLeader().getScout().getPatrols())
+			if (p.getId().equals(patrolid))
+				return true;
+
+		return false;
+	}
 
 }

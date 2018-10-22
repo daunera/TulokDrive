@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:t="http://tulok.vzma.hu/tags">
+<h:head>
+	<h:outputStylesheet name="css/styles.css" />
+</h:head>
+<h:body>
+	<ui:composition template="/xhtml/patrol/patrolFrame.xhtml">
+		<ui:define name="innerContent">
+
+			<b:form>
+				<b:row styleClass="pulledRow">
+					<div>
+						<h:outputLabel value="Személyes adatok" styleClass="tabTitle" />
+						<span style="padding-right: 15px; float: right"> <b:commandButton
+								value="Szerkesztés" iconAwesome="pencil"
+								rendered="#{not userController.edit}"
+								action="#{userController.changeEdit()}" look="info" size="md" />
+							<b:commandButton value="Mentés" iconAwesome="save"
+								rendered="#{userController.edit}"
+								action="#{patrolPersonal.saveEdit()}" look="warning" size="md"
+								style="margin: 0px 5px 0px 0px" /> <b:commandButton
+								value="Vissza" iconAwesome="arrow-left"
+								rendered="#{userController.edit}"
+								action="#{patrolController.undoEdit()}" look="default" size="md" />
+						</span>
+					</div>
+				</b:row>
+				<b:tabView pills="true">
+					<b:tab title="Név és születés">
+						<b:dataTable value="#{patrolController.scoutList}" var="scout"
+							info="false" paginated="false" searching="false"
+							scrollHorizontally="true">
+							<b:dataTableColumn label="Név">
+								<b:inputText value="#{scout.person.lastname}"
+									placeholder="Vezetéknév" rendered="#{userController.edit}"
+									fieldSize="sm" />
+								<b:inputText value="#{scout.person.firstname}"
+									placeholder="Keresztnév" rendered="#{userController.edit}"
+									fieldSize="sm" />
+								<b:link value="#{scout.person.getFullName()}"
+									href="#{scout.getScoutUrl()}"
+									rendered="#{not userController.edit}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Becenév">
+								<b:inputText value="#{scout.person.nickname}"
+									rendered="#{userController.edit}" fieldSize="sm" />
+								<h:outputText value="#{scout.person.nickname}"
+									rendered="#{not userController.edit}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Születési hely">
+								<b:inputText value="#{scout.person.birthplace}"
+									rendered="#{userController.edit}" fieldSize="sm" />
+								<h:outputText value="#{scout.person.birthplace}"
+									rendered="#{not userController.edit}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Születési idő">
+								<b:datepicker value="#{scout.person.birthdate}"
+									rendered="#{userController.edit}" mode="popup"
+									changeMonth="true" changeYear="true" />
+								<h:outputText value="#{scout.person.getSimpleBirthdate()}"
+									rendered="#{not userController.edit}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Névnap">
+								<b:inputText value="#{scout.person.nameday}" placeholder="hh-nn"
+									mask="99-99" rendered="#{userController.edit}" fieldSize="sm" />
+								<h:outputText value="#{scout.person.nameday}"
+									rendered="#{not userController.edit}" />
+							</b:dataTableColumn>
+						</b:dataTable>
+					</b:tab>
+
+					<b:tab title="Elérhetőség">
+						<b:dataTable value="#{patrolController.scoutList}" var="scout"
+							info="false" paginated="false" searching="false"
+							scrollHorizontally="true">
+							<b:dataTableColumn label="Név">
+								<b:link value="#{scout.person.getFullName()}"
+									href="#{scout.getScoutUrl()}"
+									rendered="#{not userController.edit}" />
+								<h:outputText value="#{scout.person.getFullName()}"
+									rendered="#{userController.edit}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Email">
+								<b:inputText value="#{scout.person.email}"
+									rendered="#{userController.edit}" fieldSize="sm" />
+								<h:outputText value="#{scout.person.email}"
+									rendered="#{not userController.edit}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Telefon">
+								<b:inputText value="#{scout.person.phone}"
+									rendered="#{userController.edit}" fieldSize="sm" />
+								<h:outputText value="#{scout.person.phone}"
+									rendered="#{not userController.edit}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Cím">
+								<b:panelGrid colSpans="10,2" rendered="#{userController.edit}"
+									style="margin-right:5px">
+									<h:outputText
+										value="#{scout.person.address.getFullAddressWithPhone()}" />
+									<b:commandButton iconAwesome="pencil" ajax="true"
+										update="@(.address_modal)"
+										onclick="ajax:patrolPersonal.setForModal(scout)"
+										oncomplete="$('.address_modal').modal();return false;" />
+								</b:panelGrid>
+								<h:outputText rendered="#{not userController.edit}"
+									value="#{scout.person.address.getFullAddressWithPhone()}" />
+							</b:dataTableColumn>
+						</b:dataTable>
+
+						<b:modal
+							title="#{patrolController.moddedScout.person.getFullName()} címének szerkesztése"
+							styleClass="address_modal" rendered="#{userController.edit}">
+							<b:tabView pills="true" activeIndex="0">
+								<b:tab title="Meglévő címek">
+									<br />
+									<h:outputLabel value="Válassz a meglévő címek közül:" />
+									<b:selectOneMenu value="#{patrolPersonal.selectedAddress}"
+										ajax="true" update="addressInputs">
+										<f:selectItems value="#{patrolPersonal.addresses}" var="item"
+											itemLabel="#{item.getFullAddressWithPhone()}"
+											itemValue="#{item}" />
+									</b:selectOneMenu>
+									<b:panelGrid colSpans="2,10" id="addressInputs">
+										<h:outputLabel value="Ország*:" />
+										<b:inputText value="#{patrolPersonal.selectedAddress.country}"
+											span="12" />
+										<h:outputLabel value="Irányítószám*:" />
+										<b:row>
+											<b:inputText
+												value="#{patrolPersonal.selectedAddress.postcode}" span="3" />
+											<b:row>
+												<b:column span="2">
+													<h:outputLabel value="Város*:" />
+												</b:column>
+												<b:column span="6">
+													<b:inputText value="#{patrolPersonal.selectedAddress.city}" />
+												</b:column>
+											</b:row>
+										</b:row>
+										<h:outputLabel value="Utca, házszám*:" />
+										<b:inputText value="#{patrolPersonal.selectedAddress.street}" />
+										<h:outputLabel value="Egyéb:" />
+										<b:inputText value="#{patrolPersonal.selectedAddress.other}" />
+										<h:outputLabel value="Telefon:" />
+										<b:inputText value="#{patrolPersonal.selectedAddress.phone}" />
+									</b:panelGrid>
+
+									<hr style="margin: 10px;" />
+									<b:panelGrid colSpans="12">
+										<b:row>
+											<div align="right" style="padding-right: 10px;">
+												<b:commandButton value="Törlés" iconAwesome="trash"
+													action="#{patrolPersonal.deleteAddress(patrolController.moddedScout)}" />
+												<b:button value="Vissza" iconAwesome="arrow-left"
+													dismiss="modal" style="margin: 0px 5px;" />
+												<b:commandButton value="Módosít" iconAwesome="save"
+													action="#{patrolPersonal.saveAddress(patrolController.moddedScout, patrolPersonal.selectedAddress)}" />
+											</div>
+										</b:row>
+									</b:panelGrid>
+								</b:tab>
+								<b:tab title="Új cím hozzáadása">
+									<br />
+									<h:outputLabel value="Hozz létre új címet:" />
+									<br />
+									<br />
+									<b:panelGrid colSpans="2,10">
+										<h:outputLabel value="Ország*:" />
+										<b:inputText value="#{patrolPersonal.newAddress.country}" />
+										<h:outputLabel value="Irányítószám*:" />
+										<b:row>
+											<b:inputText value="#{patrolPersonal.newAddress.postcode}"
+												span="3" />
+											<b:row>
+												<b:column span="2">
+													<h:outputLabel value="Város*:" />
+												</b:column>
+												<b:column span="6">
+													<b:inputText value="#{patrolPersonal.newAddress.city}" />
+												</b:column>
+											</b:row>
+										</b:row>
+										<h:outputLabel value="Utca, házszám*:" />
+										<b:inputText value="#{patrolPersonal.newAddress.street}" />
+										<h:outputLabel value="Egyéb:" />
+										<b:inputText value="#{patrolPersonal.newAddress.other}" />
+										<h:outputLabel value="Telefon:" />
+										<b:inputText value="#{patrolPersonal.newAddress.phone}" />
+									</b:panelGrid>
+									<hr style="margin: 10px;" />
+									<b:panelGrid colSpans="12">
+										<b:row>
+											<div align="right" style="padding-right: 10px;">
+												<b:button value="Vissza" iconAwesome="arrow-left"
+													dismiss="modal" style="margin: 0px 5px 0px 0px;" />
+												<b:commandButton value="Létrehoz" iconAwesome="save"
+													action="#{patrolPersonal.saveAddress(patrolController.moddedScout, patrolPersonal.newAddress)}" />
+											</div>
+										</b:row>
+									</b:panelGrid>
+								</b:tab>
+							</b:tabView>
+						</b:modal>
+
+					</b:tab>
+
+					<b:tab title="Igazolványok">
+						<b:dataTable value="#{patrolController.scoutList}" var="scout"
+							info="false" paginated="false" searching="false"
+							scrollHorizontally="true">
+							<b:dataTableColumn label="Név">
+								<b:link value="#{scout.person.getFullName()}"
+									href="#{scout.getScoutUrl()}"
+									rendered="#{not userController.edit}" />
+								<h:outputText value="#{scout.person.getFullName()}"
+									rendered="#{userController.edit}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Szem.ig.szám">
+								<b:inputText value="#{scout.person.personcardid}"
+									rendered="#{userController.edit}" fieldSize="sm" />
+								<h:outputText value="#{scout.person.personcardid}"
+									rendered="#{not userController.edit}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="TAJ-szám">
+								<b:inputText value="#{scout.person.tajid}"
+									rendered="#{userController.edit}" fieldSize="sm" />
+								<h:outputText value="#{scout.person.tajid}"
+									rendered="#{not userController.edit}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Diák.ig.szám">
+								<b:inputText value="#{scout.person.studentcardid}"
+									rendered="#{userController.edit}" fieldSize="sm" />
+								<h:outputText value="#{scout.person.studentcardid}"
+									rendered="#{not userController.edit}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="OM-azonosító">
+								<b:inputText value="#{scout.person.omid}"
+									rendered="#{userController.edit}" fieldSize="sm" />
+								<h:outputText value="#{scout.person.omid}"
+									rendered="#{not userController.edit}" />
+							</b:dataTableColumn>
+						</b:dataTable>
+					</b:tab>
+
+					<b:tab title="Egyéb">
+						<b:dataTable value="#{patrolController.scoutList}" var="scout"
+							info="false" paginated="false" searching="false"
+							scrollHorizontally="true">
+							<b:dataTableColumn label="Név">
+								<b:link value="#{scout.person.getFullName()}"
+									href="#{scout.getScoutUrl()}"
+									rendered="#{not userController.edit}" />
+								<h:outputText value="#{scout.person.getFullName()}"
+									rendered="#{userController.edit}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Vallás">
+								<b:selectOneMenu value="#{scout.person.religion}"
+									rendered="#{userController.edit}">
+									<f:selectItems value="#{enums.religions}" var="religion"
+										itemValue="#{religion}" itemLabel="#{religion.label}" />
+								</b:selectOneMenu>
+								<h:outputText value="#{scout.person.religion.label}"
+									rendered="#{not userController.edit}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Ételérzékenység">
+								<b:inputTextarea value="#{scout.person.foodsensitivity}"
+									rendered="#{userController.edit}" fieldSize="sm" rows="1" />
+								<h:outputText value="#{scout.person.foodsensitivity}"
+									rendered="#{not userController.edit}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Betegség">
+								<b:inputTextarea value="#{scout.person.disease}"
+									rendered="#{userController.edit}" fieldSize="sm" rows="1" />
+								<h:outputText value="#{scout.person.disease}"
+									rendered="#{not userController.edit}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Egyéb">
+								<b:inputTextarea value="#{scout.person.other}"
+									rendered="#{userController.edit}" fieldSize="sm" rows="1" />
+								<h:outputText value="#{scout.person.other}"
+									rendered="#{not userController.edit}" />
+							</b:dataTableColumn>
+						</b:dataTable>
+					</b:tab>
+				</b:tabView>
+			</b:form>
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

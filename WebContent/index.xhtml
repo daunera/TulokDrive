@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:t="http://tulok.vzma.hu/tags">
 <h:head>
 	<h:outputStylesheet name="css/styles.css" />
 </h:head>
 <h:body>
-	<ui:composition template="/faces/template/layout/commonLayout.xhtml">
+	<ui:composition template="/xhtml/layout/commonLayout.xhtml">
 
 		<ui:param name="pageTitle" value="Főoldal" />
 		<ui:param name="hideBread" value="true" />
@@ -20,7 +22,7 @@
 				<b:panel styleClass="side-menu" title="Menü" collapsible="true">
 
 					<ui:insert name="side-menu">
-						<ui:include src="/faces/template/layout/commonMenu.xhtml" />
+						<ui:include src="/xhtml/layout/menu.xhtml" />
 					</ui:insert>
 
 				</b:panel>
@@ -45,8 +47,7 @@
 					<ui:repeat var="boi" value="#{mainPage.happyBois}" varStatus="var">
 						<h:outputText
 							value="#{boi.birthdate.getMonth()+1}.#{boi.birthdate.getDate()} - " />
-						<b:link value="#{boi.getFullName()}"
-							href="#{boi.scout.getScoutUrl()}" />
+						<t:entityLink mode="scout" entity="#{boi.scout}"/>
 						<h:outputText value=" (#{boi.getAge()+1} éves)" />
 						<b:row rendered="#{not var.last}">
 							<hr style="margin: 10px;" />

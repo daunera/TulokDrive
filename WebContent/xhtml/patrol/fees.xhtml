@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:t="http://tulok.vzma.hu/tags">
+<h:head>
+	<h:outputStylesheet name="css/styles.css" />
+</h:head>
+<h:body>
+	<ui:composition template="/xhtml/patrol/patrolFrame.xhtml">
+		<ui:define name="innerContent">
+
+			<b:form>
+				<b:panelGrid colSpans="2,2,8">
+					<h:outputLabel value="Tagdíjak" styleClass="tabTitle" />
+					<b:selectOneMenu value="#{patrolFee.selectedYear}" ajax="true"
+						update="feeDataTable">
+						<f:selectItems value="#{patrolFee.years}" var="year"
+							itemValue="#{year}" itemLabel="#{year}" />
+					</b:selectOneMenu>
+					<b:panelGrid colSpans="12">
+						<b:row styleClass="pulledRow">
+							<span style="padding-right: 15px; float: right"> <b:commandButton
+									value="Szerkesztés" iconAwesome="pencil"
+									rendered="#{not userController.edit}"
+									action="#{userController.changeEdit()}" look="info" size="md" />
+								<b:commandButton value="Vissza" iconAwesome="arrow-left"
+									rendered="#{userController.edit}"
+									action="#{userController.changeEdit()}" look="default"
+									size="md" />
+							</span>
+						</b:row>
+					</b:panelGrid>
+				</b:panelGrid>
+				<b:dataTable value="#{patrolController.scoutList}" var="scout"
+					info="false" paginated="false" searching="false"
+					scrollHorizontally="true" id="feeDataTable">
+					<b:dataTableColumn label="Név">
+						<b:link value="#{scout.person.getFullName()}"
+							href="#{scout.getScoutUrl()}"
+							rendered="#{not userController.edit}" />
+						<h:outputText value="#{scout.person.getFullName()}"
+							rendered="#{userController.edit}" />
+					</b:dataTableColumn>
+					<b:dataTableColumn label="" rendered="#{userController.edit}">
+						<div>
+							<b:commandButton iconAwesome="pencil" ajax="true"
+								update="@(.edit_fee_modal)"
+								onclick="ajax:patrolFee.setForSelectedModal(scout.getFeeByYear(patrolFee.selectedYear))"
+								oncomplete="$('.edit_fee_modal').modal();return false;"
+								rendered="#{not empty scout.getFeeByYear(patrolFee.selectedYear) }" />
+							<b:commandButton iconAwesome="plus" ajax="true"
+								update="@(.new_fee_modal)"
+								onclick="ajax:patrolFee.setForNewModal(scout, patrolFee.selectedYear)"
+								oncomplete="$('.new_fee_modal').modal();return false;"
+								rendered="#{empty scout.getFeeByYear(patrolFee.selectedYear)}" />
+						</div>
+					</b:dataTableColumn>
+					<b:dataTableColumn label="Státusz">
+						<h:outputText
+							value="#{scout.getFeeByYear(patrolFee.selectedYear).status.label}" />
+					</b:dataTableColumn>
+					<b:dataTableColumn label="Összeg">
+						<h:outputText
+							value="#{scout.getFeeByYear(patrolFee.selectedYear).amount} Ft"
+							rendered="#{not empty scout.getFeeByYear(patrolFee.selectedYear).amount}" />
+						<h:outputText value=""
+							rendered="#{empty scout.getFeeByYear(patrolFee.selectedYear).amount}" />
+					</b:dataTableColumn>
+					<b:dataTableColumn label="Támogatás">
+						<h:outputText
+							value="#{scout.getFeeByYear(patrolFee.selectedYear).support} Ft"
+							rendered="#{not empty scout.getFeeByYear(patrolFee.selectedYear).support and scout.getFeeByYear(patrolFee.selectedYear).support ne 0}" />
+						<h:outputText value=""
+							rendered="#{empty scout.getFeeByYear(patrolFee.selectedYear).support or scout.getFeeByYear(patrolFee.selectedYear).support eq 0}" />
+					</b:dataTableColumn>
+					<b:dataTableColumn label="Befizetés napja">
+						<h:outputText
+							value="#{scout.getFeeByYear(patrolFee.selectedYear).getSimpleDate()}" />
+					</b:dataTableColumn>
+					<b:dataTableColumn label="Egyéb">
+						<h:outputText
+							value="#{scout.getFeeByYear(patrolFee.selectedYear).getOtherInfo()}" />
+					</b:dataTableColumn>
+
+				</b:dataTable>
+				<b:modal
+					title="#{patrolFee.selectedFee.scout.person.getFullName()} #{patrolFee.selectedFee.year}. évi tagdíj szerkesztése"
+					styleClass="edit_fee_modal" rendered="#{userController.edit}">
+					<b:panelGrid colSpans="4,8">
+						<h:outputLabel value="Státusz:" />
+						<b:selectOneMenu value="#{patrolFee.selectedFee.status}">
+							<f:selectItems value="#{enums.feeStatuses}" var="status"
+								itemValue="#{status}" itemLabel="#{status.label}" />
+						</b:selectOneMenu>
+						<h:outputLabel value="Összeg:" />
+						<b:inputText value="#{patrolFee.selectedFee.amount}" />
+						<h:outputLabel value="Támogatás:" />
+						<b:inputText value="#{patrolFee.selectedFee.support}" />
+						<h:outputLabel value="Befizetés napja:" />
+						<b:datepicker value="#{patrolFee.selectedFee.completeDate}"
+							mode="popup-icon" changeMonth="true" changeYear="true" />
+						<h:outputLabel value="Megjegyzés:" />
+						<b:inputTextarea value="#{patrolFee.selectedFee.other}" rows="2" />
+					</b:panelGrid>
+					<b:panelGrid colSpans="12">
+						<hr style="margin: 10px;" />
+						<b:row>
+							<div align="right" style="padding-right: 10px;">
+								<b:commandButton value="Törlés" iconAwesome="trash"
+									action="#{patrolFee.deleteFee(patrolFee.selectedFee)}" />
+								<b:button value="Vissza" iconAwesome="arrow-left" dismiss="modal"
+									style="margin: 0px 5px;" />
+								<b:commandButton value="Módosít" iconAwesome="save"
+									action="#{patrolFee.saveFee(patrolFee.selectedFee)}" />
+							</div>
+						</b:row>
+					</b:panelGrid>
+				</b:modal>
+				<b:modal
+					title="#{patrolFee.newFee.scout.person.getFullName()} #{patrolFee.newFee.year}. évre új tagdíj"
+					styleClass="new_fee_modal" rendered="#{userController.edit}">
+					<b:panelGrid colSpans="4,8">
+						<h:outputLabel value="Státusz:" />
+						<b:selectOneMenu value="#{patrolFee.newFee.status}">
+							<f:selectItems value="#{enums.feeStatuses}" var="status"
+								itemValue="#{status}" itemLabel="#{status.label}" />
+						</b:selectOneMenu>
+						<h:outputLabel value="Összeg:" />
+						<b:inputText value="#{patrolFee.newFee.amount}" />
+						<h:outputLabel value="Támogatás:" />
+						<b:inputText value="#{patrolFee.newFee.support}" />
+						<h:outputLabel value="Befizetés napja:" />
+						<b:datepicker value="#{patrolFee.newFee.completeDate}"
+							mode="popup-icon" changeMonth="true" changeYear="true" />
+						<h:outputLabel value="Megjegyzés:" />
+						<b:inputTextarea value="#{patrolFee.newFee.other}" rows="2" />
+					</b:panelGrid>
+					<b:panelGrid colSpans="12">
+						<hr style="margin: 10px;" />
+						<b:row>
+							<div align="right" style="padding-right: 10px;">
+								<b:button value="Vissza" iconAwesome="arrow-left" dismiss="modal"
+									style="margin: 0px 5px;" />
+								<b:commandButton value="Mentés" iconAwesome="save"
+									action="#{patrolFee.saveFee(patrolFee.newFee)}" />
+							</div>
+						</b:row>
+					</b:panelGrid>
+				</b:modal>
+			</b:form>
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

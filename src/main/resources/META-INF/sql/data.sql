@@ -1,9 +1,3 @@
-delete from userroles;
-delete from leader;
-delete from scout;
-delete from person;
-delete from address;
-
 insert into address (id, country, city, postcode, street, other, phone) values (100, 'Magyarország', 'Budapest', '2024', 'Kanóc utca 13','első ajtó','+3619876542');
 insert into address (id, country, city, postcode, street, other, phone) values (101, 'Sohaország', 'Budapest', '1122', 'Zsörbéki utca 14','első ajtó','+3619876543');
 insert into address (id, country, city, postcode, street, phone) values (102, 'Magyarország', 'Celdömök', '3010', 'Nonum utca 5','+36202020');

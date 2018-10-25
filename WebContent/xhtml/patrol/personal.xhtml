@@ -21,44 +21,31 @@
 
 				<b:tabView pills="true">
 					<b:tab title="Név és születés">
+						
 						<b:dataTable value="#{patrolController.scoutList}" var="scout"
 							info="false" paginated="false" searching="false"
-							scrollHorizontally="true">
+							scrollHorizontally="true" border="false" striped="false">
 							<b:dataTableColumn label="Név">
 								<b:inputText value="#{scout.person.lastname}"
-									placeholder="Vezetéknév" rendered="#{userController.edit}"
-									fieldSize="sm" />
+									placeholder="Vezetéknév" rendered="#{userController.edit}" />
 								<b:inputText value="#{scout.person.firstname}"
-									placeholder="Keresztnév" rendered="#{userController.edit}"
-									fieldSize="sm" />
+									placeholder="Keresztnév" rendered="#{userController.edit}" />
 								<b:link value="#{scout.person.getFullName()}"
 									href="#{scout.getScoutUrl()}"
 									rendered="#{not userController.edit}" />
 							</b:dataTableColumn>
 							<b:dataTableColumn label="Becenév">
-								<b:inputText value="#{scout.person.nickname}"
-									rendered="#{userController.edit}" fieldSize="sm" />
-								<h:outputText value="#{scout.person.nickname}"
-									rendered="#{not userController.edit}" />
+								<t:textField value="#{scout.person.nickname}" />
 							</b:dataTableColumn>
 							<b:dataTableColumn label="Születési hely">
-								<b:inputText value="#{scout.person.birthplace}"
-									rendered="#{userController.edit}" fieldSize="sm" />
-								<h:outputText value="#{scout.person.birthplace}"
-									rendered="#{not userController.edit}" />
+								<t:textField value="#{scout.person.birthplace}" />
 							</b:dataTableColumn>
 							<b:dataTableColumn label="Születési idő">
-								<b:datepicker value="#{scout.person.birthdate}"
-									rendered="#{userController.edit}" mode="popup"
-									changeMonth="true" changeYear="true" />
-								<h:outputText value="#{scout.person.getSimpleBirthdate()}"
-									rendered="#{not userController.edit}" />
+								<t:datepicker value="#{scout.person.birthdate}" showIcon="false" autoPopup="false" />
 							</b:dataTableColumn>
 							<b:dataTableColumn label="Névnap">
-								<b:inputText value="#{scout.person.nameday}" placeholder="hh-nn"
-									mask="99-99" rendered="#{userController.edit}" fieldSize="sm" />
-								<h:outputText value="#{scout.person.nameday}"
-									rendered="#{not userController.edit}" />
+								<t:textField value="#{scout.person.nameday}" mask="99-99"
+									placeholder="hh-nn" />
 							</b:dataTableColumn>
 						</b:dataTable>
 					</b:tab>

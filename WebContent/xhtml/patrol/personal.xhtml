@@ -23,7 +23,7 @@
 					<b:tab title="Név és születés">
 						<b:dataTable value="#{patrolController.scoutList}" var="scout"
 							info="false" paginated="false" searching="false"
-							scrollHorizontally="true">
+							scrollHorizontally="true" border="false">
 							<b:dataTableColumn label="Név">
 								<b:inputText value="#{scout.person.lastname}"
 									placeholder="Vezetéknév" rendered="#{userController.edit}"

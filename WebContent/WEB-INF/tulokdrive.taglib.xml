@@ -167,6 +167,41 @@
 			<required>true</required>
 		</attribute>
 	</tag>
+	<tag>
+		<tag-name>dataTable</tag-name>
+		<source>tags/dataTable.xhtml</source>
+		<attribute>
+			<name>rendered</name>
+		</attribute>
+		<attribute>
+			<name>value</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>border</name>
+		</attribute>
+		<attribute>
+			<name>striped</name>
+		</attribute>
+		<attribute>
+			<name>info</name>
+		</attribute>
+		<attribute>
+			<name>paginated</name>
+		</attribute>
+		<attribute>
+			<name>searching</name>
+		</attribute>
+		<attribute>
+			<name>scrollHorizontally</name>
+		</attribute>
+		<attribute>
+			<name>scrollX</name>
+		</attribute>
+		<attribute>
+			<name>order</name>
+		</attribute>
+	</tag>
 
 	<tag>
 		<tag-name>addressModal</tag-name>

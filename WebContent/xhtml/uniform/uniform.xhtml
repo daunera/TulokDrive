@@ -25,15 +25,14 @@
 						undoBean="#{userController}" undoMethod="changeEdit" />
 					<b:tabView pills="true">
 						<b:tab title="Aktív kölcsönzések">
-							<b:dataTable value="#{uniformController.activeRents}" var="rent"
-								info="false" paginated="false" scrollX="true" border="false">
+							<t:dataTable value="#{uniformController.activeRents}">
 								<b:dataTableColumn label="Név" style="width:20%;">
-									<b:link value="#{rent.scout.person.getFullName()}"
-										href="#{rent.scout.getScoutUrl()}" />
+									<b:link value="#{item.scout.person.getFullName()}"
+										href="#{item.scout.getScoutUrl()}" />
 								</b:dataTableColumn>
 								<b:dataTableColumn label="Őrs" style="width:13%;">
 									<ui:repeat var="patrol"
-										value="#{userController.orderSet(rent.scout.patrols)}"
+										value="#{userController.orderSet(item.scout.patrols)}"
 										varStatus="var">
 										<b:link value="#{patrol.getName()}"
 											href="#{patrol.getPatrolUrl()}" />
@@ -41,30 +40,29 @@
 									</ui:repeat>
 								</b:dataTableColumn>
 
-								<b:dataTableColumn label="Kezdete" order="asc">
-									<t:datepicker value="#{rent.begindate}" showIcon="false" />
+								<b:dataTableColumn label="Kezdete">
+									<t:datepicker value="#{item.begindate}" showIcon="false" />
 								</b:dataTableColumn>
 								<b:dataTableColumn label="Méret">
-									<t:dropdown list="#{enums.sizes}" value="#{rent.uniformsize}" />
+									<t:dropdown list="#{enums.sizes}" value="#{item.uniformsize}" />
 								</b:dataTableColumn>
 								<b:dataTableColumn label="Pénz">
-									<t:textField value="#{rent.price}" />
+									<t:textField value="#{item.price}" />
 								</b:dataTableColumn>
 								<b:dataTableColumn label="Visszavétel">
-									<h:outputText value="#{rent.getPlannedReturnDate()}">
+									<h:outputText value="#{item.getPlannedReturnDate()}">
 										<f:convertDateTime pattern="yyyy.MM.dd" />
 									</h:outputText>
 								</b:dataTableColumn>
 								<b:dataTableColumn label="Most visszajár">
-									<h:outputText value="#{rent.getActualReturnPrice()}" />
+									<h:outputText value="#{item.getActualReturnPrice()}" />
 								</b:dataTableColumn>
-							</b:dataTable>
+							</t:dataTable>
 						</b:tab>
 						<b:tab title="Visszahozott ingek">
 							<b:dataTable value="#{uniformController.returnedRents}"
 								var="rent" info="false" paginated="false"
 								scrollHorizontally="true">
-								<b:dataTableColumn label="Név" style="width:20%;">
 									<b:link value="#{rent.scout.person.getFullName()}"
 										href="#{rent.scout.getScoutUrl()}" />
 								</b:dataTableColumn>

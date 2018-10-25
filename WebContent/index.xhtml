@@ -40,6 +40,8 @@
 							</f:facet>
 						</b:panel>
 					</ui:repeat>
+					<h:outputText value="Nincs aktuális hír! Yuppíí :)"
+						rendered="#{empty mainPage.actualNews}" />
 				</b:panel>
 				<b:panel title="Szülinaptár" collapsible="false">
 					<h:outputLabel value="Közelgő születésnapok:" />
@@ -47,7 +49,7 @@
 					<ui:repeat var="boi" value="#{mainPage.happyBois}" varStatus="var">
 						<h:outputText
 							value="#{boi.birthdate.getMonth()+1}.#{boi.birthdate.getDate()} - " />
-						<t:entityLink mode="scout" entity="#{boi.scout}"/>
+						<t:entityLink mode="scout" entity="#{boi.scout}" />
 						<h:outputText value=" (#{boi.getAge()+1} éves)" />
 						<b:row rendered="#{not var.last}">
 							<hr style="margin: 10px;" />

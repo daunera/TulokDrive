@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:t="http://tulok.vzma.hu/tags">
+<h:body>
+
+	<ui:composition>
+
+		<c:if test="#{empty rendered}">
+			<c:set var="rendered" value="true" />
+		</c:if>
+		
+		<c:if test="#{empty order}">
+			<c:set var="order" value="[0, 'asc']" />
+		</c:if>
+
+		<c:if test="#{empty border}">
+			<c:set var="border" value="false" />
+		</c:if>
+		
+		<c:if test="#{empty striped}">
+			<c:set var="striped" value="false" />
+		</c:if>
+
+		<c:if test="#{empty info}">
+			<c:set var="info" value="false" />
+		</c:if>
+
+		<c:if test="#{empty paginated}">
+			<c:set var="paginated" value="false" />
+		</c:if>
+
+		<c:if test="#{empty searching}">
+			<c:set var="searching" value="false" />
+		</c:if>
+
+		<c:if test="#{empty scrollHorizontally}">
+			<c:set var="scrollHorizontally" value="true" />
+		</c:if>
+
+		<c:if test="#{empty scrollX}">
+			<c:set var="scrollX" value="false" />
+		</c:if>
+
+		<b:dataTable value="#{value}" var="item" border="#{border}" striped="#{striped}"
+			info="#{info}" paginated="#{paginated}" searching="#{searching}"
+			scrollHorizontally="#{scrollHorizontally}" scrollX="#{scrollX}"
+			rendered="#{rendered}" customOptions="order:#{order}">
+			<ui:insert />
+		</b:dataTable>
+
+	</ui:composition>
+</h:body>
+</html>

@@ -21,7 +21,7 @@
 
 				<b:tabView pills="true">
 					<b:tab title="Név és születés">
-						
+
 						<b:dataTable value="#{patrolController.scoutList}" var="scout"
 							info="false" paginated="false" searching="false"
 							scrollHorizontally="true" border="false" striped="false">
@@ -41,7 +41,8 @@
 								<t:textField value="#{scout.person.birthplace}" />
 							</b:dataTableColumn>
 							<b:dataTableColumn label="Születési idő">
-								<t:datepicker value="#{scout.person.birthdate}" showIcon="false" autoPopup="false" />
+								<t:datepicker value="#{scout.person.birthdate}" showIcon="false"
+									autoPopup="false" />
 							</b:dataTableColumn>
 							<b:dataTableColumn label="Névnap">
 								<t:textField value="#{scout.person.nameday}" mask="99-99"

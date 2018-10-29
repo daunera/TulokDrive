@@ -67,6 +67,12 @@ insert into patrol_leader(patrol_id, leader_id) values (900, 400);
 insert into patrol_leader(patrol_id, leader_id) values (901, 401);
 insert into patrol_leader(patrol_id, leader_id) values (901, 400);
 
+insert into troop(id, name) values (3000, 'Szent Tóbiás');
+insert into troop_patrol(troop_id, patrol_id) values (3000, 900);
+insert into troop_patrol(troop_id, patrol_id) values (3000, 901);
+insert into troop_leader(troop_id, leader_id) values (3000, 400);
+insert into troop_leader(troop_id, leader_id) values (3000, 401);
+
 insert into news(id, created, expire, submitter_id, text) values (2000, '2018-05-20 01:01:01', '2018-09-28 01:01:01', 400, 'Több tízezer macska rohanta meg Tokió utcáit, Godzilla se tudott semmit tenni :(');
 insert into news(id, created, expire, submitter_id, text) values (2001, '2018-05-23 01:01:01', '2018-07-04 01:01:01', 400, 'Kérem mindenki ellenőrizze június 2-ig a vezetett egységeiben az aktivitást!');
 insert into news(id, created, expire, submitter_id, text) values (2002, '2018-05-20 01:01:01', '2018-05-21 01:01:01', 400, 'Egy lejárt határidős hír');

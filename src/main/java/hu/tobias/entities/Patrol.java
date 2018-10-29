@@ -41,6 +41,9 @@ public class Patrol implements Serializable {
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "patrol_leader", joinColumns = @JoinColumn(name = "patrol_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "leader_id", referencedColumnName = "id"))
 	private Set<Leader> leaders;
+	
+	@ManyToMany(mappedBy = "patrols", fetch = FetchType.EAGER)
+	private Set<Troop> troops;
 
 	public Integer getId() {
 		return id;
@@ -88,6 +91,14 @@ public class Patrol implements Serializable {
 
 	public void setLeaders(Set<Leader> leaders) {
 		this.leaders = leaders;
+	}
+
+	public Set<Troop> getTroops() {
+		return troops;
+	}
+
+	public void setTroops(Set<Troop> troops) {
+		this.troops = troops;
 	}
 
 	public String getPatrolUrl() {

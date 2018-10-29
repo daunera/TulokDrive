@@ -46,6 +46,9 @@ public class Leader implements Serializable {
 
 	@ManyToMany(mappedBy = "leaders", fetch = FetchType.EAGER)
 	private Set<Patrol> patrols;
+	
+	@ManyToMany(mappedBy = "leaders", fetch = FetchType.EAGER)
+	private Set<Troop> troops;
 
 	private Boolean god = false;
 	private Boolean uniformer = false;
@@ -170,6 +173,14 @@ public class Leader implements Serializable {
 
 	public void setPatrols(Set<Patrol> patrols) {
 		this.patrols = patrols;
+	}
+
+	public Set<Troop> getTroops() {
+		return troops;
+	}
+
+	public void setTroops(Set<Troop> troops) {
+		this.troops = troops;
 	}
 
 	public Boolean getGod() {

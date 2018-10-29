@@ -8,6 +8,7 @@ import javax.inject.Named;
 
 import hu.tobias.entities.Patrol;
 import hu.tobias.entities.Scout;
+import hu.tobias.entities.Troop;
 
 @Named(value = "permission")
 @SessionScoped
@@ -55,6 +56,24 @@ public class Permission implements Serializable {
 
 		for (Patrol p : userController.getLeader().getScout().getPatrols())
 			if (p.getId().equals(patrolid))
+				return true;
+
+		userController.redirectRelative("error/permission");
+		return false;
+	}
+	
+	public boolean checkTroopPermission(Integer troopid) {
+		userController.reloadPatrolName();
+		if (userController.getLeader().isAGod())
+			return true;
+
+		for (Troop t : userController.getTroops())
+			if (t.getId().equals(troopid))
+				return true;
+
+		for (Patrol p : userController.getLeader().getScout().getPatrols())
+			for(Troop t : p.getTroops())
+			if (t.getId().equals(troopid))
 				return true;
 
 		userController.redirectRelative("error/permission");

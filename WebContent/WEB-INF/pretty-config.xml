@@ -95,6 +95,42 @@
 		<action>#{patrolController.loadData}</action>
 	</url-mapping>
 
+	<url-mapping id="troopInfo">
+		<pattern value="/troop/#{troopController.troopid}" />
+		<view-id value="/xhtml/troop/info.xhtml" />
+		<action>#{troopController.loadData}</action>
+	</url-mapping>
+
+	<url-mapping id="troopPatrol">
+		<pattern value="/troop/#{troopController.troopid}/patrol" />
+		<view-id value="/xhtml/troop/patrol.xhtml" />
+		<action>#{troopController.loadData}</action>
+	</url-mapping>
+
+	<url-mapping id="troopPersonal">
+		<pattern value="/troop/#{troopController.troopid}/personal" />
+		<view-id value="/xhtml/troop/personal.xhtml" />
+		<action>#{troopController.loadData}</action>
+	</url-mapping>
+
+	<url-mapping id="troopParents">
+		<pattern value="/troop/#{troopController.troopid}/parents" />
+		<view-id value="/xhtml/troop/parents.xhtml" />
+		<action>#{troopController.loadData}</action>
+	</url-mapping>
+
+	<url-mapping id="troopScout">
+		<pattern value="/troop/#{troopController.troopid}/scoutinfo" />
+		<view-id value="/xhtml/troop/scoutinfo.xhtml" />
+		<action>#{troopController.loadData}</action>
+	</url-mapping>
+
+	<url-mapping id="troopFees">
+		<pattern value="/troop/#{troopController.troopid}/fees" />
+		<view-id value="/xhtml/troop/fees.xhtml" />
+		<action>#{troopController.loadData}</action>
+	</url-mapping>
+
 	<url-mapping id="teamInfo">
 		<pattern value="/team/info" />
 		<view-id value="/xhtml/team/info.xhtml" />
@@ -108,8 +144,8 @@
 	</url-mapping>
 
 	<url-mapping id="teamGroup">
-		<pattern value="/team/group" />
-		<view-id value="/xhtml/team/group.xhtml" />
+		<pattern value="/team/patrol" />
+		<view-id value="/xhtml/team/patrol.xhtml" />
 		<action>#{teamController.loadData}</action>
 	</url-mapping>
 

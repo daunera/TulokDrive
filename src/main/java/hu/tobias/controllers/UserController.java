@@ -16,8 +16,10 @@ import javax.inject.Named;
 
 import hu.tobias.entities.Leader;
 import hu.tobias.entities.Patrol;
+import hu.tobias.entities.Troop;
 import hu.tobias.entities.exceptions.NotFoundEntityException;
 import hu.tobias.services.comparator.PatrolNameComparator;
+import hu.tobias.services.comparator.TroopNameComparator;
 import hu.tobias.services.dao.LeaderDao;
 
 @Named(value = "userController")
@@ -31,6 +33,7 @@ public class UserController implements Serializable {
 
 	private Leader leader = new Leader();
 	private List<Patrol> patrols;
+	private List<Troop> troops;
 	private boolean edit;
 
 	public UserController() {
@@ -40,6 +43,7 @@ public class UserController implements Serializable {
 	public void init() {
 		leader = getLeaderFromUsername();
 		patrols = new ArrayList<Patrol>(leader.getPatrols());
+		troops = new ArrayList<Troop>(leader.getTroops());
 		Collections.sort(patrols, new PatrolNameComparator());
 	}
 
@@ -57,6 +61,14 @@ public class UserController implements Serializable {
 
 	public void setPatrols(List<Patrol> patrols) {
 		this.patrols = patrols;
+	}
+
+	public List<Troop> getTroops() {
+		return troops;
+	}
+
+	public void setTroops(List<Troop> troops) {
+		this.troops = troops;
 	}
 
 	public boolean isEdit() {
@@ -122,6 +134,12 @@ public class UserController implements Serializable {
 	public List<Patrol> orderSet(Set<Patrol> set) {
 		List<Patrol> result = new ArrayList<Patrol>(set);
 		Collections.sort(result, new PatrolNameComparator());
+		return result;
+	}
+	
+	public List<Troop> orderTroopSet(Set<Troop> set) {
+		List<Troop> result = new ArrayList<Troop>(set);
+		Collections.sort(result, new TroopNameComparator());
 		return result;
 	}
 

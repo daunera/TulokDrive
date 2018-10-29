@@ -55,7 +55,7 @@
 										size="xs" style="margin: 0px 5px 0px 0px"
 										rendered="#{userController.edit}" />
 									<ui:repeat var="patrol"
-										value="#{teamLeader.orderSet(leader.patrols)}" varStatus="var">
+										value="#{userController.orderPatrolSet(leader.patrols)}" varStatus="var">
 										<b:link value="#{patrol.getName()} őrs"
 											href="#{patrol.getPatrolUrl()}" />
 										<h:outputText value=", " rendered="#{not var.last}" />
@@ -187,12 +187,6 @@
 						<b:selectBooleanCheckbox
 							value="#{teamLeader.editedLeader.uniformer}"
 							caption="cserkészingfelelős" />
-						<b:selectBooleanCheckbox value="" caption="szülinaptáros"
-							disabled="true" />
-						<b:selectBooleanCheckbox value="" caption="csapatotthon gondnok"
-							disabled="true" />
-						<b:selectBooleanCheckbox value="" caption="takarítás felelős"
-							disabled="true" />
 					</b:panelGrid>
 					<b:panelGrid colSpans="12">
 						<hr style="margin: 10px;" />
@@ -272,7 +266,7 @@
 								<b:selectOneMenu value="#{teamLeader.patrolToDelete}"
 									rendered="#{not empty teamLeader.patrolToDelete}">
 									<f:selectItems
-										value="#{teamLeader.orderSet(teamLeader.editedLeader.patrols)}"
+										value="#{userController.orderLeaderSet(teamLeader.editedLeader.patrols)}"
 										var="patrol" itemValue="#{patrol}"
 										itemLabel="#{patrol.name} őrs" />
 								</b:selectOneMenu>

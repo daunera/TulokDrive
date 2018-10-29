@@ -156,6 +156,7 @@ public class TeamLeaderController implements Serializable {
 		this.generatedPassword = generatedPassword;
 	}
 
+	// TODO: lehetne törölni, mert csak egy private helyen van használva
 	public List<Patrol> orderSet(Set<Patrol> set) {
 		List<Patrol> result = new ArrayList<Patrol>(set);
 		Collections.sort(result, new PatrolNameComparator());

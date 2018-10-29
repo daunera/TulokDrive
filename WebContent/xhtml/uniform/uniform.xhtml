@@ -32,7 +32,7 @@
 								</b:dataTableColumn>
 								<b:dataTableColumn label="Őrs" style="width:13%;">
 									<ui:repeat var="patrol"
-										value="#{userController.orderSet(item.scout.patrols)}"
+										value="#{userController.orderPatrolSet(item.scout.patrols)}"
 										varStatus="var">
 										<b:link value="#{patrol.getName()}"
 											href="#{patrol.getPatrolUrl()}" />
@@ -68,7 +68,7 @@
 								</b:dataTableColumn>
 								<b:dataTableColumn label="Őrs" style="width:13%;">
 									<ui:repeat var="patrol"
-										value="#{userController.orderSet(rent.scout.patrols)}"
+										value="#{userController.orderPatrolSet(rent.scout.patrols)}"
 										varStatus="var">
 										<b:link value="#{patrol.getName()}"
 											href="#{patrol.getPatrolUrl()}" />

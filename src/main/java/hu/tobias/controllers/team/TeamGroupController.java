@@ -169,6 +169,7 @@ public class TeamGroupController implements Serializable{
 		loadData();
 	}
 
+	// TODO: lehetne törölni, mert csak egy private helyen van használva
 	public List<Leader> orderSet(Set<Leader> set) {
 		List<Leader> result = new ArrayList<Leader>(set);
 		Collections.sort(result, new LeaderNameComparator());

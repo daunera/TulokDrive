@@ -51,7 +51,7 @@
 								size="xs" style="margin: 0px 5px 0px 0px"
 								rendered="#{userController.edit}" />
 							<ui:repeat var="leader"
-								value="#{teamGroup.orderSet(patrol.leaders)}" varStatus="var">
+								value="#{userController.orderLeaderSet(patrol.leaders)}" varStatus="var">
 								<b:link value="#{leader.scout.person.getFullName()}"
 									href="#{leader.scout.getScoutUrl()}" />
 								<h:outputText value=", " rendered="#{not var.last}"></h:outputText>
@@ -168,7 +168,7 @@
 									value="Válassz a listából egy vezetőt, akit törölni szeretnél:" />
 								<b:selectOneMenu value="#{teamGroup.leaderToDelete}">
 									<f:selectItems
-										value="#{teamGroup.orderSet(teamGroup.editedPatrol.leaders)}"
+										value="#{userController.orderLeaderSet(teamGroup.editedPatrol.leaders)}"
 										var="leader" itemValue="#{leader}"
 										itemLabel="#{leader.scout.person.getFullName()}" />
 								</b:selectOneMenu>

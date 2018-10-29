@@ -25,6 +25,10 @@
 						varStatus="status">
 						<b:navLink href="#{item.getPatrolUrl()}" value="#{item.name} őrs" />
 					</ui:repeat>
+					<ui:repeat var="item" value="#{userController.troops}"
+						varStatus="status">
+						<b:navLink href="#{item.getTroopUrl()}" value="#{item.name} raj" />
+					</ui:repeat>
 					<b:navLink href="#{userController.getRootUrl()}team/info"
 						value="Cserkészcsapat"
 						rendered="#{userController.leader.isAGod()}" />

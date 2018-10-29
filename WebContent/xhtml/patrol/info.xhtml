@@ -33,7 +33,7 @@
 
 				<b:panelGrid colSpans="12">
 					<h:outputText value="Őrsvezetők:" styleClass="subTitle" />
-					<b:dataTable value="#{patrolController.patrol.leaders}" var="item"
+					<b:dataTable value="#{userController.orderLeaderSet(patrolController.patrol.leaders)}" var="item"
 						info="false" paginated="false" searching="false"
 						rowHighlight="false" styleClass="tableNoHeader"
 						rendered="#{not empty patrolController.patrol.leaders}">

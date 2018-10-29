@@ -224,7 +224,7 @@ public class Leader implements Serializable {
 		String permissions = "";
 		if (getGod())
 			permissions += "adminisztrátor, ";
-		if (getUniformer() || getGod())
+		if (getUniformer())
 			permissions += "cserkészingfelelős, ";
 		if (Utils.isEmpty(permissions))
 			return null;

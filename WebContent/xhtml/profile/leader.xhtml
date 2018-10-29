@@ -24,19 +24,21 @@
 							value="#{profileController.scout.leader.becomeleader}" />
 					</t:rowWithLabel>
 				</t:table>
-				<t:table>
-					<h:outputText value="Vezetői őrs" styleClass="subTitle" />
-					<t:rowWithLabel label="Egy dátum">
-						<t:datepicker
-							value="#{profileController.scout.leader.leaderpromise}" />
-					</t:rowWithLabel>
-					<t:rowWithLabel label="Egy szó">
-						<t:textField value="#{profileController.scout.leader.leadername}" />
-					</t:rowWithLabel>
-					<t:rowWithLabel label="Mégegy">
-						<t:textField value="#{profileController.scout.leader.food}" />
-					</t:rowWithLabel>
-				</t:table>
+				<b:panelGrid colSpans="12" rendered="#{userController.leader.becomeleader != null}">
+					<t:table>
+						<h:outputText value="Vezetői őrs" styleClass="subTitle" />
+						<t:rowWithLabel label="Egy dátum">
+							<t:datepicker
+								value="#{profileController.scout.leader.leaderpromise}" />
+						</t:rowWithLabel>
+						<t:rowWithLabel label="Egy szó">
+							<t:textField value="#{profileController.scout.leader.leadername}" />
+						</t:rowWithLabel>
+						<t:rowWithLabel label="Mégegy">
+							<t:textField value="#{profileController.scout.leader.food}" />
+						</t:rowWithLabel>
+					</t:table>
+				</b:panelGrid>
 				<t:table>
 					<h:outputText value="Csotthonkulcs" styleClass="subTitle" />
 					<t:rowWithLabel label="Sorszám">

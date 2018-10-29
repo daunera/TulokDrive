@@ -11,10 +11,12 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import hu.tobias.entities.FeeTypeTable;
 import hu.tobias.entities.Scout;
 import hu.tobias.entities.enums.Gender;
 import hu.tobias.entities.enums.Religion;
 import hu.tobias.entities.enums.Status;
+import hu.tobias.services.dao.FeeTypeTableDao;
 import hu.tobias.services.dao.ScoutDao;
 
 @Named(value = "teamInfo")
@@ -25,12 +27,15 @@ public class TeamInfoController implements Serializable {
 
 	@EJB
 	private ScoutDao scoutService;
+	
+	@EJB
+	private FeeTypeTableDao feeTypeService;
 
 	@Inject
 	private TeamController teamController;
 
 	private List<Scout> scouts = new ArrayList<Scout>();
-
+	private List<FeeTypeTable> feeTypes = new ArrayList<FeeTypeTable>();
 	private String[] activity = new String[] { "aktív", "inaktív", "kilépett", "összesen" };
 
 	public TeamInfoController() {
@@ -43,6 +48,7 @@ public class TeamInfoController implements Serializable {
 
 	public void loadData() {
 		scouts = scoutService.findAll();
+		feeTypes = feeTypeService.findAll();
 	}
 
 	public TeamController getTeamController() {
@@ -59,6 +65,14 @@ public class TeamInfoController implements Serializable {
 
 	public void setScouts(List<Scout> scouts) {
 		this.scouts = scouts;
+	}
+
+	public List<FeeTypeTable> getFeeTypes() {
+		return feeTypes;
+	}
+
+	public void setFeeTypes(List<FeeTypeTable> feeTypes) {
+		this.feeTypes = feeTypes;
 	}
 
 	public String[] getActivity() {

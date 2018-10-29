@@ -15,8 +15,7 @@
 		<ui:define name="innerContent">
 
 			<b:form>
-				<t:pageHeader title="Csapat statisztika" saveButton="false"
-					undoButton="false" />
+				<t:pageHeader title="Csapat statisztika" />
 
 				<b:panelGrid colSpans="6,6">
 					<b:row styleClass="pulledRow">
@@ -59,6 +58,19 @@
 						</t:dataTable>
 					</b:row>
 				</b:panelGrid>
+				
+				<h:outputText value="Tagdíj fajták" styleClass="subTitle"/>
+				<t:dataTable value="#{teamInfo.feeTypes}">
+					<b:dataTableColumn label="Típus">
+						<t:dropdown list="#{enums.feetypes}" value="#{item.type}"/>
+					</b:dataTableColumn>
+					<b:dataTableColumn label="Megnevezés">
+						<t:textField value="#{item.name}"/>
+					</b:dataTableColumn>
+					<b:dataTableColumn label="Összeg">
+						<t:textField value="#{item.amount}"/>
+					</b:dataTableColumn>
+				</t:dataTable>
 
 			</b:form>
 

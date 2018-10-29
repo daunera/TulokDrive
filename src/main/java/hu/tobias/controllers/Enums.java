@@ -10,6 +10,7 @@ import javax.inject.Named;
 import hu.tobias.entities.enums.Card;
 import hu.tobias.entities.enums.ChallengeType;
 import hu.tobias.entities.enums.FeeStatusType;
+import hu.tobias.entities.enums.FeeType;
 import hu.tobias.entities.enums.Gender;
 import hu.tobias.entities.enums.PromiseType;
 import hu.tobias.entities.enums.QualificationType;
@@ -58,6 +59,10 @@ public class Enums implements Serializable {
 	
 	public FeeStatusType[] getFeeStatuses() {
 		return FeeStatusType.values();
+	}
+	
+	public FeeType[] getFeetypes() {
+		return FeeType.values();
 	}
 	
 	public Size[] getSizes() {

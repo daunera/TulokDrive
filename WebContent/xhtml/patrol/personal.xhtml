@@ -25,7 +25,7 @@
 						<t:dataTable
 							value="#{userController.orderScoutSet(patrolController.patrol.scouts)}">
 							<b:dataTableColumn label="Név">
-								<t:nameField value="#{item}"/>
+								<t:nameField value="#{item}" />
 							</b:dataTableColumn>
 							<b:dataTableColumn label="Becenév">
 								<t:textField value="#{item.person.nickname}" />
@@ -48,7 +48,7 @@
 						<t:dataTable
 							value="#{userController.orderScoutSet(patrolController.patrol.scouts)}">
 							<b:dataTableColumn label="Név">
-								<t:entityLink entity="#{item}"/>
+								<t:entityLink entity="#{item}" />
 							</b:dataTableColumn>
 							<b:dataTableColumn label="Email">
 								<t:textField value="#{item.person.email}" />
@@ -79,7 +79,7 @@
 						<t:dataTable
 							value="#{userController.orderScoutSet(patrolController.patrol.scouts)}">
 							<b:dataTableColumn label="Név">
-								<t:entityLink entity="#{item}"/>
+								<t:entityLink entity="#{item}" />
 							</b:dataTableColumn>
 							<b:dataTableColumn label="Szem.ig.szám">
 								<t:textField value="#{item.person.personcardid}" />
@@ -100,7 +100,7 @@
 						<t:dataTable
 							value="#{userController.orderScoutSet(patrolController.patrol.scouts)}">
 							<b:dataTableColumn label="Név">
-								<t:entityLink entity="#{item}"/>
+								<t:entityLink entity="#{item}" />
 							</b:dataTableColumn>
 							<b:dataTableColumn label="Vallás">
 								<t:dropdown list="#{enums.religions}"

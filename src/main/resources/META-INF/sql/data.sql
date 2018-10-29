@@ -80,3 +80,7 @@ insert into news(id, created, expire, submitter_id, text) values (2002, '2018-05
 insert into uniform(id, begindate, price, renttype, returndate, returned, uniformsize, scout_id) values (2500, '2018-05-20 01:01:01', 3500, 2, '2018-05-20 01:01:01', 1, 4, 303);
 insert into uniform(id, begindate, price, renttype, returned, uniformsize, scout_id) values (2501, '2018-05-21 01:01:01', 6600, 1, 0, 2, 304);
 insert into uniform(id, begindate, price, renttype, returned, uniformsize, scout_id) values (2502, '2018-05-22 01:01:01', 4000, 0, 0, 5, 305);
+
+insert into feetype (id, type, name, amount) values (1, 0, 'csapat tagdíj', 4000);
+insert into feetype (id, type, name, amount) values (2, 1, 'mcssz működő tagsági díj', 3000);
+insert into feetype (id, type, name, amount) values (3, 2, 'mcssz felnőtt tagsági díj', 3600);

@@ -23,7 +23,7 @@ import hu.tobias.services.dao.ScoutDao;
 public class PatrolInfoController implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@EJB
 	private PatrolDao patrolService;
 	@EJB
@@ -42,11 +42,12 @@ public class PatrolInfoController implements Serializable {
 	}
 
 	@PostConstruct
-	public void init() {	
-		if (patrolController.getScoutList().isEmpty())
+	public void init() {
+		if (patrolController.getPatrol().getScouts().isEmpty())
 			allScouts = new ArrayList<Scout>(scoutService.findAll());
 		else
-			allScouts = new ArrayList<Scout>(scoutService.findAllExecptParamList(patrolController.getScoutList()));
+			allScouts = new ArrayList<Scout>(scoutService
+					.findAllExecptParamList(new ArrayList<Scout>(patrolController.getPatrol().getScouts())));
 		Collections.sort(allScouts, new ScoutNameComparator());
 		newScout = createNewScout();
 	}
@@ -90,7 +91,6 @@ public class PatrolInfoController implements Serializable {
 	}
 
 	public void deleteScout(Scout s) {
-		patrolController.getScoutList().remove(s);
 		patrolController.getPatrol().getScouts().remove(s);
 		patrolService.update(patrolController.getPatrol());
 
@@ -120,9 +120,6 @@ public class PatrolInfoController implements Serializable {
 	}
 
 	private void saveScoutToPatrol(Scout s) {
-		patrolController.getScoutList().add(s);
-		Collections.sort(patrolController.getScoutList(), new ScoutNameComparator());
-
 		patrolController.getPatrol().getScouts().add(s);
 		patrolService.update(patrolController.getPatrol());
 	}

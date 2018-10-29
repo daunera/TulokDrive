@@ -25,13 +25,7 @@
 						<t:dataTable
 							value="#{userController.orderScoutSet(patrolController.patrol.scouts)}">
 							<b:dataTableColumn label="Név">
-								<b:inputText value="#{item.person.lastname}"
-									placeholder="Vezetéknév" rendered="#{userController.edit}" />
-								<b:inputText value="#{item.person.firstname}"
-									placeholder="Keresztnév" rendered="#{userController.edit}" />
-								<b:link value="#{item.person.getFullName()}"
-									href="#{item.getScoutUrl()}"
-									rendered="#{not userController.edit}" />
+								<t:nameField value="#{item}"/>
 							</b:dataTableColumn>
 							<b:dataTableColumn label="Becenév">
 								<t:textField value="#{item.person.nickname}" />

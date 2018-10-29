@@ -94,7 +94,7 @@
 		</attribute>
 		<attribute>
 			<name>mode</name>
-			<!-- popup modes: inline, popup, plain -->
+			<description>popup modes: inline, popup, plain</description>
 		</attribute>
 		<attribute>
 			<name>autoPopup</name>
@@ -131,6 +131,9 @@
 		<attribute>
 			<name>saveButton</name>
 		</attribute>
+		<attribute>
+			<name>undoButton</name>
+		</attribute>
 	</tag>
 	<tag>
 		<tag-name>modalFooter</tag-name>
@@ -138,7 +141,7 @@
 		<attribute>
 			<name>mode</name>
 			<required>true</required>
-			<!-- create, modify, select, save -->
+			<description>create, modify, select, save</description>
 		</attribute>
 		<attribute>
 			<name>action</name>
@@ -160,6 +163,7 @@
 		</attribute>
 		<attribute>
 			<name>mode</name>
+			<description>scout (default), person, leader, patrol, troop</description>
 		</attribute>
 		<attribute>
 			<name>entity</name>
@@ -202,6 +206,17 @@
 		</attribute>
 		<attribute>
 			<name>noHead</name>
+		</attribute>
+	</tag>
+	<tag>
+		<tag-name>nameField</tag-name>
+		<source>tags/nameField.xhtml</source>
+		<attribute>
+			<name>edit</name>
+		</attribute>
+		<attribute>
+			<name>value</name>
+			<required>true</required>
 		</attribute>
 	</tag>
 

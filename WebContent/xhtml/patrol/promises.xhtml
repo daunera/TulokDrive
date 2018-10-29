@@ -18,7 +18,7 @@
 				<t:pageHeader title="Fogadalmak" saveButton="false" undoBean="#{patrolController}"
 					undoMethod="undoEdit" />
 
-				<b:dataTable value="#{patrolController.scoutList}" var="scout"
+				<b:dataTable value="#{userController.orderScoutSet(patrolController.patrol.scouts)}" var="scout"
 					info="false" paginated="false" searching="false"
 					scrollHorizontally="true">
 					<b:dataTableColumn label="Név">

@@ -54,7 +54,7 @@
 					</b:row>
 					<t:dataTable
 						value="#{userController.orderScoutSet(patrolController.patrol.scouts)}"
-						rendered="#{not empty patrolController.scoutList}" nums="true"
+						rendered="#{not empty patrolController.patrol.scouts}" nums="true"
 						noHead="true">
 						<b:dataTableColumn>
 							<b:row styleClass="pulledRow">
@@ -68,7 +68,7 @@
 					</t:dataTable>
 					<h:outputText
 						value="A szerkesztés gombra kattintva tudsz új őrstagot hozzáadni"
-						rendered="#{empty patrolController.scoutList}" />
+						rendered="#{empty patrolController.patrol.scouts}" />
 				</b:panelGrid>
 
 				<b:modal

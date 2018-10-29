@@ -1,6 +1,8 @@
 package hu.tobias.controllers;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
@@ -32,6 +34,10 @@ public class Enums implements Serializable {
 	
 	public Religion[] getReligions() {
 		return Religion.values();
+	}
+	
+	public List<Religion> getReligionsList(){
+		return (List<Religion>) Arrays.asList(Religion.values());
 	}
 	
 	public Card[] getCards() {

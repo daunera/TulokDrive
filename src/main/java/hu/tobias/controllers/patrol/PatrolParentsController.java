@@ -112,7 +112,7 @@ public class PatrolParentsController implements Serializable {
 	}
 
 	public void saveEdit() {
-		for (Scout s : patrolController.getScoutList()) {
+		for (Scout s : patrolController.getPatrol().getScouts()) {
 			personService.update(s.getPerson());
 		}
 		patrolController.getUserController().changeEdit();

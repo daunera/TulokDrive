@@ -23,6 +23,10 @@
 		<c:if test="#{empty saveButton}">
 			<c:set var="saveButton" value="true" />
 		</c:if>
+		
+		<c:if test="#{empty undoButton}">
+			<c:set var="undoButton" value="true" />
+		</c:if>
 
 		<b:row styleClass="pulledRow">
 			<div>
@@ -31,7 +35,7 @@
 					<ui:insert/>
 					<b:commandButton
 						value="Szerkesztés" iconAwesome="pencil"
-						rendered="#{not edit}"
+						rendered="#{not edit and undoButton}"
 						action="#{editBean[editMethod]}" look="primary" size="md" />
 					<b:commandButton value="Mentés" iconAwesome="save"
 						rendered="#{edit and saveButton}"
@@ -39,7 +43,7 @@
 						style="margin: 0px 5px 0px 0px" />
 					<b:commandButton
 						value="Vissza" iconAwesome="arrow-left"
-						rendered="#{edit}"
+						rendered="#{edit and undoButton}"
 						action="#{undoBean[undoMethod]}" look="default" size="md" />
 				</span>
 			</div>

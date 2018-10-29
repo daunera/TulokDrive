@@ -15,50 +15,48 @@
 		<ui:define name="innerContent">
 
 			<b:form>
-				<b:row styleClass="pulledRow">
-					<h:outputLabel value="Csapat statisztikák" styleClass="tabTitle" />
-				</b:row>
+				<t:pageHeader title="Csapat statisztika" saveButton="false"
+					undoButton="false" />
 
 				<b:panelGrid colSpans="6,6">
 					<b:row styleClass="pulledRow">
 						<h:outputText value="Létszámok" styleClass="subTitle" />
-						<b:dataTable value="#{teamInfo.activity}" var="label" info="false"
-							paginated="false" searching="false">
+						<t:dataTable value="#{teamInfo.getActivityList()}">
 							<b:dataTableColumn label="">
-								<h:outputText value="#{label}" />
+								<h:outputText value="#{item}" />
 							</b:dataTableColumn>
 							<b:dataTableColumn label="Fiú">
 								<h:outputText
-									value="#{teamInfo.getNumberByStatusGender(label,'MALE')}" />
+									value="#{teamInfo.getNumberByStatusGender(item,'MALE')}" />
 							</b:dataTableColumn>
 							<b:dataTableColumn label="Lány">
 								<h:outputText
-									value="#{teamInfo.getNumberByStatusGender(label,'FEMALE')}" />
+									value="#{teamInfo.getNumberByStatusGender(item,'FEMALE')}" />
 							</b:dataTableColumn>
 							<b:dataTableColumn label="Σ">
-								<h:outputText value="#{teamInfo.getNumberByStatus(label)}" />
+								<h:outputText value="#{teamInfo.getNumberByStatus(item)}" />
 							</b:dataTableColumn>
-						</b:dataTable>
+						</t:dataTable>
 					</b:row>
 					<b:row styleClass="pulledRow">
 						<h:outputText value="Vallási megoszlás" styleClass="subTitle" />
-						<b:dataTable value="#{enums.religions}" var="label" info="false"
-							paginated="false" searching="false">
+						<t:dataTable value="#{enums.getReligionsList()}">
 							<b:dataTableColumn label="">
-								<h:outputText value="#{label.label}" />
+								<h:outputText value="#{item.label}" />
 							</b:dataTableColumn>
 							<b:dataTableColumn label="Fiú">
 								<h:outputText
-									value="#{teamInfo.getNumberByReligionGender(label.label,'MALE')}" />
+									value="#{teamInfo.getNumberByReligionGender(item.label,'MALE')}" />
 							</b:dataTableColumn>
 							<b:dataTableColumn label="Lány">
 								<h:outputText
-									value="#{teamInfo.getNumberByReligionGender(label.label,'FEMALE')}" />
+									value="#{teamInfo.getNumberByReligionGender(item.label,'FEMALE')}" />
 							</b:dataTableColumn>
 							<b:dataTableColumn label="Σ">
-								<h:outputText value="#{teamInfo.getNumberByReligion(label.label)}" />
+								<h:outputText
+									value="#{teamInfo.getNumberByReligion(item.label)}" />
 							</b:dataTableColumn>
-						</b:dataTable>
+						</t:dataTable>
 					</b:row>
 				</b:panelGrid>
 

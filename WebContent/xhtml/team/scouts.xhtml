@@ -15,25 +15,24 @@
 		<ui:define name="innerContent">
 
 			<b:form>
-				<b:row styleClass="pulledRow">
-					<h:outputLabel value="Cserkészek névsora" styleClass="tabTitle" />
-				</b:row>
-				<b:dataTable value="#{teamInfo.scouts}" var="scout" info="false"
-					paginated="false">
+				<t:pageHeader title="Cserkészek névsora" undoButton="false"
+					saveButton="false" />
+
+				<t:dataTable value="#{teamInfo.scouts}" searching="true" >
 					<b:dataTableColumn label="Név">
-						<b:link value="#{scout.person.getFullName()}"
-							href="#{scout.getScoutUrl()}" />
+						<b:link value="#{item.person.getFullName()}"
+							href="#{item.getScoutUrl()}" />
 					</b:dataTableColumn>
 					<b:dataTableColumn label="Aktivitás">
-						<h:outputText value="#{scout.status.label}" />
+						<h:outputText value="#{item.status.label}" />
 					</b:dataTableColumn>
 					<b:dataTableColumn label="Nem">
-						<h:outputText value="#{scout.person.gender.label}" />
+						<h:outputText value="#{item.person.gender.label}" />
 					</b:dataTableColumn>
 					<b:dataTableColumn label="Vallás">
-						<h:outputText value="#{scout.person.religion.label}" />
+						<h:outputText value="#{item.person.religion.label}" />
 					</b:dataTableColumn>
-				</b:dataTable>
+				</t:dataTable>
 
 			</b:form>
 

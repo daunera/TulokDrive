@@ -2,6 +2,7 @@ package hu.tobias.controllers.team;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -62,6 +63,10 @@ public class TeamInfoController implements Serializable {
 
 	public String[] getActivity() {
 		return activity;
+	}
+	
+	public List<String> getActivityList(){
+		return Arrays.asList(activity);
 	}
 
 	public int getNumberByStatusGender(String status, String gender) {

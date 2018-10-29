@@ -23,7 +23,7 @@
 						itemValue="#{year}" itemLabel="#{year}" />
 				</b:selectOneMenu>
 
-				<b:dataTable value="#{patrolController.scoutList}" var="scout"
+				<b:dataTable value="#{userController.orderScoutSet(patrolController.patrol.scouts)}" var="scout"
 					info="false" paginated="false" searching="false"
 					scrollHorizontally="true" id="feeDataTable">
 					<b:dataTableColumn label="Név">

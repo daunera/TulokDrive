@@ -1,9 +1,6 @@
 package hu.tobias.controllers.patrol;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -22,7 +19,6 @@ import hu.tobias.entities.Patrol;
 import hu.tobias.entities.Scout;
 import hu.tobias.entities.enums.TabName;
 import hu.tobias.entities.exceptions.NotFoundEntityException;
-import hu.tobias.services.comparator.ScoutNameComparator;
 import hu.tobias.services.dao.PatrolDao;
 import hu.tobias.services.dao.ScoutDao;
 
@@ -46,7 +42,6 @@ public class PatrolController implements Serializable {
 	private Patrol patrol = new Patrol();
 	private int patrolid;
 
-	private List<Scout> scoutList;
 	private Scout moddedScout = new Scout();
 
 	public PatrolController() {
@@ -63,9 +58,6 @@ public class PatrolController implements Serializable {
 		} catch (NotFoundEntityException e) {
 			userController.redirectDbError();
 		}
-
-		scoutList = new ArrayList<Scout>(patrol.getScouts());
-		Collections.sort(scoutList, new ScoutNameComparator());
 	}
 
 	public UserController getUserController() {
@@ -99,14 +91,6 @@ public class PatrolController implements Serializable {
 	public void setPatrolid(int patrolid) {
 		this.patrolid = patrolid;
 	}
-
-	public List<Scout> getScoutList() {
-		return scoutList;
-	}
-
-	public void setScoutList(List<Scout> scoutList) {
-		this.scoutList = scoutList;
-	}
 	
 	public Scout getModdedScout() {
 		return moddedScout;
@@ -122,7 +106,7 @@ public class PatrolController implements Serializable {
 	}
 	
 	public void saveScoutEdit() {
-		for(Scout s : scoutList) {
+		for(Scout s : patrol.getScouts()) {
 			scoutService.update(s);
 		}
 		userController.changeEdit();

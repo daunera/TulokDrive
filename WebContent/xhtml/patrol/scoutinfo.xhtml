@@ -19,55 +19,27 @@
 					saveMethod="saveScoutEdit" undoBean="#{patrolController}"
 					undoMethod="undoEdit" />
 
-				<b:dataTable value="#{patrolController.scoutList}" var="scout"
-					info="false" paginated="false" searching="false"
-					scrollHorizontally="true">
+				<t:dataTable
+					value="#{userController.orderScoutSet(patrolController.patrol.scouts)}">
 					<b:dataTableColumn label="Név">
-						<b:link value="#{scout.person.getFullName()}"
-							href="#{scout.getScoutUrl()}"
-							rendered="#{not userController.edit}" />
-						<h:outputText value="#{scout.person.getFullName()}"
-							rendered="#{userController.edit}" />
+						<t:entityLink entity="#{item}"/>
 					</b:dataTableColumn>
 					<b:dataTableColumn label="ECSET-kód">
-						<h:outputText value="#{scout.ecsetcode}"
-							rendered="#{not userController.edit}" />
-						<b:inputText value="#{scout.ecsetcode}"
-							rendered="#{userController.edit}" />
+						<t:textField value="#{item.ecsetcode}" />
 					</b:dataTableColumn>
 					<b:dataTableColumn label="Aktivitás">
-						<h:outputText value="#{scout.status.label}"
-							rendered="#{not userController.edit}" />
-						<b:selectOneMenu value="#{scout.status}"
-							rendered="#{userController.edit}">
-							<f:selectItems value="#{enums.statuses}" var="status"
-								itemValue="#{status}" itemLabel="#{status.label}" />
-						</b:selectOneMenu>
+						<t:dropdown list="#{enums.statuses}" value="#{item.status}" />
 					</b:dataTableColumn>
 					<b:dataTableColumn label="Belépés ideje">
-						<h:outputText value="#{scout.getSimpleJoindate()}"
-							rendered="#{not userController.edit}" />
-						<b:datepicker value="#{scout.joindate}"
-							rendered="#{userController.edit}" mode="popup" changeMonth="true"
-							changeYear="true" />
+						<t:datepicker value="#{item.joindate}" showIcon="false"/>
 					</b:dataTableColumn>
 					<b:dataTableColumn label="Kilépés ideje">
-						<h:outputText value="#{scout.getSimpleLeavedate()}"
-							rendered="#{not userController.edit}" />
-						<b:datepicker value="#{scout.leavedate}"
-							rendered="#{userController.edit}" mode="popup" changeMonth="true"
-							changeYear="true" />
+						<t:datepicker value="#{item.leavedate}" showIcon="false"/>
 					</b:dataTableColumn>
 					<b:dataTableColumn label="Tagkártya">
-						<h:outputText value="#{scout.scoutcard.label}"
-							rendered="#{not userController.edit}" />
-						<b:selectOneMenu value="#{scout.scoutcard}"
-							rendered="#{userController.edit}">
-							<f:selectItems value="#{enums.cards}" var="card"
-								itemValue="#{card}" itemLabel="#{card.label}" />
-						</b:selectOneMenu>
+						<t:dropdown list="#{enums.cards}" value="#{item.scoutcard}" />
 					</b:dataTableColumn>
-				</b:dataTable>
+				</t:dataTable>
 			</b:form>
 
 		</ui:define>

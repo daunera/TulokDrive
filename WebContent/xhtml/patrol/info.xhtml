@@ -31,23 +31,20 @@
 					</t:rowWithLabel>
 				</t:table>
 
+
+				<h:outputText value="Őrsvezetők:" styleClass="subTitle" />
+				<t:table>
+					<ui:repeat var="leader"
+						value="#{userController.orderLeaderSet(patrolController.patrol.leaders)}"
+						varStatus="var">
+						<t:row>
+							<b:link value="#{leader.scout.person.getFullName()}"
+								href="#{leader.scout.getScoutUrl()}" />
+						</t:row>
+					</ui:repeat>
+				</t:table>
+
 				<b:panelGrid colSpans="12">
-					<h:outputText value="Őrsvezetők:" styleClass="subTitle" />
-					<b:dataTable value="#{userController.orderLeaderSet(patrolController.patrol.leaders)}" var="item"
-						info="false" paginated="false" searching="false"
-						rowHighlight="false" styleClass="tableNoHeader"
-						rendered="#{not empty patrolController.patrol.leaders}">
-						<b:dataTableColumn>
-							<b:row>
-								<b:link value="#{item.scout.person.getFullName()}"
-									href="#{item.scout.getScoutUrl()}" style="padding-right:5px;"
-									span="8" />
-							</b:row>
-						</b:dataTableColumn>
-					</b:dataTable>
-					<h:outputText
-						value="A szerkesztés gombra kattintva tudsz új őrstagot hozzáadni"
-						rendered="#{empty patrolController.scoutList}" />
 
 					<b:row styleClass="pulledRow">
 						<h:outputText value="Őrstagok:" styleClass="subTitle" />
@@ -55,14 +52,10 @@
 							rendered="#{userController.edit}"
 							onclick="$('.scout_modal').modal()" />
 					</b:row>
-					<b:dataTable value="#{patrolController.scoutList}" var="item"
-						info="false" paginated="false" searching="false"
-						rowHighlight="false" styleClass="tableNoHeader"
-						rendered="#{not empty patrolController.scoutList}">
-						<b:dataTableColumn style="width:20px">
-							<div align="center">
-								#{patrolController.scoutList.indexOf(item)+1}.</div>
-						</b:dataTableColumn>
+					<t:dataTable
+						value="#{userController.orderScoutSet(patrolController.patrol.scouts)}"
+						rendered="#{not empty patrolController.scoutList}" nums="true"
+						noHead="true">
 						<b:dataTableColumn>
 							<b:row styleClass="pulledRow">
 								<b:link value="#{item.person.getFullName()}"
@@ -72,7 +65,7 @@
 									rendered="#{userController.edit}" />
 							</b:row>
 						</b:dataTableColumn>
-					</b:dataTable>
+					</t:dataTable>
 					<h:outputText
 						value="A szerkesztés gombra kattintva tudsz új őrstagot hozzáadni"
 						rendered="#{empty patrolController.scoutList}" />
@@ -100,18 +93,8 @@
 							</b:panelGrid>
 							<h:outputText
 								value="Minden más adatot a személyes oldalon tudsz majd beállítani." />
-							<hr style="margin: 10px;" />
-							<b:panelGrid colSpans="12">
-								<b:row>
-									<div align="right" style="padding-right: 10px;">
-
-										<b:button value="Vissza" iconAwesome="arrow-left"
-											dismiss="modal" style="margin: 0px 5px 0px 0px;" />
-										<b:commandButton value="Létrehozás" iconAwesome="save"
-											action="#{patrolInfo.saveNewScout()}" />
-									</div>
-								</b:row>
-							</b:panelGrid>
+							<t:modalFooter mode="create"
+								action="#{patrolInfo.saveNewScout()}" />
 						</b:tab>
 						<b:tab title="Meglévő cserkészek közül választás">
 							<br />
@@ -122,16 +105,8 @@
 										itemValue="#{scout}" itemLabel="#{scout.person.getFullName()}" />
 								</b:selectOneMenu>
 							</b:panelGrid>
-							<b:panelGrid colSpans="12">
-								<b:row>
-									<div align="right" style="padding-right: 10px;">
-										<b:button value="Vissza" iconAwesome="arrow-left"
-											dismiss="modal" style="margin: 0px 5px 0px 0px;" />
-										<b:commandButton value="Kiválasztás" iconAwesome="save"
-											action="#{patrolInfo.saveSelectedScout(patrolInfo.selectedScout)}" />
-									</div>
-								</b:row>
-							</b:panelGrid>
+							<t:modalFooter mode="select"
+								action="#{patrolInfo.saveSelectedScout(patrolInfo.selectedScout)}" />
 						</b:tab>
 					</b:tabView>
 				</b:modal>

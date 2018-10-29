@@ -13,16 +13,12 @@
 
 		<c:if test="#{empty rendered}">
 			<c:set var="rendered" value="true" />
-		</c:if>
-		
-		<c:if test="#{empty order}">
-			<c:set var="order" value="[0, 'asc']" />
-		</c:if>
+		</c:if>		
 
 		<c:if test="#{empty border}">
 			<c:set var="border" value="false" />
 		</c:if>
-		
+
 		<c:if test="#{empty striped}">
 			<c:set var="striped" value="false" />
 		</c:if>
@@ -42,15 +38,37 @@
 		<c:if test="#{empty scrollHorizontally}">
 			<c:set var="scrollHorizontally" value="true" />
 		</c:if>
-
+		
 		<c:if test="#{empty scrollX}">
 			<c:set var="scrollX" value="false" />
 		</c:if>
+		
+		<c:if test="#{empty nums}">
+			<c:set var="numStyle" value="false" />
+		</c:if>
+		<c:if test="#{nums == true}">
+			<c:set var="numStyle" value="" />
+		</c:if>
+		<c:if test="#{nums != true}">
+			<c:set var="numStyle" value="hidden" />
+		</c:if>
+				
+		<c:if test="#{empty noHead}">
+			<c:set var="noHead" value="false" />
+		</c:if>
+		<c:if test="#{noHead == true}">
+			<c:set var="noHeadStyle" value="tableNoHeader" />
+		</c:if>
+		<c:if test="#{noHead != true}">
+			<c:set var="noHeadStyle" value="" />
+		</c:if>
 
-		<b:dataTable value="#{value}" var="item" border="#{border}" striped="#{striped}"
-			info="#{info}" paginated="#{paginated}" searching="#{searching}"
-			scrollHorizontally="#{scrollHorizontally}" scrollX="#{scrollX}"
-			rendered="#{rendered}" customOptions="order:#{order}">
+		<b:dataTable value="#{value}" var="item" border="#{border}"
+			striped="#{striped}" info="#{info}" paginated="#{paginated}"
+			searching="#{searching}" scrollHorizontally="#{scrollHorizontally}"
+			scrollX="#{scrollX}" rendered="#{rendered}" style="width: 100%" styleClass="#{noHeadStyle}">
+			<b:dataTableColumn label="" orderable="false"
+				styleClass="#{numStyle}" value="#{value.indexOf(item) + 1}" style="width:18px;" />
 			<ui:insert />
 		</b:dataTable>
 

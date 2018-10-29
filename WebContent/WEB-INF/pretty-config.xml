@@ -142,8 +142,14 @@
 		<view-id value="/xhtml/team/leader.xhtml" />
 		<action>#{teamController.loadData}</action>
 	</url-mapping>
+	
+	<url-mapping id="teamTroop">
+		<pattern value="/team/troop" />
+		<view-id value="/xhtml/team/troop.xhtml" />
+		<action>#{teamController.loadData}</action>
+	</url-mapping>
 
-	<url-mapping id="teamGroup">
+	<url-mapping id="teamPatrol">
 		<pattern value="/team/patrol" />
 		<view-id value="/xhtml/team/patrol.xhtml" />
 		<action>#{teamController.loadData}</action>

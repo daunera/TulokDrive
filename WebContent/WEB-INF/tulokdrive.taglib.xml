@@ -160,7 +160,6 @@
 		</attribute>
 		<attribute>
 			<name>mode</name>
-			<required>true</required>
 		</attribute>
 		<attribute>
 			<name>entity</name>
@@ -199,7 +198,10 @@
 			<name>scrollX</name>
 		</attribute>
 		<attribute>
-			<name>order</name>
+			<name>nums</name>
+		</attribute>
+		<attribute>
+			<name>noHead</name>
 		</attribute>
 	</tag>
 

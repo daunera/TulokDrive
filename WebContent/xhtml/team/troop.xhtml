@@ -7,20 +7,16 @@
 	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:t="http://tulok.vzma.hu/tags">
+<h:head>
+	<h:outputStylesheet name="css/styles.css" />
+</h:head>
 <h:body>
+	<ui:composition template="/xhtml/team/teamFrame.xhtml">
+		<ui:define name="innerContent">
 
-	<ui:composition>
+			TROOP
 
-		<c:if test="#{empty edit}">
-			<c:set var="edit" value="#{userController.edit}" />
-		</c:if>
-
-		<h:outputText value="#{value.label}" rendered="#{not edit}" />
-		<b:selectOneMenu value="#{value}" rendered="#{edit}">
-			<f:selectItems value="#{list}" var="element" itemValue="#{element}"
-				itemLabel="#{element.label}" />
-		</b:selectOneMenu>
-
+		</ui:define>
 	</ui:composition>
 </h:body>
 </html>

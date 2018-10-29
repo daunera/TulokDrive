@@ -31,6 +31,7 @@ public class PatrolPersonalController implements Serializable {
 	@Inject
 	private PatrolController patrolController;
 
+	// TODO: addressModal not working
 	private List<Address> addresses = new ArrayList<Address>();
 	private Address newAddress = new Address();
 	private Address selectedAddress = new Address();

@@ -12,6 +12,8 @@ import freemarker.cache.WebappTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateExceptionHandler;
 
+// email template freemaker configure bean
+
 @Named
 @ApplicationScoped
 public class ConfigBean implements Serializable {

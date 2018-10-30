@@ -93,8 +93,8 @@
 			<name>edit</name>
 		</attribute>
 		<attribute>
-			<name>mode</name>
 			<description>popup modes: inline, popup, plain</description>
+			<name>mode</name>
 		</attribute>
 		<attribute>
 			<name>autoPopup</name>
@@ -139,9 +139,9 @@
 		<tag-name>modalFooter</tag-name>
 		<source>tags/modalFooter.xhtml</source>
 		<attribute>
+			<description>create, modify, select, save</description>
 			<name>mode</name>
 			<required>true</required>
-			<description>create, modify, select, save</description>
 		</attribute>
 		<attribute>
 			<name>action</name>
@@ -162,8 +162,8 @@
 			<name>edit</name>
 		</attribute>
 		<attribute>
-			<name>mode</name>
 			<description>scout (default), person, leader, patrol, troop</description>
+			<name>mode</name>
 		</attribute>
 		<attribute>
 			<name>entity</name>

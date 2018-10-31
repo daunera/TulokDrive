@@ -51,15 +51,14 @@
 								size="xs" style="margin: 0px 5px 0px 0px"
 								rendered="#{userController.edit}" />
 							<ui:repeat var="leader"
-								value="#{userController.orderLeaderSet(patrol.leaders)}" varStatus="var">
-								<b:link value="#{leader.scout.person.getFullName()}"
-									href="#{leader.scout.getScoutUrl()}" />
+								value="#{utils.orderLeaderSet(patrol.leaders)}" varStatus="var">
+								<t:entityLink entity="#{leader}" mode="leader" />
 								<h:outputText value=", " rendered="#{not var.last}"></h:outputText>
 							</ui:repeat>
 						</div>
 					</b:dataTableColumn>
 					<b:dataTableColumn label="Létszám">
-						<h:outputText value="#{patrol.scouts.size()}" />
+						<h:outputText value="#{patrol.getActiveNum()}" />
 					</b:dataTableColumn>
 					<b:dataTableColumn label="Alakulás ideje">
 						<h:outputText value="#{patrol.getSimpleBirthdate()}"
@@ -168,7 +167,7 @@
 									value="Válassz a listából egy vezetőt, akit törölni szeretnél:" />
 								<b:selectOneMenu value="#{teamGroup.leaderToDelete}">
 									<f:selectItems
-										value="#{userController.orderLeaderSet(teamGroup.editedPatrol.leaders)}"
+										value="#{utils.orderLeaderSet(teamGroup.editedPatrol.leaders)}"
 										var="leader" itemValue="#{leader}"
 										itemLabel="#{leader.scout.person.getFullName()}" />
 								</b:selectOneMenu>

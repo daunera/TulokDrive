@@ -21,15 +21,11 @@
 				<b:tabView pills="true">
 
 					<b:tab title="Anya">
-						<b:dataTable value="#{userController.orderScoutSet(patrolController.patrol.scouts)}" var="scout"
+						<b:dataTable value="#{utils.orderScoutSet(patrolController.patrol.scouts)}" var="scout"
 							info="false" paginated="false" searching="false"
 							scrollHorizontally="true">
 							<b:dataTableColumn label="Név">
-								<b:link value="#{scout.person.getFullName()}"
-									href="#{scout.getScoutUrl()}"
-									rendered="#{not userController.edit}" />
-								<h:outputText value="#{scout.person.getFullName()}"
-									rendered="#{userController.edit}" />
+								<t:entityLink entity="#{scout}"/>
 							</b:dataTableColumn>
 							<b:dataTableColumn label="" rendered="#{userController.edit}">
 								<b:commandButton iconAwesome="pencil" ajax="true"
@@ -121,15 +117,11 @@
 					</b:tab>
 
 					<b:tab title="Apa">
-						<b:dataTable value="#{userController.orderScoutSet(patrolController.patrol.scouts)}" var="scout"
+						<b:dataTable value="#{utils.orderScoutSet(patrolController.patrol.scouts)}" var="scout"
 							info="false" paginated="false" searching="false"
 							scrollHorizontally="true">
 							<b:dataTableColumn label="Név">
-								<b:link value="#{scout.person.getFullName()}"
-									href="#{scout.getScoutUrl()}"
-									rendered="#{not userController.edit}" />
-								<h:outputText value="#{scout.person.getFullName()}"
-									rendered="#{userController.edit}" />
+								<t:entityLink entity="#{scout}"/>
 							</b:dataTableColumn>
 							<b:dataTableColumn label="" rendered="#{userController.edit}">
 								<b:panelGrid colSpans="12">

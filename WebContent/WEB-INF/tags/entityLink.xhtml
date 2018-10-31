@@ -14,7 +14,7 @@
 		<c:if test="#{empty edit}">
 			<c:set var="edit" value="#{userController.edit}" />
 		</c:if>
-		
+
 		<c:if test="#{empty mode}">
 			<c:set var="mode" value="scout" />
 		</c:if>
@@ -25,20 +25,20 @@
 		</c:if>
 
 		<c:if test="#{mode == 'patrol'}">
-			<c:set var="value" value="#{entity.name}" />
+			<c:set var="value" value="#{entity.name} őrs" />
 			<c:set var="href" value="#{entity.getPatrolUrl()}" />
 		</c:if>
-		
+
 		<c:if test="#{mode == 'troop'}">
-			<c:set var="value" value="#{entity.name}" />
+			<c:set var="value" value="#{entity.name} raj" />
 			<c:set var="href" value="#{entity.getTroopUrl()}" />
 		</c:if>
-		
+
 		<c:if test="#{mode == 'leader'}">
 			<c:set var="value" value="#{entity.scout.person.getFullName()}" />
 			<c:set var="href" value="#{entity.scout.getScoutUrl()}" />
 		</c:if>
-		
+
 		<c:if test="#{mode == 'person'}">
 			<c:set var="value" value="#{entity.getFullName()}" />
 			<c:set var="href" value="#{entity.scout.getScoutUrl()}" />

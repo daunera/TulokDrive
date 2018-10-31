@@ -19,10 +19,9 @@
 					saveMethod="saveScoutEdit" undoBean="#{patrolController}"
 					undoMethod="undoEdit" />
 
-				<t:dataTable
-					value="#{userController.orderScoutSet(patrolController.patrol.scouts)}">
+				<t:dataTable value="#{patrolController.patrol}" type="patrol">
 					<b:dataTableColumn label="Név">
-						<t:entityLink entity="#{item}"/>
+						<t:entityLink entity="#{item}" />
 					</b:dataTableColumn>
 					<b:dataTableColumn label="ECSET-kód">
 						<t:textField value="#{item.ecsetcode}" />
@@ -31,10 +30,10 @@
 						<t:dropdown list="#{enums.statuses}" value="#{item.status}" />
 					</b:dataTableColumn>
 					<b:dataTableColumn label="Belépés ideje">
-						<t:datepicker value="#{item.joindate}" showIcon="false"/>
+						<t:datepicker value="#{item.joindate}" showIcon="false" />
 					</b:dataTableColumn>
 					<b:dataTableColumn label="Kilépés ideje">
-						<t:datepicker value="#{item.leavedate}" showIcon="false"/>
+						<t:datepicker value="#{item.leavedate}" showIcon="false" />
 					</b:dataTableColumn>
 					<b:dataTableColumn label="Tagkártya">
 						<t:dropdown list="#{enums.cards}" value="#{item.scoutcard}" />

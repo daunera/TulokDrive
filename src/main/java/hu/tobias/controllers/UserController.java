@@ -5,7 +5,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -16,13 +15,9 @@ import javax.inject.Named;
 
 import hu.tobias.entities.Leader;
 import hu.tobias.entities.Patrol;
-import hu.tobias.entities.Scout;
 import hu.tobias.entities.Troop;
 import hu.tobias.entities.exceptions.NotFoundEntityException;
-import hu.tobias.services.comparator.LeaderNameComparator;
 import hu.tobias.services.comparator.PatrolNameComparator;
-import hu.tobias.services.comparator.ScoutNameComparator;
-import hu.tobias.services.comparator.TroopNameComparator;
 import hu.tobias.services.dao.LeaderDao;
 
 @Named(value = "userController")
@@ -103,7 +98,7 @@ public class UserController implements Serializable {
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("user", leader);
 	}
 
-	public void reloadPatrolName() {
+	public void reloadPatrol() {
 		reloadUser();
 		patrols = new ArrayList<Patrol>(leader.getPatrols());
 		Collections.sort(patrols, new PatrolNameComparator());
@@ -133,29 +128,4 @@ public class UserController implements Serializable {
 	public void redirectDbError() {
 		redirectRelative("error/db");
 	}
-	
-	public List<Patrol> orderPatrolSet(Set<Patrol> set) {
-		List<Patrol> result = new ArrayList<Patrol>(set);
-		Collections.sort(result, new PatrolNameComparator());
-		return result;
-	}
-	
-	public List<Leader> orderLeaderSet(Set<Leader> set) {
-		List<Leader> result = new ArrayList<Leader>(set);
-		Collections.sort(result, new LeaderNameComparator());
-		return result;
-	}
-	
-	public List<Troop> orderTroopSet(Set<Troop> set) {
-		List<Troop> result = new ArrayList<Troop>(set);
-		Collections.sort(result, new TroopNameComparator());
-		return result;
-	}
-	
-	public List<Scout> orderScoutSet(Set<Scout> set) {
-		List<Scout> result = new ArrayList<Scout>(set);
-		Collections.sort(result, new ScoutNameComparator());
-		return result;
-	}
-
 }

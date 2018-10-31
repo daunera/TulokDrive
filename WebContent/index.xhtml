@@ -34,8 +34,8 @@
 							<h:outputText value="#{news.text}" />
 							<f:facet name="footer">
 								<h:outputText value="Küldő: " />
-								<b:link value="#{news.submitter.scout.person.getFullName()}"
-									href="#{news.submitter.scout.getScoutUrl()}" />
+								<t:entityLink entity="#{news.submitter.scout}" mode="scout"
+									edit="#{!userController.leader.god}" />
 								<h:outputText value=", aktuális #{news.getSimpleExpire()}-ig" />
 							</f:facet>
 						</b:panel>
@@ -49,7 +49,8 @@
 					<ui:repeat var="boi" value="#{mainPage.happyBois}" varStatus="var">
 						<h:outputText
 							value="#{boi.birthdate.getMonth()+1}.#{boi.birthdate.getDate()} - " />
-						<t:entityLink mode="scout" entity="#{boi.scout}" edit="#{userController.leader.god}" />
+						<t:entityLink mode="scout" entity="#{boi.scout}"
+							edit="#{!userController.leader.god}" />
 						<h:outputText value=" (#{boi.getAge()+1} éves)" />
 						<b:row rendered="#{not var.last}">
 							<hr style="margin: 10px;" />

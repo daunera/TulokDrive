@@ -91,3 +91,16 @@ html, body {
 .solidLine {
 	border-top: 1px solid #eeeeee;
 }
+
+.inactive, .inactive a {
+	color: gray;
+}
+
+.quit, .quit a {
+	color: gray;
+	text-decoration: line-through;
+}
+
+.highlighted {
+	background-color: whitesmoke;
+}

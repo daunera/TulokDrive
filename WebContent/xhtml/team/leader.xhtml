@@ -33,11 +33,7 @@
 							info="false" paginated="false" searching="false"
 							scrollHorizontally="true">
 							<b:dataTableColumn label="Név">
-								<b:link value="#{leader.scout.person.getFullName()}"
-									href="#{leader.scout.getScoutUrl()}"
-									rendered="#{not userController.edit}" />
-								<h:outputText value="#{leader.scout.person.getFullName()}"
-									rendered="#{userController.edit}" />
+								<t:entityLink entity="#{leader}" mode="leader" />
 							</b:dataTableColumn>
 							<b:dataTableColumn label="Vezető lett">
 								<h:outputText value="#{leader.getSimpleBecomedate()}"
@@ -55,9 +51,9 @@
 										size="xs" style="margin: 0px 5px 0px 0px"
 										rendered="#{userController.edit}" />
 									<ui:repeat var="patrol"
-										value="#{userController.orderPatrolSet(leader.patrols)}" varStatus="var">
-										<b:link value="#{patrol.getName()} őrs"
-											href="#{patrol.getPatrolUrl()}" />
+										value="#{utils.orderPatrolSet(leader.patrols)}"
+										varStatus="var">
+										<t:entityLink entity="#{patrol}" mode="patrol" />
 										<h:outputText value=", " rendered="#{not var.last}" />
 									</ui:repeat>
 								</div>
@@ -81,11 +77,7 @@
 							info="false" paginated="false" searching="false"
 							scrollHorizontally="true">
 							<b:dataTableColumn label="Név">
-								<b:link value="#{leader.scout.person.getFullName()}"
-									href="#{leader.scout.getScoutUrl()}"
-									rendered="#{not userController.edit}" />
-								<h:outputText value="#{leader.scout.person.getFullName()}"
-									rendered="#{userController.edit}" />
+								<t:entityLink entity="#{leader}" mode="leader" />
 							</b:dataTableColumn>
 							<b:dataTableColumn label="Egy dátum">
 								<h:outputText value="#{leader.getSimplePromisedate()}"
@@ -114,11 +106,7 @@
 							info="false" paginated="false" searching="false"
 							scrollHorizontally="true">
 							<b:dataTableColumn label="Név">
-								<b:link value="#{leader.scout.person.getFullName()}"
-									href="#{leader.scout.getScoutUrl()}"
-									rendered="#{not userController.edit}" />
-								<h:outputText value="#{leader.scout.person.getFullName()}"
-									rendered="#{userController.edit}" />
+								<t:entityLink entity="#{leader}" mode="leader" />
 							</b:dataTableColumn>
 							<b:dataTableColumn label="Kulcs sorszám">
 								<h:outputText value="#{leader.keynum}"
@@ -141,11 +129,7 @@
 							info="false" paginated="false" searching="false"
 							scrollHorizontally="true">
 							<b:dataTableColumn label="Név">
-								<b:link value="#{leader.scout.person.getFullName()}"
-									href="#{leader.scout.getScoutUrl()}"
-									rendered="#{not userController.edit}" />
-								<h:outputText value="#{leader.scout.person.getFullName()}"
-									rendered="#{userController.edit}" />
+								<t:entityLink entity="#{leader}" mode="leader" />
 							</b:dataTableColumn>
 							<b:dataTableColumn label="Felhasználónév">
 								<h:outputText value="#{leader.username}"
@@ -266,7 +250,7 @@
 								<b:selectOneMenu value="#{teamLeader.patrolToDelete}"
 									rendered="#{not empty teamLeader.patrolToDelete}">
 									<f:selectItems
-										value="#{userController.orderLeaderSet(teamLeader.editedLeader.patrols)}"
+										value="#{utils.orderLeaderSet(teamLeader.editedLeader.patrols)}"
 										var="patrol" itemValue="#{patrol}"
 										itemLabel="#{patrol.name} őrs" />
 								</b:selectOneMenu>

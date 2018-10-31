@@ -202,10 +202,24 @@
 			<name>scrollX</name>
 		</attribute>
 		<attribute>
+			<name>rowHighlight</name>
+		</attribute>
+		<attribute>
 			<name>nums</name>
 		</attribute>
 		<attribute>
 			<name>noHead</name>
+		</attribute>
+		<attribute>
+			<name>colorStat</name>
+		</attribute>
+		<attribute>
+			<description>modes: status, name, leader, patrol, troop</description>
+			<name>order</name>
+		</attribute>
+		<attribute>
+			<description>modes: patrol</description>
+			<name>type</name>
 		</attribute>
 	</tag>
 	<tag>

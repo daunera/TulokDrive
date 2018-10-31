@@ -86,7 +86,7 @@ public class PatrolInfoController implements Serializable {
 
 	public void saveEdit() {
 		patrolService.update(patrolController.getPatrol());
-		patrolController.getUserController().reloadPatrolName();
+		patrolController.getUserController().reloadPatrol();
 		patrolController.getUserController().changeEdit();
 	}
 

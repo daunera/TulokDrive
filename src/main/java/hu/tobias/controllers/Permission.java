@@ -28,7 +28,7 @@ public class Permission implements Serializable {
 	}
 
 	public boolean checkScoutPermission(Integer scoutid) {
-		userController.reloadPatrolName();
+		userController.reloadPatrol();
 		if (userController.getLeader().isAGod())
 			return true;
 		if (userController.getLeader().getScout().getId().equals(scoutid))
@@ -46,7 +46,7 @@ public class Permission implements Serializable {
 	}
 
 	public boolean checkPatrolPermission(Integer patrolid) {
-		userController.reloadPatrolName();
+		userController.reloadPatrol();
 		if (userController.getLeader().isAGod())
 			return true;
 
@@ -63,7 +63,7 @@ public class Permission implements Serializable {
 	}
 	
 	public boolean checkTroopPermission(Integer troopid) {
-		userController.reloadPatrolName();
+		userController.reloadPatrol();
 		if (userController.getLeader().isAGod())
 			return true;
 
@@ -98,7 +98,7 @@ public class Permission implements Serializable {
 	}
 	
 	public boolean checkScoutPermissionNoRedir(Integer scoutid) {
-		userController.reloadPatrolName();
+		userController.reloadPatrol();
 		if (userController.getLeader().isAGod())
 			return true;
 		if (userController.getLeader().getScout().getId().equals(scoutid))
@@ -115,7 +115,7 @@ public class Permission implements Serializable {
 	}
 
 	public boolean checkPatrolPermissionNoRedir(Integer patrolid) {
-		userController.reloadPatrolName();
+		userController.reloadPatrol();
 		if (userController.getLeader().isAGod())
 			return true;
 

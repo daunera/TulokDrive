@@ -11,9 +11,50 @@
 
 	<ui:composition>
 
+		<c:choose>
+			<c:when test="#{type == 'patrol'}">
+				<c:set var="people" value="#{utils.getPatrolPeople(value)}" />
+				<c:set var="leaderNum" value="#{value.getLeaderNum()}" />
+				<c:set var="activeNum" value="#{value.getActiveNum()}" />
+				<c:set var="nums" value="true" />
+				<c:if test="#{empty colorStat}">
+					<c:set var="colorStat" value="true" />
+				</c:if>
+				<c:set var="value" value="#{people}" />
+			</c:when>
+			<c:otherwise>
+				<c:set var="value" value="#{value}" />
+			</c:otherwise>
+		</c:choose>
+
+		<c:choose>
+			<c:when test="#{order == 'status'}">
+				<c:set var="value" value="#{utils.orderScoutSetByStatus(value)}" />
+				<c:if test="#{empty colorStat}">
+					<c:set var="colorStat" value="true" />
+				</c:if>
+				<c:set var="activeNum" value="#{utils.countActive(value)}" />
+			</c:when>
+			<c:when test="#{order == 'name'}">
+				<c:set var="value" value="#{utils.orderScoutSet(value)}" />
+			</c:when>
+			<c:when test="#{order == 'leader'}">
+				<c:set var="value" value="#{utils.orderLeaderSet(value)}" />
+			</c:when>
+			<c:when test="#{order == 'patrol'}">
+				<c:set var="value" value="#{utils.orderPatrolSet(value)}" />
+			</c:when>
+			<c:when test="#{order == 'troop'}">
+				<c:set var="value" value="#{utils.orderTroopSet(value)}" />
+			</c:when>
+			<c:otherwise>
+				<c:set var="value" value="#{value}" />
+			</c:otherwise>
+		</c:choose>
+
 		<c:if test="#{empty rendered}">
 			<c:set var="rendered" value="true" />
-		</c:if>		
+		</c:if>
 
 		<c:if test="#{empty border}">
 			<c:set var="border" value="false" />
@@ -38,21 +79,15 @@
 		<c:if test="#{empty scrollHorizontally}">
 			<c:set var="scrollHorizontally" value="true" />
 		</c:if>
-		
+
 		<c:if test="#{empty scrollX}">
 			<c:set var="scrollX" value="false" />
 		</c:if>
-		
-		<c:if test="#{empty nums}">
-			<c:set var="numStyle" value="false" />
+
+		<c:if test="#{empty rowHighlight}">
+			<c:set var="rowHighligh" value="false" />
 		</c:if>
-		<c:if test="#{nums == true}">
-			<c:set var="numStyle" value="" />
-		</c:if>
-		<c:if test="#{nums != true}">
-			<c:set var="numStyle" value="hidden" />
-		</c:if>
-				
+
 		<c:if test="#{empty noHead}">
 			<c:set var="noHead" value="false" />
 		</c:if>
@@ -63,13 +98,62 @@
 			<c:set var="noHeadStyle" value="" />
 		</c:if>
 
+		<c:if test="#{empty nums}">
+			<c:set var="numStyle" value="false" />
+		</c:if>
+		<c:if test="#{nums == true}">
+			<c:set var="numStyle" value="" />
+		</c:if>
+		<c:if test="#{nums != true}">
+			<c:set var="numStyle" value="hidden" />
+		</c:if>
+
+		<c:if test="#{empty colorStat}">
+			<c:set var="colorStat" value="false" />
+		</c:if>
+		<c:if test="#{colorStat == true }">
+			<c:if test="#{not empty leaderNum}">
+				<c:set var="rowStyleClass"
+					value="#{value.indexOf(item) lt leaderNum ? 'highlighted' : item.status=='INACTIVE'?'inactive':item.status=='QUITTED'?'quit':''}" />
+			</c:if>
+			<c:if test="#{empty leaderNum}">
+				<c:set var="rowStyleClass"
+					value="#{item.status=='INACTIVE'?'inactive':item.status=='QUITTED'?'quit':''}" />
+			</c:if>
+		</c:if>
+		<c:if test="#{colorStat != true}">
+			<c:set var="rowStyleClass" value="" />
+		</c:if>
+
 		<b:dataTable value="#{value}" var="item" border="#{border}"
 			striped="#{striped}" info="#{info}" paginated="#{paginated}"
 			searching="#{searching}" scrollHorizontally="#{scrollHorizontally}"
-			scrollX="#{scrollX}" rendered="#{rendered}" style="width: 100%" styleClass="#{noHeadStyle}">
-			<b:dataTableColumn label="" orderable="false"
-				styleClass="#{numStyle}" value="#{value.indexOf(item) + 1}" style="width:18px;" />
-			<ui:insert />
+			scrollX="#{scrollX}" rendered="#{rendered}" style="width: 100%"
+			styleClass="#{noHeadStyle}" rowStyleClass="#{rowStyleClass}"
+			rowHighlight="#{rowHighlight}">
+			<c:if test="#{type == 'patrol'}">
+				<b:dataTableColumn label="" orderable="false"
+					styleClass="#{numStyle}"
+					value="#{value.indexOf(item) lt leaderNum ? '' : value.indexOf(item) - leaderNum lt activeNum ? value.indexOf(item) + 1 - leaderNum : ''}"
+					style="width:18px;" />
+				<ui:insert />
+			</c:if>
+			<c:if test="#{type != 'patrol'}">
+				<c:if test="#{not empty activeNum}">
+					<b:dataTableColumn label="" orderable="false"
+						styleClass="#{numStyle}"
+						value="#{value.indexOf(item) lt activeNum ? value.indexOf(item) + 1 : ''}"
+						style="width:18px;" />
+					<ui:insert />
+				</c:if>
+				<c:if test="#{empty activeNum}">
+					<b:dataTableColumn label="" orderable="false"
+						styleClass="#{numStyle}" value="#{value.indexOf(item) + 1}"
+						style="width:18px;" />
+					<ui:insert />
+				</c:if>
+			</c:if>
+
 		</b:dataTable>
 
 	</ui:composition>

@@ -24,7 +24,8 @@
 							value="#{profileController.scout.leader.becomeleader}" />
 					</t:rowWithLabel>
 				</t:table>
-				<b:panelGrid colSpans="12" rendered="#{userController.leader.becomeleader != null}">
+				<b:panelGrid colSpans="12"
+					rendered="#{userController.leader.becomeleader != null}">
 					<t:table>
 						<h:outputText value="Vezetői őrs" styleClass="subTitle" />
 						<t:rowWithLabel label="Egy dátum">
@@ -50,15 +51,20 @@
 				</t:table>
 				<b:panelGrid colSpans="12">
 					<h:outputText value="Vezetett egységek" styleClass="subTitle" />
-					<b:dataTable value="#{profileController.scout.leader.patrols}"
-						var="item" info="false" paginated="false" searching="false"
-						rowHighlight="false" styleClass="tableNoHeader"
+					<t:dataTable value="#{profileController.scout.leader.troops}"
+						order="troop" noHead="true"
+						rendered="#{not empty profileController.scout.leader.troops}">
+						<b:dataTableColumn>
+							<t:entityLink entity="#{item}" mode="troop" edit="false" />
+						</b:dataTableColumn>
+					</t:dataTable>
+					<t:dataTable value="#{profileController.scout.leader.patrols}"
+						order="patrol" noHead="true"
 						rendered="#{not empty profileController.scout.leader.patrols}">
 						<b:dataTableColumn>
-							<b:link value="#{item.getName()} őrs"
-								href="#{item.getPatrolUrl()}" />
+							<t:entityLink entity="#{item}" mode="patrol" edit="false"/>
 						</b:dataTableColumn>
-					</b:dataTable>
+					</t:dataTable>
 					<h:outputText value="Nincs megbizatásod"
 						rendered="#{empty profileController.scout.leader.patrols}" />
 				</b:panelGrid>

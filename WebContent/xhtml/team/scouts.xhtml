@@ -18,10 +18,10 @@
 				<t:pageHeader title="Cserkészek névsora" undoButton="false"
 					saveButton="false" />
 
-				<t:dataTable value="#{teamInfo.scouts}" searching="true" >
+				<t:dataTable value="#{utils.orderScoutList(teamInfo.scouts)}"
+					searching="true" colorStat="true">
 					<b:dataTableColumn label="Név">
-						<b:link value="#{item.person.getFullName()}"
-							href="#{item.getScoutUrl()}" />
+						<t:entityLink entity="#{item}" edit="false"/>
 					</b:dataTableColumn>
 					<b:dataTableColumn label="Aktivitás">
 						<h:outputText value="#{item.status.label}" />

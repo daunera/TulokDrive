@@ -22,7 +22,7 @@ import hu.tobias.services.dao.PersonDao;
 public class PatrolPersonalController implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@EJB
 	private PersonDao personService;
 	@EJB
@@ -79,6 +79,7 @@ public class PatrolPersonalController implements Serializable {
 		for (Scout s : patrolController.getPatrol().getScouts()) {
 			personService.update(s.getPerson());
 		}
+		patrolController.getUserController().reloadUser();
 		patrolController.getUserController().changeEdit();
 	}
 

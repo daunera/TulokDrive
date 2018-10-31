@@ -17,6 +17,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import hu.tobias.entities.enums.Gender;
+import hu.tobias.entities.enums.Status;
 import hu.tobias.services.utils.Utils;
 
 @Entity
@@ -41,7 +42,7 @@ public class Patrol implements Serializable {
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "patrol_leader", joinColumns = @JoinColumn(name = "patrol_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "leader_id", referencedColumnName = "id"))
 	private Set<Leader> leaders;
-	
+
 	@ManyToMany(mappedBy = "patrols", fetch = FetchType.EAGER)
 	private Set<Troop> troops;
 
@@ -117,6 +118,19 @@ public class Patrol implements Serializable {
 			return this.id.equals(o.id);
 		}
 		return false;
+	}
+
+	public int getLeaderNum() {
+		return leaders.size();
+	}
+
+	public int getActiveNum() {
+		int count = 0;
+		for (Scout s : scouts) {
+			if (s.getStatus().equals(Status.ACTIVE))
+				count++;
+		}
+		return count;
 	}
 
 }

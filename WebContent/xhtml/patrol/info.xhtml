@@ -35,11 +35,10 @@
 				<h:outputText value="Őrsvezetők:" styleClass="subTitle" />
 				<t:table>
 					<ui:repeat var="leader"
-						value="#{userController.orderLeaderSet(patrolController.patrol.leaders)}"
+						value="#{utils.orderLeaderSet(patrolController.patrol.leaders)}"
 						varStatus="var">
 						<t:row>
-							<b:link value="#{leader.scout.person.getFullName()}"
-								href="#{leader.scout.getScoutUrl()}" />
+							<t:entityLink entity="#{leader}" mode="leader" edit="false" />
 						</t:row>
 					</ui:repeat>
 				</t:table>
@@ -52,17 +51,16 @@
 							rendered="#{userController.edit}"
 							onclick="$('.scout_modal').modal()" />
 					</b:row>
-					<t:dataTable
-						value="#{userController.orderScoutSet(patrolController.patrol.scouts)}"
+					<t:dataTable value="#{patrolController.patrol.scouts}"
+						order="status"
 						rendered="#{not empty patrolController.patrol.scouts}" nums="true"
 						noHead="true">
 						<b:dataTableColumn>
 							<b:row styleClass="pulledRow">
-								<b:link value="#{item.person.getFullName()}"
-									href="#{item.getScoutUrl()}" style="padding-right:5px;" />
+								<t:entityLink entity="#{item}" />
 								<b:commandButton iconAwesome="trash" value="Töröl" size="xs"
 									action="#{patrolInfo.deleteScout(item)}"
-									rendered="#{userController.edit}" />
+									rendered="#{userController.edit}" style="margin-left:10px;" />
 							</b:row>
 						</b:dataTableColumn>
 					</t:dataTable>

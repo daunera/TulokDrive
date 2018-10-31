@@ -129,7 +129,7 @@ public class TeamGroupController implements Serializable{
 			}
 		}
 		teamController.getUserController().changeEdit();
-		teamController.getUserController().reloadPatrolName();
+		teamController.getUserController().reloadPatrol();
 		loadData();
 	}
 
@@ -165,7 +165,7 @@ public class TeamGroupController implements Serializable{
 			patrolService.update(p);
 		patrolService.delete(p);
 		if (refresh)
-			teamController.getUserController().reloadPatrolName();
+			teamController.getUserController().reloadPatrol();
 		loadData();
 	}
 
@@ -197,7 +197,7 @@ public class TeamGroupController implements Serializable{
 		patrolService.update(p);
 
 		if (p.getLeaders().contains(teamController.getUserController().getLeader())) {
-			teamController.getUserController().reloadPatrolName();
+			teamController.getUserController().reloadPatrol();
 		}
 		loadData();
 	}
@@ -208,7 +208,7 @@ public class TeamGroupController implements Serializable{
 
 		if (teamController.getUserController().getLeader().equals(l)
 				|| p.getLeaders().contains(teamController.getUserController().getLeader())) {
-			teamController.getUserController().reloadPatrolName();
+			teamController.getUserController().reloadPatrol();
 		}
 		loadData();
 	}

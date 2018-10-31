@@ -18,15 +18,11 @@
 				<t:pageHeader title="Fogadalmak" saveButton="false" undoBean="#{patrolController}"
 					undoMethod="undoEdit" />
 
-				<b:dataTable value="#{userController.orderScoutSet(patrolController.patrol.scouts)}" var="scout"
+				<b:dataTable value="#{utils.orderScoutSet(patrolController.patrol.scouts)}" var="scout"
 					info="false" paginated="false" searching="false"
 					scrollHorizontally="true">
 					<b:dataTableColumn label="Név">
-						<b:link value="#{scout.person.getFullName()}"
-							href="#{scout.getScoutUrl()}"
-							rendered="#{not userController.edit}" />
-						<h:outputText value="#{scout.person.getFullName()}"
-							rendered="#{userController.edit}" />
+						<t:entityLink entity="#{scout}"/>
 					</b:dataTableColumn>
 					<b:dataTableColumn label="Kiscserkész ígéret">
 						<div>

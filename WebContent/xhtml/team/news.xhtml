@@ -27,8 +27,7 @@
 				<b:dataTable value="#{teamNews.actualNews}" var="news" info="false"
 					paginated="false" searching="false">
 					<b:dataTableColumn label="Beküldő">
-						<b:link value="#{news.submitter.scout.person.getFullName()}"
-							href="#{news.submitter.scout.getScoutUrl()}" />
+						<t:entityLink entity="#{news.submitter.scout}" />
 					</b:dataTableColumn>
 					<b:dataTableColumn label="Beküldés ideje">
 						<h:outputText value="#{news.getSimpleCreated()}" />

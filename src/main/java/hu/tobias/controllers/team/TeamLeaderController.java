@@ -250,7 +250,7 @@ public class TeamLeaderController implements Serializable {
 		patrolService.update(p);
 
 		if (p.getLeaders().contains(teamController.getUserController().getLeader())) {
-			teamController.getUserController().reloadPatrolName();
+			teamController.getUserController().reloadPatrol();
 		}
 		loadData();
 	}
@@ -261,7 +261,7 @@ public class TeamLeaderController implements Serializable {
 
 		if (teamController.getUserController().getLeader().equals(l)
 				|| p.getLeaders().contains(teamController.getUserController().getLeader())) {
-			teamController.getUserController().reloadPatrolName();
+			teamController.getUserController().reloadPatrol();
 		}
 		loadData();
 	}

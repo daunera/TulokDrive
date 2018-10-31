@@ -27,15 +27,13 @@
 						<b:tab title="Aktív kölcsönzések">
 							<t:dataTable value="#{uniformController.activeRents}">
 								<b:dataTableColumn label="Név" style="width:20%;">
-									<b:link value="#{item.scout.person.getFullName()}"
-										href="#{item.scout.getScoutUrl()}" />
+									<t:entityLink entity="#{item.scout}" edit="false" />
 								</b:dataTableColumn>
 								<b:dataTableColumn label="Őrs" style="width:13%;">
 									<ui:repeat var="patrol"
-										value="#{userController.orderPatrolSet(item.scout.patrols)}"
+										value="#{utils.orderPatrolSet(item.scout.patrols)}"
 										varStatus="var">
-										<b:link value="#{patrol.getName()}"
-											href="#{patrol.getPatrolUrl()}" />
+										<t:entityLink entity="#{patrol}" mode="patrol" edit="false" />
 										<h:outputText value=", " rendered="#{not var.last}" />
 									</ui:repeat>
 								</b:dataTableColumn>
@@ -63,15 +61,14 @@
 							<b:dataTable value="#{uniformController.returnedRents}"
 								var="rent" info="false" paginated="false"
 								scrollHorizontally="true">
-									<b:link value="#{rent.scout.person.getFullName()}"
-										href="#{rent.scout.getScoutUrl()}" />
+								<b:dataTableColumn label="Bérlő">
+									<t:entityLink entity="#{rent.scout}" edit="false" />
 								</b:dataTableColumn>
 								<b:dataTableColumn label="Őrs" style="width:13%;">
 									<ui:repeat var="patrol"
-										value="#{userController.orderPatrolSet(rent.scout.patrols)}"
+										value="#{utils.orderPatrolSet(rent.scout.patrols)}"
 										varStatus="var">
-										<b:link value="#{patrol.getName()}"
-											href="#{patrol.getPatrolUrl()}" />
+										<t:entityLink entity="#{patrol}" mode="patrol" edit="false" />
 										<h:outputText value=", " rendered="#{not var.last}" />
 									</ui:repeat>
 								</b:dataTableColumn>

@@ -19,33 +19,37 @@
 			<c:set var="noText" value="false" />
 		</c:if>
 
-		<c:choose>
-			<c:when test="#{mode == 'person'}">
-				<c:set var="#{valueLabel}" value="#{value.getFullName()}" />
-			</c:when>
-			<c:when test="#{mode == 'scout'}">
-				<c:set var="#{valueLabel}" value="#{value.person.getFullName()}" />
-			</c:when>
-			<c:when test="#{mode == 'patrol'}">
-				<c:set var="#{valueLabel}" value="#{value.name} őrs" />
-			</c:when>
-			<c:when test="#{mode == 'troop'}">
-				<c:set var="#{valueLabel}" value="#{value.name} raj" />
-			</c:when>
-			<c:when test="#{mode == 'leader'}">
-				<c:set var="#{valueLabel}"
-					value="#{value.scout.person.getFullName()}" />
-			</c:when>
-			<c:when test="#{mode == 'address'}">
-				<c:set var="#{valueLabel}"
-					value="#{value.getFullAddressWithPhone()}" />
-			</c:when>
-			<c:otherwise>
-				<c:set var="#{valueLabel}" value="#{value.label}" />
-			</c:otherwise>
-		</c:choose>
-
 		<b:row styleClass="pulledRow">
+			<c:choose>
+				<c:when test="#{mode == 'person'}">
+					<h:outputText value="#{value.getFullName()}"
+						rendered="#{not edit and not noText}" />
+				</c:when>
+				<c:when test="#{mode == 'scout'}">
+					<h:outputText value="#{value.person.getFullName()}"
+						rendered="#{not edit and not noText}" />
+				</c:when>
+				<c:when test="#{mode == 'patrol'}">
+					<h:outputText value="#{value.name} őrs"
+						rendered="#{not edit and not noText}" />
+				</c:when>
+				<c:when test="#{mode == 'troop'}">
+					<h:outputText value="#{value.name} raj"
+						rendered="#{not edit and not noText}" />
+				</c:when>
+				<c:when test="#{mode == 'leader'}">
+					<h:outputText value="#{value.scout.person.getFullName()}"
+						rendered="#{not edit and not noText}" />
+				</c:when>
+				<c:when test="#{mode == 'address'}">
+					<h:outputText value="#{value.getFullAddressWithPhone()}"
+						rendered="#{not edit and not noText}" />
+				</c:when>
+				<c:otherwise>
+					<h:outputText value="#{value.label}"
+						rendered="#{not edit and not noText}" />
+				</c:otherwise>
+			</c:choose>
 			<h:outputText value="#{valueLabel}"
 				rendered="#{not edit and not noText}" />
 			<b:selectOneMenu value="#{value}" rendered="#{edit}" ajax="#{ajax}"

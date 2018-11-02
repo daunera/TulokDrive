@@ -19,9 +19,9 @@ import hu.tobias.services.comparator.PatrolNameComparator;
 import hu.tobias.services.dao.LeaderDao;
 import hu.tobias.services.dao.PatrolDao;
 
-@Named(value = "teamGroup")
+@Named(value = "teamPatrol")
 @ViewScoped
-public class TeamGroupController implements Serializable{
+public class TeamPatrolController implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
@@ -44,7 +44,7 @@ public class TeamGroupController implements Serializable{
 	private Leader leaderToAdd = new Leader();
 	private Leader leaderToDelete = new Leader();
 
-	public TeamGroupController() {
+	public TeamPatrolController() {
 	}
 
 	@PostConstruct

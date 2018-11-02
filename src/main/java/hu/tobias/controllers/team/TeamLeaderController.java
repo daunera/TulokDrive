@@ -182,8 +182,6 @@ public class TeamLeaderController implements Serializable {
 
 		newLeader = new Leader();
 		generatedPassword = Utils.generatePassword();
-		// TODO generate username to
-		// newLeader.setUsername(newLeader.getScout().getPerson().getEmail());
 		newLeader.setPassword(generatedPassword);
 		return true;
 	}

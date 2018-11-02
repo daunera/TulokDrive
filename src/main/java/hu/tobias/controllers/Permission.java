@@ -6,6 +6,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import hu.tobias.entities.Leader;
 import hu.tobias.entities.Patrol;
 import hu.tobias.entities.Scout;
 import hu.tobias.entities.Troop;
@@ -15,7 +16,7 @@ import hu.tobias.entities.Troop;
 public class Permission implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Inject
 	private UserController userController;
 
@@ -39,6 +40,27 @@ public class Permission implements Serializable {
 				if (s.getId().equals(scoutid))
 					return true;
 			}
+			for (Leader l : p.getLeaders()) {
+				if (l.getScout().getId().equals(scoutid))
+					return true;
+			}
+		}
+
+		for (Troop t : userController.getTroops()) {
+			for (Patrol p : t.getPatrols()) {
+				for (Scout s : p.getScouts()) {
+					if (s.getId().equals(scoutid))
+						return true;
+				}
+				for (Leader l : p.getLeaders()) {
+					if (l.getScout().getId().equals(scoutid))
+						return true;
+				}
+			}
+			for (Leader l : t.getLeaders()) {
+				if (l.getScout().getId().equals(scoutid))
+					return true;
+			}
 		}
 
 		userController.redirectRelative("error/permission");
@@ -54,6 +76,12 @@ public class Permission implements Serializable {
 			if (p.getId().equals(patrolid))
 				return true;
 
+		for (Troop t : userController.getTroops()) {
+			for (Patrol p : t.getPatrols())
+				if (p.getId().equals(patrolid))
+					return true;
+		}
+
 		for (Patrol p : userController.getLeader().getScout().getPatrols())
 			if (p.getId().equals(patrolid))
 				return true;
@@ -61,7 +89,7 @@ public class Permission implements Serializable {
 		userController.redirectRelative("error/permission");
 		return false;
 	}
-	
+
 	public boolean checkTroopPermission(Integer troopid) {
 		userController.reloadPatrol();
 		if (userController.getLeader().isAGod())
@@ -72,14 +100,14 @@ public class Permission implements Serializable {
 				return true;
 
 		for (Patrol p : userController.getLeader().getScout().getPatrols())
-			for(Troop t : p.getTroops())
-			if (t.getId().equals(troopid))
-				return true;
+			for (Troop t : p.getTroops())
+				if (t.getId().equals(troopid))
+					return true;
 
 		userController.redirectRelative("error/permission");
 		return false;
 	}
-	
+
 	public boolean checkTeamPermission() {
 		userController.reloadUser();
 		if (userController.getLeader().isAGod())
@@ -88,45 +116,12 @@ public class Permission implements Serializable {
 		userController.redirectRelative("error/permission");
 		return false;
 	}
-	
+
 	public boolean checkUniformPermission() {
 		userController.reloadUser();
 		if (userController.getLeader().isAUniformer())
 			return true;
 		userController.redirectRelative("error/permission");
-		return false;
-	}
-	
-	public boolean checkScoutPermissionNoRedir(Integer scoutid) {
-		userController.reloadPatrol();
-		if (userController.getLeader().isAGod())
-			return true;
-		if (userController.getLeader().getScout().getId().equals(scoutid))
-			return true;
-
-		for (Patrol p : userController.getPatrols()) {
-			for (Scout s : p.getScouts()) {
-				if (s.getId().equals(scoutid))
-					return true;
-			}
-		}
-
-		return false;
-	}
-
-	public boolean checkPatrolPermissionNoRedir(Integer patrolid) {
-		userController.reloadPatrol();
-		if (userController.getLeader().isAGod())
-			return true;
-
-		for (Patrol p : userController.getPatrols())
-			if (p.getId().equals(patrolid))
-				return true;
-
-		for (Patrol p : userController.getLeader().getScout().getPatrols())
-			if (p.getId().equals(patrolid))
-				return true;
-
 		return false;
 	}
 

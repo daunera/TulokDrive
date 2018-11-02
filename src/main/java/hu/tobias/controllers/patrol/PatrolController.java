@@ -1,6 +1,8 @@
 package hu.tobias.controllers.patrol;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -10,8 +12,6 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.RequestDispatcher;
-
-import org.apache.commons.lang3.StringUtils;
 
 import hu.tobias.controllers.Permission;
 import hu.tobias.controllers.UserController;
@@ -117,11 +117,11 @@ public class PatrolController implements Serializable {
 		
 		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 		String path = (String) externalContext.getRequestMap().get(RequestDispatcher.FORWARD_REQUEST_URI);
-		String[] pathArray = path.split("/");
-
-		if (StringUtils.isNumeric(pathArray[pathArray.length-1]) && tabParam == TabName.INFO) {
+		List<String> pathArray = Arrays.asList((path.split("/")));
+		
+		if (pathArray.contains(tabParam.getLabel())) {
 			return true;
-		} else if (tabParam.getLabel().equals(pathArray[pathArray.length-1]))
+		} else if (pathArray.get(pathArray.size()-2).equals("patrol") && tabParam.equals(TabName.INFO))
 			return true;
 
 		return false;

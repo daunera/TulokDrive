@@ -22,7 +22,7 @@ import hu.tobias.services.dao.ScoutDao;
 public class PatrolFeeController implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@EJB
 	private ScoutDao scoutService;
 	@EJB
@@ -44,7 +44,9 @@ public class PatrolFeeController implements Serializable {
 		for (Integer i = LocalDateTime.now().getYear(); i >= 2016; i--)
 			years.add(i);
 
-		selectedYear = years.get(0);
+		if (selectedYear == null) {
+			selectedYear = years.get(0);
+		}
 	}
 
 	public PatrolController getPatrolController() {

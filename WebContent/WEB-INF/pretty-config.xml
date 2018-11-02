@@ -94,6 +94,12 @@
 		<view-id value="/xhtml/patrol/fees.xhtml" />
 		<action>#{patrolController.loadData}</action>
 	</url-mapping>
+	
+	<url-mapping id="patrolFees">
+		<pattern value="/patrol/#{patrolController.patrolid}/fees/#{patrolFee.selectedYear}" />
+		<view-id value="/xhtml/patrol/fees.xhtml" />
+		<action>#{patrolController.loadData}</action>
+	</url-mapping>
 
 	<url-mapping id="troopInfo">
 		<pattern value="/troop/#{troopController.troopid}" />

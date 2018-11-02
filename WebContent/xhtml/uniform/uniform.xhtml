@@ -58,32 +58,30 @@
 							</t:dataTable>
 						</b:tab>
 						<b:tab title="Visszahozott ingek">
-							<b:dataTable value="#{uniformController.returnedRents}"
-								var="rent" info="false" paginated="false"
-								scrollHorizontally="true">
-								<b:dataTableColumn label="Bérlő">
-									<t:entityLink entity="#{rent.scout}" edit="false" />
+							<t:dataTable value="#{uniformController.returnedRents}">
+								<b:dataTableColumn label="Név">
+									<t:entityLink entity="#{item.scout}" edit="false" />
 								</b:dataTableColumn>
 								<b:dataTableColumn label="Őrs" style="width:13%;">
 									<ui:repeat var="patrol"
-										value="#{utils.orderPatrolSet(rent.scout.patrols)}"
+										value="#{utils.orderPatrolSet(item.scout.patrols)}"
 										varStatus="var">
 										<t:entityLink entity="#{patrol}" mode="patrol" edit="false" />
 										<h:outputText value=", " rendered="#{not var.last}" />
 									</ui:repeat>
 								</b:dataTableColumn>
 								<b:dataTableColumn label="Kezdete">
-									<t:datepicker value="#{rent.begindate}" showIcon="false" />
+									<t:datepicker value="#{item.begindate}" showIcon="false" />
 								</b:dataTableColumn>
 								<b:dataTableColumn label="Méret">
-									<t:dropdown list="#{enums.sizes}" value="#{rent.uniformsize}" />
+									<t:dropdown list="#{enums.sizes}" value="#{item.uniformsize}" />
 								</b:dataTableColumn>
 								<b:dataTableColumn label="Visszavéve">
-									<h:outputText value="#{rent.getReturndate()}">
+									<h:outputText value="#{item.getReturndate()}">
 										<f:convertDateTime pattern="yyyy.MM.dd" />
 									</h:outputText>
 								</b:dataTableColumn>
-							</b:dataTable>
+							</t:dataTable>
 						</b:tab>
 						<b:tab title="Új kölcsönzés">
 						</b:tab>

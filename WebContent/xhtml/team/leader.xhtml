@@ -29,26 +29,23 @@
 				<b:tabView pills="true">
 
 					<b:tab title="Névsor">
-						<b:dataTable value="#{teamLeader.leaders}" var="leader"
-							info="false" paginated="false" searching="false"
-							scrollHorizontally="true">
+						<t:dataTable value="#{teamLeader.leaders}">
 							<b:dataTableColumn label="Név">
-								<t:entityLink entity="#{leader}" mode="leader" />
+								<t:entityLink entity="#{item}" mode="leader" />
 							</b:dataTableColumn>
 							<b:dataTableColumn label="Vezető lett">
-								<t:datepicker value="#{leader.becomeleader}" showIcon="false" />
+								<t:datepicker value="#{item.becomeleader}" showIcon="false" />
 							</b:dataTableColumn>
 							<b:dataTableColumn label="Vezetett egységek">
 								<div>
 									<b:commandButton iconAwesome="pencil" ajax="true"
 										update="@(.set_patrol_modal)"
-										onclick="ajax:teamLeader.setForSetPatrolModal(leader)"
+										onclick="ajax:teamLeader.setForSetPatrolModal(item)"
 										oncomplete="$('.set_patrol_modal').modal();return false;"
 										size="xs" style="margin: 0px 5px 0px 0px"
 										rendered="#{userController.edit}" />
 									<ui:repeat var="patrol"
-										value="#{utils.orderPatrolSet(leader.patrols)}"
-										varStatus="var">
+										value="#{utils.orderPatrolSet(item.patrols)}" varStatus="var">
 										<t:entityLink entity="#{patrol}" mode="patrol" />
 										<h:outputText value=", " rendered="#{not var.last}" />
 									</ui:repeat>
@@ -58,94 +55,77 @@
 								<div>
 									<b:commandButton iconAwesome="pencil" ajax="true"
 										update="@(.extra_leader_modal)"
-										onclick="ajax:teamLeader.setForLeaderModal(leader)"
+										onclick="ajax:teamLeader.setForLeaderModal(item)"
 										oncomplete="$('.extra_leader_modal').modal();return false;"
 										size="xs" style="margin: 0px 5px 0px 0px"
 										rendered="#{userController.edit}" />
-									<h:outputText value="#{leader.getExtraInfo()}" />
+									<h:outputText value="#{item.getExtraInfo()}" />
 								</div>
 							</b:dataTableColumn>
-						</b:dataTable>
+						</t:dataTable>
 					</b:tab>
 
 					<b:tab title="Vezetői őrsi adatok">
-						<b:dataTable value="#{teamLeader.leaders}" var="leader"
-							info="false" paginated="false" searching="false"
-							scrollHorizontally="true">
+						<t:dataTable value="#{teamLeader.leaders}">
 							<b:dataTableColumn label="Név">
-								<t:entityLink entity="#{leader}" mode="leader" />
+								<t:entityLink entity="#{item}" mode="leader" />
 							</b:dataTableColumn>
 							<b:dataTableColumn label="Egy dátum">
-								<t:datepicker value="#{leader.leaderpromise}" showIcon="false" />
+								<t:datepicker value="#{item.leaderpromise}" showIcon="false" />
 							</b:dataTableColumn>
 							<b:dataTableColumn label="Egy szó">
-								<h:outputText value="#{leader.leadername}"
-									rendered="#{not userController.edit}" />
-								<b:inputText value="#{leader.leadername}"
-									rendered="#{userController.edit}" />
+								<t:textField value="#{item.leadername}" />
 							</b:dataTableColumn>
 							<b:dataTableColumn label="Mégegy">
-								<h:outputText value="#{leader.food}"
-									rendered="#{not userController.edit}" />
-								<b:inputText value="#{leader.food}"
-									rendered="#{userController.edit}" />
+								<t:textField value="#{item.food}" />
 							</b:dataTableColumn>
-						</b:dataTable>
+						</t:dataTable>
 					</b:tab>
 
 					<b:tab title="Csotthonkulcs">
-						<b:dataTable value="#{teamLeader.leaders}" var="leader"
-							info="false" paginated="false" searching="false"
-							scrollHorizontally="true">
+						<t:dataTable value="#{teamLeader.leaders}">
 							<b:dataTableColumn label="Név">
-								<t:entityLink entity="#{leader}" mode="leader" />
+								<t:entityLink entity="#{item}" mode="leader" />
 							</b:dataTableColumn>
 							<b:dataTableColumn label="Kulcs sorszám">
-								<h:outputText value="#{leader.keynum}"
-									rendered="#{not userController.edit}" />
-								<b:inputText value="#{leader.keynum}"
-									rendered="#{userController.edit}" />
+								<t:textField value="#{item.keynum}" />
 							</b:dataTableColumn>
 							<b:dataTableColumn label="Átvétel ideje">
-
+								<t:datepicker value="#{item.keydate}" showIcon="false" />
 							</b:dataTableColumn>
-						</b:dataTable>
+						</t:dataTable>
 					</b:tab>
 
 					<b:tab title="Felhasználók">
-						<b:dataTable value="#{teamLeader.leaders}" var="leader"
-							info="false" paginated="false" searching="false"
-							scrollHorizontally="true">
+						<t:dataTable value="#{teamLeader.leaders}">
 							<b:dataTableColumn label="Név">
-								<t:entityLink entity="#{leader}" mode="leader" />
+								<t:entityLink entity="#{item}" mode="leader" />
 							</b:dataTableColumn>
 							<b:dataTableColumn label="Felhasználónév">
-								<h:outputText value="#{leader.username}"
-									rendered="#{not userController.edit}" />
-								<b:inputText value="#{leader.username}"
-									rendered="#{userController.edit}" />
+								<t:textField value="#{item.username}" />
 							</b:dataTableColumn>
 							<b:dataTableColumn label="Utolsó bejelentkezés">
-								<h:outputText value="#{leader.lastlogin}" />
+								<h:outputText value="#{item.lastlogin}" />
 							</b:dataTableColumn>
 							<b:dataTableColumn label="Jelszó"
-								rendered="#{userController.edit}">
+								rendered="#{userController.edit}" orderable="false">
 								<b:commandButton ajax="true" value="Új jelszó generálás"
 									look="link" update="@(.new_password_modal)"
-									onclick="ajax:teamLeader.setForNewPasswordModal(leader)"
+									onclick="ajax:teamLeader.setForNewPasswordModal(item)"
 									oncomplete="$('.new_password_modal').modal();return false;"
 									rendered="#{userController.edit}" />
 							</b:dataTableColumn>
-							<b:dataTableColumn label="" rendered="#{userController.edit}">
+							<b:dataTableColumn label="" rendered="#{userController.edit}"
+								orderable="false">
 								<div>
 									<b:commandButton iconAwesome="trash" ajax="true"
 										update="@(.delete_leader_modal)"
-										onclick="ajax:teamLeader.setForLeaderModal(leader)"
+										onclick="ajax:teamLeader.setForLeaderModal(item)"
 										oncomplete="$('.delete_leader_modal').modal();return false;"
 										rendered="#{userController.edit}" />
 								</div>
 							</b:dataTableColumn>
-						</b:dataTable>
+						</t:dataTable>
 					</b:tab>
 
 				</b:tabView>

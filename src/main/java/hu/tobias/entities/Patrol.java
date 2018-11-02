@@ -18,7 +18,6 @@ import javax.validation.constraints.NotNull;
 
 import hu.tobias.entities.enums.Gender;
 import hu.tobias.entities.enums.Status;
-import hu.tobias.services.utils.Utils;
 
 @Entity
 @Table(name = "patrol")

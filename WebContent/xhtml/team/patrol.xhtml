@@ -25,54 +25,54 @@
 						size="md" style="margin: 0px 5px 0px 0px"
 						rendered="#{userController.edit}" />
 				</t:pageHeader>
-				<b:dataTable value="#{teamGroup.patrols}" var="patrol" info="false"
-					paginated="false" searching="false" scrollHorizontally="true">
+				
+				<t:dataTable value="#{teamGroup.patrols}">
 					<b:dataTableColumn label="Név">
-						<b:link value="#{patrol.name}" href="#{patrol.getPatrolUrl()}"
+						<b:link value="#{item.name}" href="#{item.getPatrolUrl()}"
 							rendered="#{not userController.edit}" />
-						<b:inputText value="#{patrol.name}"
+						<b:inputText value="#{item.name}"
 							rendered="#{userController.edit}" />
 					</b:dataTableColumn>
 					<b:dataTableColumn label="Nem">
-						<h:outputText value="#{patrol.gender.label}"
+						<h:outputText value="#{item.gender.label}"
 							rendered="#{not userController.edit}" />
-						<b:selectOneMenu value="#{patrol.gender}"
+						<b:selectOneMenu value="#{item.gender}"
 							rendered="#{userController.edit}">
 							<f:selectItems value="#{enums.genders}" var="gender"
 								itemValue="#{gender}" itemLabel="#{gender.label}" />
 						</b:selectOneMenu>
 					</b:dataTableColumn>
-					<b:dataTableColumn label="Vezetők">
+					<b:dataTableColumn label="Vezetők" orderable="false">
 						<div>
 							<b:commandButton iconAwesome="pencil" ajax="true"
 								update="@(.set_leader_modal)"
-								onclick="ajax:teamGroup.setForSetLeaderModal(patrol)"
+								onclick="ajax:teamGroup.setForSetLeaderModal(item)"
 								oncomplete="$('.set_leader_modal').modal();return false;"
 								size="xs" style="margin: 0px 5px 0px 0px"
 								rendered="#{userController.edit}" />
 							<ui:repeat var="leader"
-								value="#{utils.orderLeaderSet(patrol.leaders)}" varStatus="var">
+								value="#{utils.orderLeaderSet(item.leaders)}" varStatus="var">
 								<t:entityLink entity="#{leader}" mode="leader" />
 								<h:outputText value=", " rendered="#{not var.last}"></h:outputText>
 							</ui:repeat>
 						</div>
 					</b:dataTableColumn>
 					<b:dataTableColumn label="Létszám">
-						<h:outputText value="#{patrol.getActiveNum()}" />
+						<h:outputText value="#{item.getActiveNum()}" />
 					</b:dataTableColumn>
 					<b:dataTableColumn label="Alakulás ideje">
-						<t:datepicker value="#{patrol.birthdate}" showIcon="false" />
+						<t:datepicker value="#{item.birthdate}" showIcon="false" />
 					</b:dataTableColumn>
-					<b:dataTableColumn label="" rendered="#{userController.edit}">
+					<b:dataTableColumn label="" rendered="#{userController.edit}" orderable="false">
 						<div>
 							<b:commandButton iconAwesome="trash" ajax="true"
 								update="@(.delete_patrol_modal)"
-								onclick="ajax:teamGroup.setForPatrolDeleteModal(patrol)"
+								onclick="ajax:teamGroup.setForPatrolDeleteModal(item)"
 								oncomplete="$('.delete_patrol_modal').modal();return false;"
 								rendered="#{userController.edit}" />
 						</div>
 					</b:dataTableColumn>
-				</b:dataTable>
+				</t:dataTable>
 
 				<b:modal title="Új őrs létrehozása" styleClass="new_patrol_modal"
 					rendered="#{userController.edit}">

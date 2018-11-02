@@ -21,7 +21,6 @@ import hu.tobias.entities.enums.Card;
 import hu.tobias.entities.enums.ChallengeType;
 import hu.tobias.entities.enums.PromiseType;
 import hu.tobias.entities.enums.Status;
-import hu.tobias.services.utils.Utils;
 
 @Entity
 @Table(name = "scout")

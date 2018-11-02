@@ -80,17 +80,14 @@
 					styleClass="edit_fee_modal" rendered="#{userController.edit}">
 					<b:panelGrid colSpans="4,8">
 						<h:outputLabel value="Státusz" />
-						<b:selectOneMenu value="#{patrolFee.selectedFee.status}">
-							<f:selectItems value="#{enums.feeStatuses}" var="status"
-								itemValue="#{status}" itemLabel="#{status.label}" />
-						</b:selectOneMenu>
+						<t:dropdown list="#{enums.feeStatuses}"
+							value="#{patrolFee.selectedFee.status}" />
 						<h:outputLabel value="Összeg" />
 						<b:inputText value="#{patrolFee.selectedFee.amount}" />
 						<h:outputLabel value="Támogatás" />
 						<b:inputText value="#{patrolFee.selectedFee.support}" />
 						<h:outputLabel value="Befizetés napja" />
-						<b:datepicker value="#{patrolFee.selectedFee.completeDate}"
-							mode="popup-icon" changeMonth="true" changeYear="true" />
+						<t:datepicker value="#{patrolFee.selectedFee.completeDate}" />
 						<h:outputLabel value="Megjegyzés" />
 						<b:inputTextarea value="#{patrolFee.selectedFee.other}" rows="2" />
 					</b:panelGrid>
@@ -104,17 +101,14 @@
 					styleClass="new_fee_modal" rendered="#{userController.edit}">
 					<b:panelGrid colSpans="4,8">
 						<h:outputLabel value="Státusz" />
-						<b:selectOneMenu value="#{patrolFee.newFee.status}">
-							<f:selectItems value="#{enums.feeStatuses}" var="status"
-								itemValue="#{status}" itemLabel="#{status.label}" />
-						</b:selectOneMenu>
+						<t:dropdown list="#{enums.feeStatuses}"
+							value="#{patrolFee.newFee.status}" />
 						<h:outputLabel value="Összeg" />
 						<b:inputText value="#{patrolFee.newFee.amount}" />
 						<h:outputLabel value="Támogatás" />
 						<b:inputText value="#{patrolFee.newFee.support}" />
 						<h:outputLabel value="Befizetés napja" />
-						<b:datepicker value="#{patrolFee.newFee.completeDate}"
-							mode="popup-icon" changeMonth="true" changeYear="true" />
+						<t:datepicker value="#{patrolFee.newFee.completeDate}" />
 						<h:outputLabel value="Megjegyzés" />
 						<b:inputTextarea value="#{patrolFee.newFee.other}" rows="2" />
 					</b:panelGrid>

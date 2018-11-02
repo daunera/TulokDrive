@@ -99,8 +99,7 @@
 					styleClass="edit_promise_modal" rendered="#{userController.edit}">
 					<b:panelGrid colSpans="4,8">
 						<h:outputLabel value="Dátum" />
-						<b:datepicker value="#{patrolPromise.selectedPromise.date}"
-							mode="popup-icon" changeMonth="true" changeYear="true" />
+						<t:datepicker value="#{patrolPromise.selectedPromise.date}" />
 						<h:outputLabel value="Helyszín" />
 						<b:inputText value="#{patrolPromise.selectedPromise.place}" />
 					</b:panelGrid>
@@ -112,8 +111,7 @@
 					styleClass="new_promise_modal" rendered="#{userController.edit}">
 					<b:panelGrid colSpans="4,8">
 						<h:outputLabel value="Dátum" />
-						<b:datepicker value="#{patrolPromise.newPromise.date}"
-							mode="popup-icon" changeMonth="true" changeYear="true" />
+						<t:datepicker value="#{patrolPromise.newPromise.date}" />
 						<h:outputLabel value="Helyszín" />
 						<b:inputText value="#{patrolPromise.newPromise.place}" />
 					</b:panelGrid>

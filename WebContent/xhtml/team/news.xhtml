@@ -28,8 +28,7 @@
 					rendered="#{userController.edit}">
 					<b:panelGrid colSpans="4,8">
 						<h:outputLabel value="Eddig aktuális" />
-						<b:datepicker value="#{teamNews.newNews.expire}" mode="popup-icon"
-							changeMonth="true" changeYear="true" />
+						<t:datepicker value="#{teamNews.newNews.expire}" />
 						<h:outputLabel value="Hír szövege" />
 						<b:inputTextarea value="#{teamNews.newNews.text}" rows="3" />
 					</b:panelGrid>
@@ -74,8 +73,7 @@
 							styleClass="edit_news_modal" rendered="#{userController.edit}">
 							<b:panelGrid colSpans="4,8">
 								<h:outputLabel value="Eddig aktuális" />
-								<b:datepicker value="#{teamNews.editedNews.expire}"
-									mode="popup-icon" changeMonth="true" changeYear="true" />
+								<t:datepicker value="#{teamNews.editedNews.expire}" />
 								<h:outputLabel value="Hír szövege" />
 								<b:inputTextarea value="#{teamNews.editedNews.text}" rows="3" />
 							</b:panelGrid>
@@ -121,8 +119,7 @@
 							rendered="#{userController.edit}">
 							<b:panelGrid colSpans="4,8">
 								<h:outputLabel value="Eddig aktuális" />
-								<b:datepicker value="#{teamNews.editedNews.expire}"
-									mode="popup-icon" changeMonth="true" changeYear="true" />
+								<t:datepicker value="#{teamNews.editedNews.expire}" />
 								<h:outputLabel value="Hír szövege" />
 								<b:inputTextarea value="#{teamNews.editedNews.text}" rows="3" />
 							</b:panelGrid>

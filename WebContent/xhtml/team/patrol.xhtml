@@ -25,7 +25,7 @@
 						size="md" style="margin: 0px 5px 0px 0px"
 						rendered="#{userController.edit}" />
 				</t:pageHeader>
-				
+
 				<t:dataTable value="#{teamGroup.patrols}">
 					<b:dataTableColumn label="Név">
 						<b:link value="#{item.name}" href="#{item.getPatrolUrl()}"
@@ -34,13 +34,7 @@
 							rendered="#{userController.edit}" />
 					</b:dataTableColumn>
 					<b:dataTableColumn label="Nem">
-						<h:outputText value="#{item.gender.label}"
-							rendered="#{not userController.edit}" />
-						<b:selectOneMenu value="#{item.gender}"
-							rendered="#{userController.edit}">
-							<f:selectItems value="#{enums.genders}" var="gender"
-								itemValue="#{gender}" itemLabel="#{gender.label}" />
-						</b:selectOneMenu>
+						<t:dropdown list="#{enums.genders}" value="#{item.gender}" />
 					</b:dataTableColumn>
 					<b:dataTableColumn label="Vezetők" orderable="false">
 						<div>
@@ -63,7 +57,8 @@
 					<b:dataTableColumn label="Alakulás ideje">
 						<t:datepicker value="#{item.birthdate}" showIcon="false" />
 					</b:dataTableColumn>
-					<b:dataTableColumn label="" rendered="#{userController.edit}" orderable="false">
+					<b:dataTableColumn label="" rendered="#{userController.edit}"
+						orderable="false">
 						<div>
 							<b:commandButton iconAwesome="trash" ajax="true"
 								update="@(.delete_patrol_modal)"
@@ -77,28 +72,16 @@
 				<b:modal title="Új őrs létrehozása" styleClass="new_patrol_modal"
 					rendered="#{userController.edit}">
 					<b:panelGrid colSpans="4,8">
-						<h:outputLabel value="Őrs neve:" />
+						<h:outputLabel value="Őrs neve" />
 						<b:inputText value="#{teamGroup.newPatrol.name}" />
-						<h:outputLabel value="Nem:" />
-						<b:selectOneMenu value="#{teamGroup.newPatrol.gender}">
-							<f:selectItems value="#{enums.genders}" var="gender"
-								itemValue="#{gender}" itemLabel="#{gender.label}" />
-						</b:selectOneMenu>
-						<h:outputLabel value="Születésnap:" />
-						<b:datepicker value="#{teamGroup.newPatrol.birthdate}"
-							mode="popup-icon" changeMonth="true" changeYear="true" />
+						<h:outputLabel value="Nem" />
+						<t:dropdown list="#{enums.genders}"
+							value="#{teamGroup.newPatrol.gender}" />
+						<h:outputLabel value="Születésnap" />
+						<t:datepicker value="#{teamGroup.newPatrol.birthdate}" />
 					</b:panelGrid>
-					<b:panelGrid colSpans="12">
-						<hr style="margin: 10px;" />
-						<b:row>
-							<div align="right" style="padding-right: 10px;">
-								<b:button value="Vissza" iconAwesome="arrow-left"
-									dismiss="modal" style="margin: 0px 5px;" />
-								<b:commandButton value="Létrehoz" iconAwesome="save"
-									action="#{teamGroup.savePatrol(teamGroup.newPatrol)}" />
-							</div>
-						</b:row>
-					</b:panelGrid>
+					<t:modalFooter mode="create"
+						action="#{teamGroup.savePatrol(teamGroup.newPatrol)}" />
 				</b:modal>
 
 				<b:modal title="#{teamGroup.editedPatrol.name} őrs törlése"
@@ -106,15 +89,8 @@
 					<b:panelGrid colSpans="12">
 						<h:outputLabel
 							value="Biztosan szeretnéd törölni a #{teamGroup.editedPatrol.name} őrsöt?" />
-						<hr style="margin: 10px;" />
-						<b:row>
-							<div align="right" style="padding-right: 10px;">
-								<b:button value="Vissza" iconAwesome="arrow-left"
-									dismiss="modal" style="margin: 0px 5px;" />
-								<b:commandButton value="Törlés" iconAwesome="trash"
-									action="#{teamGroup.deletePatrol(teamGroup.editedPatrol)}" />
-							</div>
-						</b:row>
+						<t:modalFooter mode="delete"
+							action="#{teamGroup.deletePatrol(teamGroup.editedPatrol)}" />
 					</b:panelGrid>
 				</b:modal>
 
@@ -127,32 +103,16 @@
 							<b:panelGrid colSpans="12"
 								rendered="#{not empty teamGroup.choosableLeaders}">
 								<h:outputLabel
-									value="Válassz a listából egy vezetőt, akit hozzá szeretnél adni:" />
-								<b:selectOneMenu value="#{teamGroup.leaderToAdd}">
-									<f:selectItems value="#{teamGroup.choosableLeaders}"
-										var="leader" itemValue="#{leader}"
-										itemLabel="#{leader.scout.person.getFullName()}" />
-								</b:selectOneMenu>
-								<hr style="margin: 10px;" />
-								<b:row>
-									<div align="right" style="padding-right: 10px;">
-										<b:button value="Vissza" iconAwesome="arrow-left"
-											dismiss="modal" style="margin: 0px 5px;" />
-										<b:commandButton value="Hozzáad" iconAwesome="save"
-											action="#{teamGroup.addLeader(teamGroup.editedPatrol, teamGroup.leaderToAdd)}" />
-									</div>
-								</b:row>
+									value="Válassz a listából egy vezetőt, akit hozzá szeretnél adni" />
+								<t:dropdown list="#{teamGroup.choosableLeaders}"
+									value="#{teamGroup.leaderToAdd}" mode="leader" />
+								<t:modalFooter mode="save"
+									action="#{teamGroup.addLeader(teamGroup.editedPatrol, teamGroup.leaderToAdd)}" />
 							</b:panelGrid>
 							<b:panelGrid colSpans="12"
 								rendered="#{empty teamGroup.choosableLeaders}">
 								<h:outputText value="Nincs olyan vezető, akit hozzáadhatnál." />
-								<hr style="margin: 10px;" />
-								<b:row>
-									<div align="right" style="padding-right: 10px;">
-										<b:button value="Vissza" iconAwesome="arrow-left"
-											dismiss="modal" />
-									</div>
-								</b:row>
+								<t:modalFooter mode="back" />
 							</b:panelGrid>
 						</b:tab>
 						<b:tab title="Vezető törlése"
@@ -160,22 +120,12 @@
 							<br />
 							<b:panelGrid colSpans="12">
 								<h:outputLabel
-									value="Válassz a listából egy vezetőt, akit törölni szeretnél:" />
-								<b:selectOneMenu value="#{teamGroup.leaderToDelete}">
-									<f:selectItems
-										value="#{utils.orderLeaderSet(teamGroup.editedPatrol.leaders)}"
-										var="leader" itemValue="#{leader}"
-										itemLabel="#{leader.scout.person.getFullName()}" />
-								</b:selectOneMenu>
-								<hr style="margin: 10px;" />
-								<b:row>
-									<div align="right" style="padding-right: 10px;">
-										<b:button value="Vissza" iconAwesome="arrow-left"
-											dismiss="modal" style="margin: 0px 5px;" />
-										<b:commandButton value="Töröl" iconAwesome="trash"
-											action="#{teamGroup.deleteLeader(teamGroup.editedPatrol, teamGroup.leaderToDelete)}" />
-									</div>
-								</b:row>
+									value="Válassz a listából egy vezetőt, akit törölni szeretnél" />
+								<t:dropdown
+									list="#{utils.orderLeaderSet(teamGroup.editedPatrol.leaders)}"
+									value="#{teamGroup.leaderToDelete}" mode="leader" />
+								<t:modalFooter mode="delete"
+									action="#{teamGroup.deleteLeader(teamGroup.editedPatrol, teamGroup.leaderToDelete)}" />
 							</b:panelGrid>
 						</b:tab>
 					</b:tabView>

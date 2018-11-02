@@ -35,22 +35,20 @@
 			<b:tabView pills="true" activeIndex="0">
 				<b:tab title="Meglévő szerkesztése">
 					<br />
-					<h:outputLabel value="Válassz a meglévő személyek közül:" />
-					<b:selectOneMenu value="#{parentBean.selectedParent}" ajax="true"
-						update="parentInputs">
-						<f:selectItems value="#{parentBean.parents}" var="item"
-							itemLabel="#{item.getFullName()}" itemValue="#{item}" />
-					</b:selectOneMenu>
+					<h:outputLabel value="Válassz a meglévő személyek közül" />
+					<t:dropdown list="#{parentBean.parents}"
+						value="#{parentBean.selectedParent}" mode="person" ajax="true"
+						update="parentInputs" />
 					<b:panelGrid colSpans="2,10" id="parentInputs">
-						<h:outputLabel value="Vezetéknév:" />
+						<h:outputLabel value="Vezetéknév" />
 						<b:inputText value="#{parentBean.selectedParent.lastname}" />
-						<h:outputLabel value="Keresztnév:" />
+						<h:outputLabel value="Keresztnév" />
 						<b:inputText value="#{parentBean.selectedParent.firstname}" />
-						<h:outputLabel value="Email:" />
+						<h:outputLabel value="Email" />
 						<b:inputText value="#{parentBean.selectedParent.email}" />
-						<h:outputLabel value="Telefon:" />
+						<h:outputLabel value="Telefon" />
 						<b:inputText value="#{parentBean.selectedParent.phone}" />
-						<h:outputLabel value="Egyéb:" />
+						<h:outputLabel value="Egyéb" />
 						<b:inputTextarea value="#{parentBean.selectedParent.other}"
 							rows="2" />
 					</b:panelGrid>
@@ -61,15 +59,15 @@
 				<b:tab title="Új #{parentText2} létrehozása">
 					<br />
 					<b:panelGrid colSpans="2,10">
-						<h:outputLabel value="Vezetéknév:" />
+						<h:outputLabel value="Vezetéknév" />
 						<b:inputText value="#{parentBean.newParent.lastname}" />
-						<h:outputLabel value="Keresztnév:" />
+						<h:outputLabel value="Keresztnév" />
 						<b:inputText value="#{parentBean.newParent.firstname}" />
-						<h:outputLabel value="Email:" />
+						<h:outputLabel value="Email" />
 						<b:inputText value="#{parentBean.newParent.email}" />
-						<h:outputLabel value="Telefon:" />
+						<h:outputLabel value="Telefon" />
 						<b:inputText value="#{parentBean.newParent.phone}" />
-						<h:outputLabel value="Egyéb:" />
+						<h:outputLabel value="Egyéb" />
 						<b:inputTextarea value="#{parentBean.newParent.other}" rows="2" />
 					</b:panelGrid>
 					<t:modalFooter mode="create"

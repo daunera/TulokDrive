@@ -14,7 +14,9 @@ import javax.inject.Named;
 
 import hu.tobias.entities.Fee;
 import hu.tobias.entities.Scout;
+import hu.tobias.entities.enums.FeeStatusType;
 import hu.tobias.services.dao.FeeDao;
+import hu.tobias.services.dao.FeeTypeTableDao;
 import hu.tobias.services.dao.ScoutDao;
 
 @Named(value = "patrolFee")
@@ -27,6 +29,8 @@ public class PatrolFeeController implements Serializable {
 	private ScoutDao scoutService;
 	@EJB
 	private FeeDao feeService;
+	@EJB
+	private FeeTypeTableDao feeTypeService;
 
 	@Inject
 	private PatrolController patrolController;
@@ -107,6 +111,8 @@ public class PatrolFeeController implements Serializable {
 	public boolean setForNewModal(Scout s, Integer y) {
 		patrolController.setModdedScout(s);
 		newFee = new Fee(s, y);
+		newFee.setAmount(feeTypeService.findActualTeamFee().getAmount());
+		newFee.setStatus(FeeStatusType.OV);
 
 		return true;
 	}

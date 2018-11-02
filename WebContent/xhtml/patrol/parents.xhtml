@@ -53,12 +53,11 @@
 							<b:tabView pills="true" activeIndex="0">
 								<b:tab title="Meglévő szerkesztése">
 									<br />
-									<h:outputLabel value="Válassz a meglévő személyek közül:" />
-									<b:selectOneMenu value="#{patrolParents.selectedMother}"
-										ajax="true" update="motherInputs">
-										<f:selectItems value="#{patrolParents.mothers}" var="item"
-											itemLabel="#{item.getFullName()}" itemValue="#{item}" />
-									</b:selectOneMenu>
+									<h:outputLabel value="Válassz a meglévő személyek közül" />
+									<t:dropdown list="#{patrolParents.mothers}"
+										value="#{patrolParents.selectedMother}" mode="person"
+										ajax="true" update="motherInputs" />
+
 									<b:panelGrid colSpans="2,10" id="motherInputs">
 										<h:outputLabel value="Vezetéknév" />
 										<b:inputText value="#{patrolParents.selectedMother.lastname}" />
@@ -131,13 +130,11 @@
 							<b:tabView pills="true" activeIndex="0">
 								<b:tab title="Meglévő szerkesztése">
 									<br />
-									<h:outputLabel value="Válassz a meglévő személyek közül:" />
-									<b:selectOneMenu value="#{patrolParents.selectedFather}"
-										ajax="true" update="parentInputs">
-										<f:selectItems value="#{patrolParents.fathers}" var="item"
-											itemLabel="#{item.getFullName()}" itemValue="#{item}" />
-									</b:selectOneMenu>
-									<b:panelGrid colSpans="2,10" id="parentInputs">
+									<h:outputLabel value="Válassz a meglévő személyek közül" />
+									<t:dropdown list="#{patrolParents.fathers}"
+										value="#{patrolParents.selectedFather}" mode="person"
+										ajax="true" update="fatherInputs" />
+									<b:panelGrid colSpans="2,10" id="fatherInputs">
 										<h:outputLabel value="Vezetéknév" />
 										<b:inputText value="#{patrolParents.selectedFather.lastname}" />
 										<h:outputLabel value="Keresztnév" />

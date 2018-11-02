@@ -27,7 +27,7 @@ public class TeamInfoController implements Serializable {
 
 	@EJB
 	private ScoutDao scoutService;
-	
+
 	@EJB
 	private FeeTypeTableDao feeTypeService;
 
@@ -78,8 +78,8 @@ public class TeamInfoController implements Serializable {
 	public String[] getActivity() {
 		return activity;
 	}
-	
-	public List<String> getActivityList(){
+
+	public List<String> getActivityList() {
 		return Arrays.asList(activity);
 	}
 
@@ -173,6 +173,15 @@ public class TeamInfoController implements Serializable {
 				num++;
 		}
 		return num;
+	}
+
+	public void saveEdit() {
+		if (feeTypes.size() > 0) {
+			for (FeeTypeTable f : feeTypes) {
+				feeTypeService.update(f);
+			}
+		}
+		teamController.getUserController().changeEdit();
 	}
 
 }

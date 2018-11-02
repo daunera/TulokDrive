@@ -15,11 +15,76 @@
 			<c:set var="edit" value="#{userController.edit}" />
 		</c:if>
 
-		<h:outputText value="#{value.label}" rendered="#{not edit}" />
-		<b:selectOneMenu value="#{value}" rendered="#{edit}">
-			<f:selectItems value="#{list}" var="element" itemValue="#{element}"
-				itemLabel="#{element.label}" />
-		</b:selectOneMenu>
+		<c:if test="#{empty noText}">
+			<c:set var="noText" value="false" />
+		</c:if>
+
+		<c:choose>
+			<c:when test="#{mode == 'person'}">
+				<c:set var="#{valueLabel}" value="#{value.getFullName()}" />
+			</c:when>
+			<c:when test="#{mode == 'scout'}">
+				<c:set var="#{valueLabel}" value="#{value.person.getFullName()}" />
+			</c:when>
+			<c:when test="#{mode == 'patrol'}">
+				<c:set var="#{valueLabel}" value="#{value.name} őrs" />
+			</c:when>
+			<c:when test="#{mode == 'troop'}">
+				<c:set var="#{valueLabel}" value="#{value.name} raj" />
+			</c:when>
+			<c:when test="#{mode == 'leader'}">
+				<c:set var="#{valueLabel}"
+					value="#{value.scout.person.getFullName()}" />
+			</c:when>
+			<c:when test="#{mode == 'address'}">
+				<c:set var="#{valueLabel}"
+					value="#{value.getFullAddressWithPhone()}" />
+			</c:when>
+			<c:otherwise>
+				<c:set var="#{valueLabel}" value="#{value.label}" />
+			</c:otherwise>
+		</c:choose>
+
+		<b:row styleClass="pulledRow">
+			<h:outputText value="#{valueLabel}"
+				rendered="#{not edit and not noText}" />
+			<b:selectOneMenu value="#{value}" rendered="#{edit}" ajax="#{ajax}"
+				update="#{update}">
+				<c:choose>
+					<c:when test="#{mode == 'person'}">
+						<f:selectItems value="#{list}" var="element"
+							itemValue="#{element}" itemLabel="#{element.getFullName()}" />
+					</c:when>
+					<c:when test="#{mode == 'scout'}">
+						<f:selectItems value="#{list}" var="element"
+							itemValue="#{element}"
+							itemLabel="#{element.person.getFullName()}" />
+					</c:when>
+					<c:when test="#{mode == 'patrol'}">
+						<f:selectItems value="#{list}" var="element"
+							itemValue="#{element}" itemLabel="#{element.name} őrs" />
+					</c:when>
+					<c:when test="#{mode == 'troop'}">
+						<f:selectItems value="#{list}" var="element"
+							itemValue="#{element}" itemLabel="#{element.name} raj" />
+					</c:when>
+					<c:when test="#{mode == 'leader'}">
+						<f:selectItems value="#{list}" var="element"
+							itemValue="#{element}"
+							itemLabel="#{element.scout.person.getFullName()}" />
+					</c:when>
+					<c:when test="#{mode == 'address'}">
+						<f:selectItems value="#{list}" var="element"
+							itemValue="#{element}"
+							itemLabel="#{element.getFullAddressWithPhone()}" />
+					</c:when>
+					<c:otherwise>
+						<f:selectItems value="#{list}" var="element"
+							itemValue="#{element}" itemLabel="#{element.label}" />
+					</c:otherwise>
+				</c:choose>
+			</b:selectOneMenu>
+		</b:row>
 
 	</ui:composition>
 </h:body>

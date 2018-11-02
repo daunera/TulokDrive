@@ -32,7 +32,9 @@
 				</t:table>
 
 
-				<h:outputText value="Őrsvezetők:" styleClass="subTitle" />
+				<h:outputText
+					value="#{patrolController.patrol.getLeaderNum() > 1 ? 'Őrsvezetők' : 'Őrsvezető'}"
+					styleClass="subTitle" />
 				<t:table>
 					<ui:repeat var="leader"
 						value="#{utils.orderLeaderSet(patrolController.patrol.leaders)}"
@@ -46,7 +48,7 @@
 				<b:panelGrid colSpans="12">
 
 					<b:row styleClass="pulledRow">
-						<h:outputText value="Őrstagok:" styleClass="subTitle" />
+						<h:outputText value="Őrstagok" styleClass="subTitle" />
 						<b:button value="Új őrstag" iconAwesome="plus" size="md"
 							rendered="#{userController.edit}"
 							onclick="$('.scout_modal').modal()" />
@@ -76,18 +78,15 @@
 						<b:tab title="Új cserkész létrehozása">
 							<br />
 							<b:panelGrid colSpans="4,8">
-								<h:outputLabel value="Vezetéknév:" />
+								<h:outputLabel value="Vezetéknév" />
 								<b:inputText value="#{patrolInfo.newScout.person.lastname}" />
-								<h:outputLabel value="Keresztnév:" />
+								<h:outputLabel value="Keresztnév" />
 								<b:inputText value="#{patrolInfo.newScout.person.firstname}" />
-								<h:outputLabel value="Nem:" />
-								<b:selectOneMenu value="#{patrolInfo.newScout.person.gender}">
-									<f:selectItems value="#{enums.genders}" var="gender"
-										itemValue="#{gender}" itemLabel="#{gender.label}" />
-								</b:selectOneMenu>
-								<h:outputLabel value="Születési dátum:" />
-								<b:datepicker value="#{patrolInfo.newScout.person.birthdate}"
-									mode="popup-icon" changeMonth="true" changeYear="true" />
+								<h:outputLabel value="Nem" />
+								<t:dropdown list="#{enums.genders}"
+									value="#{patrolInfo.newScout.person.gender}" />
+								<h:outputLabel value="Születési dátum" />
+								<t:datepicker value="#{patrolInfo.newScout.person.birthdate}" />
 							</b:panelGrid>
 							<h:outputText
 								value="Minden más adatot a személyes oldalon tudsz majd beállítani." />
@@ -96,12 +95,10 @@
 						</b:tab>
 						<b:tab title="Meglévő cserkészek közül választás">
 							<br />
-							<b:panelGrid colSpans="4,8">
-								<h:outputLabel value="Válassz a listából:" />
-								<b:selectOneMenu value="#{patrolInfo.selectedScout}">
-									<f:selectItems value="#{patrolInfo.allScouts}" var="scout"
-										itemValue="#{scout}" itemLabel="#{scout.person.getFullName()}" />
-								</b:selectOneMenu>
+							<b:panelGrid colSpans="12">
+								<h:outputLabel value="Válassz a listából" />
+								<t:dropdown list="#{patrolInfo.allScouts}"
+									value="#{patrolInfo.selectedScout}" mode="scout" />
 							</b:panelGrid>
 							<t:modalFooter mode="select"
 								action="#{patrolInfo.saveSelectedScout(patrolInfo.selectedScout)}" />

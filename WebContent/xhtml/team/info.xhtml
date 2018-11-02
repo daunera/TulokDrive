@@ -15,7 +15,9 @@
 		<ui:define name="innerContent">
 
 			<b:form>
-				<t:pageHeader title="Csapat statisztika" />
+				<t:pageHeader title="Csapat statisztika" saveBean="#{teamInfo}"
+					saveMethod="saveEdit" undoBean="#{userController}"
+					undoMethod="changeEdit" />
 
 				<b:panelGrid colSpans="6,6">
 					<b:row styleClass="pulledRow">

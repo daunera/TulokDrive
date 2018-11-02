@@ -6,13 +6,14 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:o="http://omnifaces.org/ui"
-	xmlns:t="http://tulok.vzma.hu/tags">
+	xmlns:o="http://omnifaces.org/ui" xmlns:t="http://tulok.vzma.hu/tags">
 <h:body>
 
 	<ui:composition>
 
 		<c:set var="deleteButton" value="false" />
+		<c:set var="renderPrimary" value="true" />
+		<c:set var="look" value="primary" />
 
 		<c:choose>
 			<c:when test="#{mode == 'create'}">
@@ -29,13 +30,23 @@
 			<c:when test="#{mode == 'save'}">
 				<c:set var="actionText" value="Mentés" />
 			</c:when>
+			<c:when test="#{mode == 'delete'}">
+				<c:set var="actionText" value="Törlés" />
+				<c:set var="look" value="danger" />
+			</c:when>
+			<c:when test="#{mode == 'back'}">
+				<c:set var="renderPrimary" value="false" />
+			</c:when>
+			<c:when test="#{mode == 'yes'}">
+				<c:set var="actionText" value="Igen" />
+			</c:when>
 			<c:otherwise>
 				<c:set var="actionText" value="EGYÉB" />
 			</c:otherwise>
 		</c:choose>
-		
+
 		<o:methodParam name="actionMethod" value="#{action}" />
-		
+
 		<hr style="margin: 10px;" />
 		<b:panelGrid colSpans="12">
 			<b:row>
@@ -45,7 +56,8 @@
 					<b:button value="Vissza" iconAwesome="arrow-left" dismiss="modal"
 						style="margin: 0px 5px;" />
 					<b:commandButton value="#{actionText}" iconAwesome="save"
-						action="#{actionMethod}" look="primary" />
+						action="#{actionMethod}" look="#{look}"
+						rendered="#{renderPrimary}" />
 				</div>
 			</b:row>
 		</b:panelGrid>

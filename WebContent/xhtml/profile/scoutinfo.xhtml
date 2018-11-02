@@ -54,7 +54,7 @@
 								<h:outputText value="#{item.getFullInfo()}"
 									style="padding-left:20px;" />
 								<b:commandButton iconAwesome="pencil" size="xs"
-									style="margin-right:5px" ajax="true" update="@(.promise_modal)"
+									style="margin-left:5px" ajax="true" update="@(.promise_modal)"
 									onclick="ajax:promiseBean.setForEditModal(item)"
 									oncomplete="$('.promise_modal').modal();return false;"
 									rendered="#{userController.edit}" />
@@ -78,7 +78,7 @@
 								<h:outputText value="#{item.getFullInfo()}"
 									style="padding-left:20px;" />
 								<b:commandButton iconAwesome="pencil" size="xs"
-									style="margin-right:5px" ajax="true"
+									style="margin-left:5px" ajax="true"
 									update="@(.edit_qualification_modal)"
 									onclick="ajax:profileScout.setForEditQualificationModal(item)"
 									oncomplete="$('.edit_qualification_modal').modal();return false;"
@@ -86,64 +86,43 @@
 							</t:row>
 						</ui:repeat>
 					</t:table>
+
 					<b:modal
 						title="#{profileScout.selectedQualification.type.label} képesítés szerkesztése"
 						styleClass="edit_qualification_modal"
 						rendered="#{userController.edit}">
 						<b:panelGrid colSpans="4,8">
-							<h:outputLabel value="VK:" />
+							<h:outputLabel value="VK" />
 							<b:inputText value="#{profileScout.selectedQualification.course}"
 								placeholder="pl. ŐVK2012 PUF" />
-							<h:outputLabel value="Dátum:" />
-							<b:datepicker value="#{profileScout.selectedQualification.date}"
-								mode="popup-icon" changeMonth="true" changeYear="true" />
-							<h:outputLabel value="Helyszín:" />
+							<h:outputLabel value="Dátum" />
+							<t:datepicker value="#{profileScout.selectedQualification.date}" />
+							<h:outputLabel value="Helyszín" />
 							<b:inputText value="#{profileScout.selectedQualification.place}" />
 						</b:panelGrid>
-						<b:panelGrid colSpans="12">
-							<hr style="margin: 10px;" />
-							<b:row>
-								<div align="right" style="padding-right: 10px;">
-									<b:commandButton value="Törlés" iconAwesome="trash"
-										action="#{profileScout.deleteQualification(profileScout.selectedQualification)}" />
-									<b:button value="Vissza" iconAwesome="arrow-left"
-										dismiss="modal" style="margin: 0px 5px;" />
-									<b:commandButton value="Módosít" iconAwesome="save"
-										action="#{profileScout.saveQualification(profileScout.selectedQualification)}" />
-								</div>
-							</b:row>
-						</b:panelGrid>
+						<t:modalFooter mode="modify"
+							action="#{profileScout.saveQualification(profileScout.selectedQualification)}"
+							deleteAction="#{profileScout.deleteQualification(profileScout.selectedQualification)}" />
 					</b:modal>
+
 					<b:modal title="Új képesítés" styleClass="new_qualification_modal"
 						rendered="#{userController.edit}">
 						<b:panelGrid colSpans="4,8">
-							<h:outputLabel value="Típus:" />
-							<b:selectOneMenu value="#{profileScout.newQualification.type}">
-								<f:selectItems value="#{enums.qualifications}"
-									var="qualification" itemValue="#{qualification}"
-									itemLabel="#{qualification.label}" />
-							</b:selectOneMenu>
-							<h:outputLabel value="VK:" />
+							<h:outputLabel value="Típus" />
+							<t:dropdown list="#{enums.qualifications}"
+								value="#{profileScout.newQualification.type}" />
+							<h:outputLabel value="VK" />
 							<b:inputText value="#{profileScout.newQualification.course}"
 								placeholder="pl. ŐVK2012 PUF" />
-							<h:outputLabel value="Dátum:" />
-							<b:datepicker value="#{profileScout.newQualification.date}"
-								mode="popup-icon" changeMonth="true" changeYear="true" />
-							<h:outputLabel value="Helyszín:" />
+							<h:outputLabel value="Dátum" />
+							<t:datepicker value="#{profileScout.newQualification.date}" />
+							<h:outputLabel value="Helyszín" />
 							<b:inputText value="#{profileScout.newQualification.place}" />
 						</b:panelGrid>
-						<b:panelGrid colSpans="12">
-							<hr style="margin: 10px;" />
-							<b:row>
-								<div align="right" style="padding-right: 10px;">
-									<b:button value="Vissza" iconAwesome="arrow-left"
-										dismiss="modal" style="margin: 0px 5px;" />
-									<b:commandButton value="Létrehoz" iconAwesome="save"
-										action="#{profileScout.saveQualification(profileScout.newQualification)}" />
-								</div>
-							</b:row>
-						</b:panelGrid>
+						<t:modalFooter mode="create"
+							action="#{profileScout.saveQualification(profileScout.newQualification)}" />
 					</b:modal>
+
 					<br />
 					<b:row styleClass="pulledRow">
 						<h:outputText value="Próbák" styleClass="subTitle" />
@@ -159,7 +138,7 @@
 								<h:outputText value="#{item.getFullInfo()}"
 									style="padding-left:20px;" />
 								<b:commandButton iconAwesome="pencil" size="xs"
-									style="margin-right:5px" ajax="true"
+									style="margin-left:5px" ajax="true"
 									update="@(.edit_challenge_modal)"
 									onclick="ajax:profileScout.setForEditChallengeModal(item)"
 									oncomplete="$('.edit_challenge_modal').modal();return false;"
@@ -167,56 +146,35 @@
 							</t:row>
 						</ui:repeat>
 					</t:table>
+
 					<b:modal
 						title="#{profileScout.selectedChallenge.type.label} próba szerkesztése"
 						styleClass="edit_challenge_modal"
 						rendered="#{userController.edit}">
 						<b:panelGrid colSpans="4,8">
-							<h:outputLabel value="Dátum:" />
-							<b:datepicker value="#{profileScout.selectedChallenge.date}"
-								mode="popup-icon" changeMonth="true" changeYear="true" />
-							<h:outputLabel value="Helyszín:" />
+							<h:outputLabel value="Dátum" />
+							<t:datepicker value="#{profileScout.selectedChallenge.date}" />
+							<h:outputLabel value="Helyszín" />
 							<b:inputText value="#{profileScout.selectedChallenge.place}" />
 						</b:panelGrid>
-						<b:panelGrid colSpans="12">
-							<hr style="margin: 10px;" />
-							<b:row>
-								<div align="right" style="padding-right: 10px;">
-									<b:commandButton value="Törlés" iconAwesome="trash"
-										action="#{profileScout.deleteChallenge(profileScout.selectedChallenge)}" />
-									<b:button value="Vissza" iconAwesome="arrow-left"
-										dismiss="modal" style="margin: 0px 5px;" />
-									<b:commandButton value="Módosít" iconAwesome="save"
-										action="#{profileScout.saveChallenge(profileScout.selectedChallenge)}" />
-								</div>
-							</b:row>
-						</b:panelGrid>
+						<t:modalFooter mode="modify"
+							action="#{profileScout.saveChallenge(profileScout.selectedChallenge)}"
+							deleteAction="#{profileScout.deleteChallenge(profileScout.selectedChallenge)}" />
 					</b:modal>
+
 					<b:modal title="Új próba" styleClass="new_challenge_modal"
 						rendered="#{userController.edit}">
 						<b:panelGrid colSpans="4,8">
-							<h:outputLabel value="Típus:" />
-							<b:selectOneMenu value="#{profileScout.newChallenge.type}">
-								<f:selectItems value="#{enums.challenges}" var="challenge"
-									itemValue="#{challenge}" itemLabel="#{challenge.label}" />
-							</b:selectOneMenu>
-							<h:outputLabel value="Dátum:" />
-							<b:datepicker value="#{profileScout.newChallenge.date}"
-								mode="popup-icon" changeMonth="true" changeYear="true" />
-							<h:outputLabel value="Helyszín:" />
+							<h:outputLabel value="Típus" />
+							<t:dropdown list="#{enums.challenges}"
+								value="#{profileScout.newChallenge.type}" />
+							<h:outputLabel value="Dátum" />
+							<t:datepicker value="#{profileScout.newChallenge.date}" />
+							<h:outputLabel value="Helyszín" />
 							<b:inputText value="#{profileScout.newChallenge.place}" />
 						</b:panelGrid>
-						<b:panelGrid colSpans="12">
-							<hr style="margin: 10px;" />
-							<b:row>
-								<div align="right" style="padding-right: 10px;">
-									<b:button value="Vissza" iconAwesome="arrow-left"
-										dismiss="modal" style="margin: 0px 5px;" />
-									<b:commandButton value="Létrehoz" iconAwesome="save"
-										action="#{profileScout.saveChallenge(profileScout.newChallenge)}" />
-								</div>
-							</b:row>
-						</b:panelGrid>
+						<t:modalFooter mode="create"
+							action="#{profileScout.saveChallenge(profileScout.newChallenge)}" />
 					</b:modal>
 				</b:panelGrid>
 			</b:form>

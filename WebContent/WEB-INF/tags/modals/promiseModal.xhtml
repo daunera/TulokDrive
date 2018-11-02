@@ -23,11 +23,11 @@
 			<c:set var="styleClass" value="promise_modal" />
 		</c:if>
 
-		<c:if test="#{empty promiseBean.selectedPromise.id}">
+		<c:if test="#{promiseBean.selectedPromise.id == null}">
 			<c:set var="new" value="true" />
 			<c:set var="title" value="Új fogadalom" />
 		</c:if>
-		<c:if test="#{not empty promiseBean.selectedPromise.id}">
+		<c:if test="#{promiseBean.selectedPromise.id != null}">
 			<c:set var="new" value="false" />
 			<c:set var="title"
 				value="#{promiseBean.selectedPromise.type.label} szerkesztése" />
@@ -36,16 +36,13 @@
 		<b:modal title="#{title}" styleClass="#{styleClass}"
 			rendered="#{edit}">
 			<b:panelGrid colSpans="4,8">
-				<h:outputLabel value="Típus:" rendered="#{new}" />
-				<b:selectOneMenu value="#{promiseBean.selectedPromise.type}"
-					rendered="#{new}">
-					<f:selectItems value="#{enums.promises}" var="promise"
-						itemValue="#{promise}" itemLabel="#{promise.label}" />
-				</b:selectOneMenu>
-				<h:outputLabel value="Dátum:" />
-				<b:datepicker value="#{promiseBean.selectedPromise.date}"
-					mode="popup-icon" changeMonth="true" changeYear="true" />
-				<h:outputLabel value="Helyszín:" />
+				<h:outputLabel value="Típus" rendered="#{new}" />
+				<t:dropdown list="#{enums.promises}"
+					value="#{promiseBean.selectedPromise.type}" noText="true"
+					edit="#{new}" />
+				<h:outputLabel value="Dátum" />
+				<t:datepicker value="#{promiseBean.selectedPromise.date}" />
+				<h:outputLabel value="Helyszín" />
 				<b:inputText value="#{promiseBean.selectedPromise.place}" />
 			</b:panelGrid>
 			<c:if test="#{not new}">

@@ -75,11 +75,21 @@
 			<name>edit</name>
 		</attribute>
 		<attribute>
+			<name>noText</name>
+		</attribute>
+		<attribute>
 			<name>list</name>
 			<required>true</required>
 		</attribute>
 		<attribute>
-			<name>label</name>
+			<description>person, scout, patrol, troop, leader, address, enum (defult)</description>
+			<name>mode</name>
+		</attribute>
+		<attribute>
+			<name>ajax</name>
+		</attribute>
+		<attribute>
+			<name>update</name>
 		</attribute>
 	</tag>
 	<tag>
@@ -139,13 +149,12 @@
 		<tag-name>modalFooter</tag-name>
 		<source>tags/modalFooter.xhtml</source>
 		<attribute>
-			<description>create, modify, select, save</description>
+			<description>create, modify, select, save, delete, back, yes</description>
 			<name>mode</name>
 			<required>true</required>
 		</attribute>
 		<attribute>
 			<name>action</name>
-			<required>true</required>
 		</attribute>
 		<attribute>
 			<name>deleteAction</name>

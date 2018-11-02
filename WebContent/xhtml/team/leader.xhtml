@@ -140,17 +140,8 @@
 							value="#{teamLeader.editedLeader.uniformer}"
 							caption="cserkészingfelelős" />
 					</b:panelGrid>
-					<b:panelGrid colSpans="12">
-						<hr style="margin: 10px;" />
-						<b:row>
-							<div align="right" style="padding-right: 10px;">
-								<b:button value="Vissza" iconAwesome="arrow-left"
-									dismiss="modal" style="margin: 0px 5px;" />
-								<b:commandButton value="Mentés" iconAwesome="save"
-									action="#{teamLeader.saveExtraPermissions(teamLeader.editedLeader)}" />
-							</div>
-						</b:row>
-					</b:panelGrid>
+					<t:modalFooter mode="save"
+						action="#{teamLeader.saveExtraPermissions(teamLeader.editedLeader)}" />
 				</b:modal>
 
 				<b:modal
@@ -159,15 +150,8 @@
 					<b:panelGrid colSpans="12">
 						<h:outputLabel
 							value="Biztosan szeretnéd törölni a #{teamLeader.editedLeader.scout.person.getFullName()} nevű vezetőt?" />
-						<hr style="margin: 10px;" />
-						<b:row>
-							<div align="right" style="padding-right: 10px;">
-								<b:button value="Vissza" iconAwesome="arrow-left"
-									dismiss="modal" style="margin: 0px 5px;" />
-								<b:commandButton value="Törlés" iconAwesome="trash"
-									action="#{teamLeader.deleteLeader(teamLeader.editedLeader)}" />
-							</div>
-						</b:row>
+						<t:modalFooter mode="delete"
+							action="#{teamLeader.deleteLeader(teamLeader.editedLeader)}" />
 					</b:panelGrid>
 				</b:modal>
 
@@ -180,33 +164,17 @@
 							<b:panelGrid colSpans="12"
 								rendered="#{not empty teamLeader.choosablePatrol}">
 								<h:outputLabel
-									value="Válassz a listából egy őrsöt, amihez hozzá szeretnéd adni:" />
-								<b:selectOneMenu value="#{teamLeader.patrolToAdd}"
-									rendered="#{not empty teamLeader.patrolToAdd}">
-									<f:selectItems value="#{teamLeader.choosablePatrol}"
-										var="patrol" itemValue="#{patrol}"
-										itemLabel="#{patrol.name} őrs" />
-								</b:selectOneMenu>
-								<hr style="margin: 10px;" />
-								<b:row>
-									<div align="right" style="padding-right: 10px;">
-										<b:button value="Vissza" iconAwesome="arrow-left"
-											dismiss="modal" style="margin: 0px 5px;" />
-										<b:commandButton value="Hozzáad" iconAwesome="save"
-											action="#{teamLeader.addPatrol(teamLeader.editedLeader, teamLeader.patrolToAdd)}" />
-									</div>
-								</b:row>
+									value="Válassz a listából egy őrsöt, amihez hozzá szeretnéd adni" />
+								<t:dropdown list="#{teamLeader.choosablePatrol}"
+									value="#{teamLeader.patrolToAdd}" mode="patrol"
+									edit="#{teamLeader.patrolToAdd != null}" />
+								<t:modalFooter mode="select"
+									action="#{teamLeader.addPatrol(teamLeader.editedLeader, teamLeader.patrolToAdd)}" />
 							</b:panelGrid>
 							<b:panelGrid colSpans="12"
 								rendered="#{empty teamLeader.choosablePatrol}">
 								<h:outputText value="Nincs olyan őrs, akihez hozzáadhatnád." />
-								<hr style="margin: 10px;" />
-								<b:row>
-									<div align="right" style="padding-right: 10px;">
-										<b:button value="Vissza" iconAwesome="arrow-left"
-											dismiss="modal" />
-									</div>
-								</b:row>
+								<t:modalFooter mode="back" />
 							</b:panelGrid>
 						</b:tab>
 						<b:tab title="Őrs törlése"
@@ -214,23 +182,13 @@
 							<br />
 							<b:panelGrid colSpans="12">
 								<h:outputLabel
-									value="Válassz a listából egy őrsöt, amiről törölni szeretnéd:" />
-								<b:selectOneMenu value="#{teamLeader.patrolToDelete}"
-									rendered="#{not empty teamLeader.patrolToDelete}">
-									<f:selectItems
-										value="#{utils.orderLeaderSet(teamLeader.editedLeader.patrols)}"
-										var="patrol" itemValue="#{patrol}"
-										itemLabel="#{patrol.name} őrs" />
-								</b:selectOneMenu>
-								<hr style="margin: 10px;" />
-								<b:row>
-									<div align="right" style="padding-right: 10px;">
-										<b:button value="Vissza" iconAwesome="arrow-left"
-											dismiss="modal" style="margin: 0px 5px;" />
-										<b:commandButton value="Töröl" iconAwesome="trash"
-											action="#{teamLeader.deletePatrol(teamLeader.editedLeader, teamLeader.patrolToDelete)}" />
-									</div>
-								</b:row>
+									value="Válassz a listából egy őrsöt, amiről törölni szeretnéd" />
+								<t:dropdown
+									list="#{utils.orderPatrolSet(teamLeader.editedLeader.patrols)}"
+									value="#{teamLeader.patrolToDelete}" mode="patrol"
+									edit="#{teamLeader.patrolToDelete != null}" />
+								<t:modalFooter mode="delete"
+									action="#{teamLeader.deletePatrol(teamLeader.editedLeader, teamLeader.patrolToDelete)}" />
 							</b:panelGrid>
 						</b:tab>
 					</b:tabView>
@@ -240,22 +198,15 @@
 					title="#{teamLeader.editedLeader.scout.person.getFullName()} vezetőnek új jelszó generálása"
 					styleClass="new_password_modal" rendered="#{userController.edit}">
 					<b:panelGrid colSpans="3,9">
-						<h:outputLabel value="Generált jelszó:" />
+						<h:outputLabel value="Generált jelszó" />
 						<h:outputText value="#{teamLeader.generatedPassword}" />
 					</b:panelGrid>
 					<br />
 					<b:panelGrid colSpans="12">
 						<h:outputLabel
 							value="Biztosan szeretnél új jelszót generálni a #{teamLeader.editedLeader.scout.person.getFullName()} nevű vezetőnek?" />
-						<hr style="margin: 10px;" />
-						<b:row>
-							<div align="right" style="padding-right: 10px;">
-								<b:button value="Vissza" iconAwesome="arrow-left"
-									dismiss="modal" style="margin: 0px 5px;" />
-								<b:commandButton value="Igen" iconAwesome="save"
-									action="#{teamLeader.saveNewGeneratedPassword(teamLeader.editedLeader, teamLeader.generatedPassword)}" />
-							</div>
-						</b:row>
+						<t:modalFooter mode="yes"
+							action="#{teamLeader.saveNewGeneratedPassword(teamLeader.editedLeader, teamLeader.generatedPassword)}" />
 					</b:panelGrid>
 				</b:modal>
 
@@ -265,22 +216,16 @@
 				<b:modal title="Új vezető hozzáadása" styleClass="new_leader_modal"
 					rendered="#{userController.edit}">
 					<b:panelGrid colSpans="4,8">
-						<h:outputLabel value="Válassz cserkészt:*" />
-						<b:selectOneMenu value="#{teamLeader.newLeader.scout}"
-							required="true">
-							<f:selectItems value="#{teamLeader.scouts}" var="scout"
-								itemValue="#{scout}" itemLabel="#{scout.person.getFullName()}" />
-						</b:selectOneMenu>
-						<h:outputLabel value="Vezető lett:" />
-						<b:datepicker value="#{teamLeader.newLeader.becomeleader}"
-							mode="popup-icon" changeMonth="true" changeYear="true" />
-						<h:outputLabel value="Felhasználónév:*" />
+						<h:outputLabel value="Válassz cserkészt*" />
+						<t:dropdown list="#{teamLeader.scouts}"
+							value="#{teamLeader.newLeader.scout}" mode="scout" />
+						<h:outputLabel value="Felhasználónév*" />
 						<b:inputText value="#{teamLeader.newLeader.username}"
 							required="true" />
-						<h:outputLabel value="Email:*" />
+						<h:outputLabel value="Email*" />
 						<b:inputText value="#{teamLeader.newLeader.scout.person.email}"
 							required="true" />
-						<h:outputLabel value="Jelszó:" />
+						<h:outputLabel value="Jelszó" />
 						<h:outputText value="#{teamLeader.generatedPassword}" />
 					</b:panelGrid>
 					<div align="right">
@@ -294,7 +239,7 @@
 									dismiss="modal" style="margin: 0px 5px;" />
 								<b:commandButton value="Létrehoz" iconAwesome="save" ajax="true"
 									onclick="ajax:teamLeader.saveLeader(teamLeader.newLeader)"
-									process="@form" />
+									process="@form" look="primary" />
 							</div>
 						</b:row>
 					</b:panelGrid>

@@ -14,7 +14,7 @@
 		<c:if test="#{empty edit}">
 			<c:set var="edit" value="#{userController.edit}" />
 		</c:if>
-		
+
 		<c:if test="#{empty styleClass}">
 			<c:set var="styleClass" value="address_modal" />
 		</c:if>
@@ -24,12 +24,10 @@
 			<b:tabView pills="true" activeIndex="0">
 				<b:tab title="Meglévő címek">
 					<br />
-					<h:outputLabel value="Válassz a meglévő címek közül:" />
-					<b:selectOneMenu value="#{addressBean.selectedAddress}" ajax="true"
-						update="addressInputs">
-						<f:selectItems value="#{addressBean.addresses}" var="item"
-							itemLabel="#{item.getFullAddressWithPhone()}" itemValue="#{item}" />
-					</b:selectOneMenu>
+					<h:outputLabel value="Válassz a meglévő címek közül" />
+					<t:dropdown list="#{addressBean.addresses}"
+						value="#{addressBean.selectedAddress}" mode="address" ajax="true"
+						update="addressInputs" />
 					<b:panelGrid colSpans="2,10" id="addressInputs">
 						<h:outputLabel value="Ország" />
 						<b:inputText value="#{addressBean.selectedAddress.country}" />
@@ -59,7 +57,7 @@
 				</b:tab>
 				<b:tab title="Új cím hozzáadása">
 					<br />
-					<h:outputLabel value="Hozz létre új címet:" />
+					<h:outputLabel value="Hozz létre új címet" />
 					<br />
 					<br />
 					<b:panelGrid colSpans="2,10">

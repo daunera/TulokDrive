@@ -24,7 +24,7 @@ public class FeeTypeTable implements Serializable {
 	
 	private FeeType type;
 	private String name;
-	private String amount;
+	private Integer amount;
 	
 	public FeeTypeTable() {
 	}
@@ -53,11 +53,11 @@ public class FeeTypeTable implements Serializable {
 		this.name = name;
 	}
 
-	public String getAmount() {
+	public Integer getAmount() {
 		return amount;
 	}
 
-	public void setAmount(String amount) {
+	public void setAmount(Integer amount) {
 		this.amount = amount;
 	}
 

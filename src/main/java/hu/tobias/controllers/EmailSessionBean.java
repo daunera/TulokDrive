@@ -34,7 +34,7 @@ public class EmailSessionBean {
 	@Inject
 	private ConfigBean configBean;
 
-	public void sendEmail(Email mail) {
+	public void sendEmail(Email mail) throws Exception {
 		Properties props = new Properties();
 		props.put("mail.smtp.host", host);
 		props.put("mail.smtp.port", port);
@@ -66,7 +66,7 @@ public class EmailSessionBean {
 
 	}
 
-	private String getHTMLbody(Email mail) {
+	private String getHTMLbody(Email mail) throws Exception {
 
 		Map<String, Email> root = new HashMap<String, Email>();
 		root.put("mail", mail);
@@ -77,6 +77,7 @@ public class EmailSessionBean {
 			template.process(root, sw);
 		} catch (TemplateException e) {
 			e.printStackTrace();
+			throw new Exception();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -93,7 +94,11 @@ public class EmailSessionBean {
 		mail.addLine("A beállításoknál megváltoztattad a saját jelszavad.");
 		mail.addLine("Amennyiben mégsem te voltál, akkor kicsit gáz van :/");
 
-		sendEmail(mail);
+		try {
+			sendEmail(mail);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void sendPwChangedMailFromAdmin(String toAddress, String toName, String newPw) {
@@ -105,10 +110,14 @@ public class EmailSessionBean {
 		mail.addLine("Egy admin új jelszót állított be neked.");
 		mail.addLine("Jelszavad: " + newPw);
 
-		sendEmail(mail);
+		try {
+			sendEmail(mail);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
-	public void sendPwChangedMailFromForgot(String toAddress, String toName, String newPw) {
+	public void sendPwChangedMailFromForgot(String toAddress, String toName, String newPw) throws Exception {
 		Email mail = new Email();
 		mail.setToAddress(toAddress);
 		mail.setToName(toName);
@@ -132,7 +141,11 @@ public class EmailSessionBean {
 				"Ha viszont váltanál, akkor katt a gombra, mert csak 24 óráig van lehetőséged ezen a linken jelszót váltani!");
 		mail.setLink(link);
 
-		sendEmail(mail);
+		try {
+			sendEmail(mail);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public ConfigBean getConfigBean() {

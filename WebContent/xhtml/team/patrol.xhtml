@@ -61,11 +61,7 @@
 						<h:outputText value="#{patrol.getActiveNum()}" />
 					</b:dataTableColumn>
 					<b:dataTableColumn label="Alakulás ideje">
-						<h:outputText value="#{patrol.getSimpleBirthdate()}"
-							rendered="#{not userController.edit}" />
-						<b:datepicker value="#{patrol.birthdate}"
-							rendered="#{userController.edit}" mode="popup" changeMonth="true"
-							changeYear="true" />
+						<t:datepicker value="#{patrol.birthdate}" showIcon="false" />
 					</b:dataTableColumn>
 					<b:dataTableColumn label="" rendered="#{userController.edit}">
 						<div>

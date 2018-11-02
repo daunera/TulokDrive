@@ -24,78 +24,115 @@
 						style="margin: 0px 5px 0px 0px" rendered="#{userController.edit}" />
 				</t:pageHeader>
 
-				<b:dataTable value="#{teamNews.actualNews}" var="news" info="false"
-					paginated="false" searching="false">
-					<b:dataTableColumn label="Beküldő">
-						<t:entityLink entity="#{news.submitter.scout}" />
-					</b:dataTableColumn>
-					<b:dataTableColumn label="Beküldés ideje">
-						<h:outputText value="#{news.getSimpleCreated()}" />
-					</b:dataTableColumn>
-					<b:dataTableColumn label="Eddig aktuális">
-						<h:outputText value="#{news.getSimpleExpire()}" />
-					</b:dataTableColumn>
-					<b:dataTableColumn label="Szöveg">
-						<h:outputText value="#{news.text}" />
-					</b:dataTableColumn>
-					<b:dataTableColumn label="" rendered="#{userController.edit}">
-						<div>
-							<b:commandButton iconAwesome="pencil" ajax="true"
-								update="@(.edit_news_modal)"
-								onclick="ajax:teamNews.setForEditNews(news)"
-								oncomplete="$('.edit_news_modal').modal();return false;"
-								rendered="#{userController.edit}" />
-						</div>
-					</b:dataTableColumn>
-				</b:dataTable>
-
 				<b:modal title="Új hír" styleClass="new_news_modal"
 					rendered="#{userController.edit}">
 					<b:panelGrid colSpans="4,8">
-						<h:outputLabel value="Eddig aktuális:" />
+						<h:outputLabel value="Eddig aktuális" />
 						<b:datepicker value="#{teamNews.newNews.expire}" mode="popup-icon"
 							changeMonth="true" changeYear="true" />
-						<h:outputLabel value="Hír szövege:" />
+						<h:outputLabel value="Hír szövege" />
 						<b:inputTextarea value="#{teamNews.newNews.text}" rows="3" />
 					</b:panelGrid>
-					<b:panelGrid colSpans="12">
-						<hr style="margin: 10px;" />
-						<b:row>
-							<div align="right" style="padding-right: 10px;">
-								<b:button value="Vissza" iconAwesome="arrow-left"
-									dismiss="modal" style="margin: 0px 5px;" />
-								<b:commandButton value="Létrehoz" iconAwesome="save"
-									action="#{teamNews.saveNews(teamNews.newNews)}" />
-							</div>
-						</b:row>
-					</b:panelGrid>
+					<t:modalFooter mode="create"
+						action="#{teamNews.saveNews(teamNews.newNews)}" />
 				</b:modal>
 
-				<b:modal
-					title="#{teamNews.editedNews.getSimpleCreated()}-i hír szerkesztése"
-					styleClass="edit_news_modal" rendered="#{userController.edit}">
-					<b:panelGrid colSpans="4,8">
-						<h:outputLabel value="Eddig aktuális:" />
-						<b:datepicker value="#{teamNews.editedNews.expire}"
-							mode="popup-icon" changeMonth="true" changeYear="true" />
-						<h:outputLabel value="Hír szövege:" />
-						<b:inputTextarea value="#{teamNews.editedNews.text}" rows="3" />
-					</b:panelGrid>
-					<b:panelGrid colSpans="12">
-						<hr style="margin: 10px;" />
-						<b:row>
-							<div align="right" style="padding-right: 10px;">
-								<b:commandButton value="Töröl" iconAwesome="trash"
-									action="#{teamNews.deleteNews(teamNews.editedNews)}" />
-								<b:button value="Vissza" iconAwesome="arrow-left"
-									dismiss="modal" style="margin: 0px 5px;" />
-								<b:commandButton value="Módosít" iconAwesome="save"
-									action="#{teamNews.saveNews(teamNews.editedNews)}" />
-							</div>
-						</b:row>
-					</b:panelGrid>
-				</b:modal>
+				<b:tabView pills="true">
 
+					<b:tab title="Aktuális">
+						<t:dataTable value="#{teamNews.getActualNews()}">
+							<b:dataTableColumn label="Beküldő">
+								<t:entityLink entity="#{item.submitter.scout}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Beküldés ideje">
+								<h:outputText value="#{item.created}">
+									<f:convertDateTime pattern="yyyy.MM.dd" />
+								</h:outputText>
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Eddig aktuális">
+								<h:outputText value="#{item.expire}">
+									<f:convertDateTime pattern="yyyy.MM.dd" />
+								</h:outputText>
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Szöveg">
+								<h:outputText value="#{item.text}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="" rendered="#{userController.edit}"
+								orderable="false">
+								<div>
+									<b:commandButton iconAwesome="pencil" ajax="true"
+										update="@(.edit_news_modal)"
+										onclick="ajax:teamNews.setForEditNews(item)"
+										oncomplete="$('.edit_news_modal').modal();return false;"
+										rendered="#{userController.edit}" />
+								</div>
+							</b:dataTableColumn>
+						</t:dataTable>
+
+						<b:modal
+							title="#{utils.simpleDate(teamNews.editedNews.created)}-i hír szerkesztése"
+							styleClass="edit_news_modal" rendered="#{userController.edit}">
+							<b:panelGrid colSpans="4,8">
+								<h:outputLabel value="Eddig aktuális" />
+								<b:datepicker value="#{teamNews.editedNews.expire}"
+									mode="popup-icon" changeMonth="true" changeYear="true" />
+								<h:outputLabel value="Hír szövege" />
+								<b:inputTextarea value="#{teamNews.editedNews.text}" rows="3" />
+							</b:panelGrid>
+							<t:modalFooter mode="modify"
+								action="#{teamNews.saveNews(teamNews.editedNews)}"
+								deleteAction="#{teamNews.deleteNews(teamNews.editedNews)}" />
+						</b:modal>
+
+					</b:tab>
+					<b:tab title="Már nem aktuális">
+						<t:dataTable value="#{teamNews.getExpiredNews()}">
+							<b:dataTableColumn label="Beküldő">
+								<t:entityLink entity="#{item.submitter.scout}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Beküldés ideje">
+								<h:outputText value="#{item.created}">
+									<f:convertDateTime pattern="yyyy.MM.dd" />
+								</h:outputText>
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Eddig aktuális">
+								<h:outputText value="#{item.expire}">
+									<f:convertDateTime pattern="yyyy.MM.dd" />
+								</h:outputText>
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Szöveg">
+								<h:outputText value="#{item.text}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="" rendered="#{userController.edit}"
+								orderable="false">
+								<div>
+									<b:commandButton iconAwesome="pencil" ajax="true"
+										update="@(.edit_expired_news_modal)"
+										onclick="ajax:teamNews.setForEditNews(item)"
+										oncomplete="$('.edit_expired_news_modal').modal();return false;"
+										rendered="#{userController.edit}" />
+								</div>
+							</b:dataTableColumn>
+						</t:dataTable>
+
+						<b:modal
+							title="#{utils.simpleDate(teamNews.editedNews.created)}-i hír szerkesztése"
+							styleClass="edit_expired_news_modal"
+							rendered="#{userController.edit}">
+							<b:panelGrid colSpans="4,8">
+								<h:outputLabel value="Eddig aktuális" />
+								<b:datepicker value="#{teamNews.editedNews.expire}"
+									mode="popup-icon" changeMonth="true" changeYear="true" />
+								<h:outputLabel value="Hír szövege" />
+								<b:inputTextarea value="#{teamNews.editedNews.text}" rows="3" />
+							</b:panelGrid>
+							<t:modalFooter mode="modify"
+								action="#{teamNews.saveNews(teamNews.editedNews)}"
+								deleteAction="#{teamNews.deleteNews(teamNews.editedNews)}" />
+						</b:modal>
+
+					</b:tab>
+				</b:tabView>
 			</b:form>
 
 		</ui:define>

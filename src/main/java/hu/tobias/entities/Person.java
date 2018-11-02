@@ -272,10 +272,6 @@ public class Person implements Serializable {
 		return true;
 	}
 
-	public String getSimpleBirthdate() {
-		return Utils.simpleDate(birthdate);
-	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Person) {

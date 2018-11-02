@@ -107,10 +107,6 @@ public class Patrol implements Serializable {
 		return rootUrl + "/patrol/" + id;
 	}
 
-	public String getSimpleBirthdate() {
-		return Utils.simpleDate(birthdate);
-	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Patrol) {

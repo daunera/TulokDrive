@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -20,10 +21,11 @@ import hu.tobias.services.comparator.PatrolNameComparator;
 import hu.tobias.services.comparator.ScoutNameComparator;
 import hu.tobias.services.comparator.ScoutStatusNameComparator;
 import hu.tobias.services.comparator.TroopNameComparator;
+import hu.tobias.services.utils.Utils;
 
-@Named
+@Named(value = "utils")
 @ApplicationScoped
-public class Utils implements Serializable {
+public class UtilsBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -114,6 +116,10 @@ public class Utils implements Serializable {
 			count++;
 		}
 		return count;
+	}
+	
+	public static String simpleDate(Date d) {
+		return Utils.simpleDate(d);
 	}
 
 }

@@ -2,6 +2,7 @@ package hu.tobias.controllers.team;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -25,8 +26,8 @@ public class TeamNewsController implements Serializable {
 
 	@Inject
 	private TeamController teamController;
-	
-	private List<News> actualNews = new ArrayList<News>();
+
+	private List<News> news = new ArrayList<News>();
 	private News editedNews = new News();
 	private News newNews = new News();
 
@@ -39,7 +40,7 @@ public class TeamNewsController implements Serializable {
 	}
 
 	public void loadData() {
-		actualNews = newsService.findActualNews();
+		news = newsService.findAll();
 	}
 
 	public TeamController getTeamController() {
@@ -50,12 +51,12 @@ public class TeamNewsController implements Serializable {
 		this.teamController = teamController;
 	}
 
-	public List<News> getActualNews() {
-		return actualNews;
+	public List<News> getNews() {
+		return news;
 	}
 
-	public void setActualNews(List<News> actualNews) {
-		this.actualNews = actualNews;
+	public void setNews(List<News> news) {
+		this.news = news;
 	}
 
 	public News getEditedNews() {
@@ -65,7 +66,7 @@ public class TeamNewsController implements Serializable {
 	public void setEditedNews(News editedNews) {
 		this.editedNews = editedNews;
 	}
-	
+
 	public News getNewNews() {
 		return newNews;
 	}
@@ -78,23 +79,41 @@ public class TeamNewsController implements Serializable {
 		newNews = new News(l);
 		return true;
 	}
-	
+
 	public boolean setForEditNews(News n) {
 		editedNews = n;
 		return true;
 	}
-	
+
 	public void saveNews(News n) {
-		if(n.getId() == null)
+		if (n.getId() == null)
 			newsService.create(n);
 		else
 			newsService.update(n);
 		loadData();
 	}
-	
+
 	public void deleteNews(News n) {
-		actualNews.remove(n);
+		news.remove(n);
 		newsService.delete(n);
+	}
+
+	public List<News> getActualNews() {
+		List<News> result = new ArrayList<News>();
+		for (News n : news) {
+			if (n.getExpire().after(new Date()))
+				result.add(n);
+		}
+		return result;
+	}
+
+	public List<News> getExpiredNews() {
+		List<News> result = new ArrayList<News>();
+		for (News n : news) {
+			if (n.getExpire().before(new Date()))
+				result.add(n);
+		}
+		return result;
 	}
 
 }

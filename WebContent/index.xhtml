@@ -36,7 +36,7 @@
 								<h:outputText value="Küldő: " />
 								<t:entityLink entity="#{news.submitter.scout}" mode="scout"
 									edit="#{!userController.leader.god}" />
-								<h:outputText value=", aktuális #{news.getSimpleExpire()}-ig" />
+								<h:outputText value=", aktuális #{utils.simpleDate(news.expire)}-ig" />
 							</f:facet>
 						</b:panel>
 					</ui:repeat>

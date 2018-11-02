@@ -199,18 +199,6 @@ public class Leader implements Serializable {
 		this.uniformer = uniformer;
 	}
 
-	public String getSimpleBecomedate() {
-		return Utils.simpleDate(becomeleader);
-	}
-
-	public String getSimplePromisedate() {
-		return Utils.simpleDate(leaderpromise);
-	}
-
-	public String getSimpleKeydate() {
-		return Utils.simpleDate(keydate);
-	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Leader) {

@@ -36,11 +36,7 @@
 								<t:entityLink entity="#{leader}" mode="leader" />
 							</b:dataTableColumn>
 							<b:dataTableColumn label="Vezető lett">
-								<h:outputText value="#{leader.getSimpleBecomedate()}"
-									rendered="#{not userController.edit}" />
-								<b:datepicker value="#{leader.becomeleader}"
-									rendered="#{userController.edit}" mode="popup"
-									changeMonth="true" changeYear="true" />
+								<t:datepicker value="#{leader.becomeleader}" showIcon="false" />
 							</b:dataTableColumn>
 							<b:dataTableColumn label="Vezetett egységek">
 								<div>
@@ -80,11 +76,7 @@
 								<t:entityLink entity="#{leader}" mode="leader" />
 							</b:dataTableColumn>
 							<b:dataTableColumn label="Egy dátum">
-								<h:outputText value="#{leader.getSimplePromisedate()}"
-									rendered="#{not userController.edit}" />
-								<b:datepicker value="#{leader.leaderpromise}"
-									rendered="#{userController.edit}" mode="popup"
-									changeMonth="true" changeYear="true" />
+								<t:datepicker value="#{leader.leaderpromise}" showIcon="false" />
 							</b:dataTableColumn>
 							<b:dataTableColumn label="Egy szó">
 								<h:outputText value="#{leader.leadername}"
@@ -115,11 +107,7 @@
 									rendered="#{userController.edit}" />
 							</b:dataTableColumn>
 							<b:dataTableColumn label="Átvétel ideje">
-								<h:outputText value="#{leader.getSimpleKeydate()}"
-									rendered="#{not userController.edit}" />
-								<b:datepicker value="#{leader.keydate}"
-									rendered="#{userController.edit}" mode="popup"
-									changeMonth="true" changeYear="true" />
+
 							</b:dataTableColumn>
 						</b:dataTable>
 					</b:tab>

@@ -30,7 +30,8 @@
 					<b:dataTableColumn label="Név">
 						<t:entityLink entity="#{item}" />
 					</b:dataTableColumn>
-					<b:dataTableColumn label="" rendered="#{userController.edit}" orderable="false">
+					<b:dataTableColumn label="" rendered="#{userController.edit}"
+						orderable="false">
 						<div>
 							<b:commandButton iconAwesome="pencil" ajax="true"
 								update="@(.edit_fee_modal)"
@@ -64,7 +65,9 @@
 					</b:dataTableColumn>
 					<b:dataTableColumn label="Befizetés napja">
 						<h:outputText
-							value="#{item.getFeeByYear(patrolFee.selectedYear).getSimpleDate()}" />
+							value="#{item.getFeeByYear(patrolFee.selectedYear).completeDate}">
+							<f:convertDateTime pattern="yyyy.MM.dd" />
+						</h:outputText>
 					</b:dataTableColumn>
 					<b:dataTableColumn label="Egyéb">
 						<h:outputText

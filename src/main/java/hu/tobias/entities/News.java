@@ -12,8 +12,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import hu.tobias.services.utils.Utils;
-
 @Entity
 @Table(name = "news")
 public class News implements Serializable {
@@ -92,14 +90,6 @@ public class News implements Serializable {
 			return this.id.equals(o.id);
 		}
 		return false;
-	}
-
-	public String getSimpleCreated() {
-		return Utils.simpleDate(created);
-	}
-
-	public String getSimpleExpire() {
-		return Utils.simpleDate(expire);
 	}
 
 }

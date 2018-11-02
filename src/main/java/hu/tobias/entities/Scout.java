@@ -220,14 +220,6 @@ public class Scout implements Serializable {
 		return false;
 	}
 
-	public String getSimpleJoindate() {
-		return Utils.simpleDate(joindate);
-	}
-
-	public String getSimpleLeavedate() {
-		return Utils.simpleDate(leavedate);
-	}
-
 	public Promise getPromiseByType(String type) {
 		PromiseType promiseType = PromiseType.valueOf(type);
 		for (Promise p : promises) {

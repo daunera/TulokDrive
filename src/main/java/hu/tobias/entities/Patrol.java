@@ -3,6 +3,7 @@ package hu.tobias.entities;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.faces.context.FacesContext;
@@ -40,11 +41,11 @@ public class Patrol implements Serializable {
 	private Gender gender = Gender.NOTDEFINED;;
 
 	@OneToMany(mappedBy = "patrol", fetch = FetchType.EAGER)
-	private Set<Scout> scouts;
+	private Set<Scout> scouts = new HashSet<Scout>();
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "patrol_leader", joinColumns = @JoinColumn(name = "patrol_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "leader_id", referencedColumnName = "id"))
-	private Set<Leader> leaders;
+	private Set<Leader> leaders = new HashSet<Leader>();
 
 	@ManyToOne
 	@JoinColumn(name = "troop_id")
@@ -123,6 +124,8 @@ public class Patrol implements Serializable {
 	public boolean equals(Object obj) {
 		if (obj instanceof Patrol) {
 			Patrol o = (Patrol) obj;
+			if (this.id == null)
+				return false;
 			return this.id.equals(o.id);
 		}
 		return false;

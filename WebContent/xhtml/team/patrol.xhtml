@@ -110,7 +110,7 @@
 								rendered="#{not empty teamPatrol.choosableLeaders}">
 								<h:outputLabel
 									value="Válassz a listából egy vezetőt, akit hozzá szeretnél adni" />
-								<t:dropdown list="#{teamPatrol.choosableLeaders}"
+								<t:dropdown list="#{utils.orderLeaderList(teamPatrol.choosableLeaders)}"
 									value="#{teamPatrol.leaderToAdd}" mode="leader" />
 								<t:modalFooter mode="save"
 									action="#{teamPatrol.addLeader(teamPatrol.editedPatrol, teamPatrol.leaderToAdd)}" />

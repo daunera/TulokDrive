@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import hu.tobias.entities.Address;
+import hu.tobias.entities.Leader;
 import hu.tobias.entities.Scout;
 import hu.tobias.services.comparator.AddressComparator;
 import hu.tobias.services.dao.AddressDao;
@@ -78,6 +79,9 @@ public class PatrolPersonalController implements Serializable {
 	public void saveEdit() {
 		for (Scout s : patrolController.getPatrol().getScouts()) {
 			personService.update(s.getPerson());
+		}
+		for (Leader l : patrolController.getPatrol().getLeaders()) {
+			personService.update(l.getScout().getPerson());
 		}
 		patrolController.getUserController().reloadUser();
 		patrolController.getUserController().changeEdit();

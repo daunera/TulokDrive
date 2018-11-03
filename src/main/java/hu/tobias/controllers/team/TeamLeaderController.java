@@ -5,7 +5,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -18,13 +17,14 @@ import hu.tobias.controllers.EmailSessionBean;
 import hu.tobias.entities.Leader;
 import hu.tobias.entities.Patrol;
 import hu.tobias.entities.Scout;
+import hu.tobias.entities.Troop;
 import hu.tobias.entities.Userroles;
 import hu.tobias.services.comparator.LeaderNameComparator;
-import hu.tobias.services.comparator.PatrolNameComparator;
-import hu.tobias.services.comparator.ScoutNameComparator;
 import hu.tobias.services.dao.LeaderDao;
 import hu.tobias.services.dao.PatrolDao;
+import hu.tobias.services.dao.PersonDao;
 import hu.tobias.services.dao.ScoutDao;
+import hu.tobias.services.dao.TroopDao;
 import hu.tobias.services.dao.UserrolesDao;
 import hu.tobias.services.utils.Utils;
 
@@ -42,6 +42,10 @@ public class TeamLeaderController implements Serializable {
 	private ScoutDao scoutService;
 	@EJB
 	private PatrolDao patrolService;
+	@EJB
+	private TroopDao troopService;
+	@EJB
+	private PersonDao personService;
 
 	@Inject
 	private TeamController teamController;
@@ -60,6 +64,10 @@ public class TeamLeaderController implements Serializable {
 	private List<Patrol> choosablePatrol = new ArrayList<Patrol>();
 	private Patrol patrolToAdd = new Patrol();
 	private Patrol patrolToDelete = new Patrol();
+
+	private List<Troop> choosableTroop = new ArrayList<Troop>();
+	private Troop troopToAdd = new Troop();
+	private Troop troopToDelete = new Troop();
 
 	private String generatedPassword;
 
@@ -148,19 +156,36 @@ public class TeamLeaderController implements Serializable {
 		this.patrolToDelete = patrolToDelete;
 	}
 
+	public List<Troop> getChoosableTroop() {
+		return choosableTroop;
+	}
+
+	public void setChoosableTroop(List<Troop> choosableTroop) {
+		this.choosableTroop = choosableTroop;
+	}
+
+	public Troop getTroopToAdd() {
+		return troopToAdd;
+	}
+
+	public void setTroopToAdd(Troop troopToAdd) {
+		this.troopToAdd = troopToAdd;
+	}
+
+	public Troop getTroopToDelete() {
+		return troopToDelete;
+	}
+
+	public void setTroopToDelete(Troop troopToDelete) {
+		this.troopToDelete = troopToDelete;
+	}
+
 	public String getGeneratedPassword() {
 		return generatedPassword;
 	}
 
 	public void setGeneratedPassword(String generatedPassword) {
 		this.generatedPassword = generatedPassword;
-	}
-
-	// TODO: lehetne törölni, mert csak egy private helyen van használva
-	public List<Patrol> orderSet(Set<Patrol> set) {
-		List<Patrol> result = new ArrayList<Patrol>(set);
-		Collections.sort(result, new PatrolNameComparator());
-		return result;
 	}
 
 	public void saveEdit() {
@@ -173,20 +198,30 @@ public class TeamLeaderController implements Serializable {
 	}
 
 	public boolean setForNewLeaderModal() {
-		scouts = scoutService.findAll();
-		for (Leader l : leaders) {
-			scouts.remove(l.getScout());
-		}
-
-		Collections.sort(scouts, new ScoutNameComparator());
+		scouts = scoutService.findAllWithoutLeader();
 
 		newLeader = new Leader();
-		generatedPassword = Utils.generatePassword();
-		newLeader.setPassword(generatedPassword);
+		if (!scouts.isEmpty()) {
+			newLeader.setScout(scouts.get(0));
+			if (newLeader.getScout().getPerson().getEmail() != null) {
+				newLeader.setUsername(newLeader.getScout().getPerson().getEmail().split("@")[0]);
+			}
+			generatedPassword = Utils.generatePassword();
+			newLeader.setPassword(generatedPassword);
+		}
 		return true;
 	}
 
-	public void saveLeader(Leader l) {
+	public void updateNewLeader() {
+		if (newLeader.getScout().getPerson().getEmail() != null) {
+			newLeader.setUsername(newLeader.getScout().getPerson().getEmail().split("@")[0]);
+		} else {
+			newLeader.setUsername(null);
+			newLeader.getScout().getPerson().setEmail(null);
+		}
+	}
+
+	public void saveLeader(Leader l, String pw) {
 		if (l.getId() == null) {
 			leaderService.create(l);
 			roleService.create(new Userroles(l));
@@ -194,6 +229,11 @@ public class TeamLeaderController implements Serializable {
 			leaderService.update(l);
 			roleService.update(l.getRole());
 		}
+		if (l.getScout().getPerson().getEmail() != null) {
+			personService.update(l.getScout().getPerson());
+		}
+		emailBean.sendLeaderCreatedFromAdmin(l.getEmail(), l.getScout().getPerson().getPersonalName(), pw,
+				l.getUsername());
 		teamController.getUserController().changeEdit();
 		teamController.getUserController().redirectRelative("team/leader");
 	}
@@ -206,13 +246,24 @@ public class TeamLeaderController implements Serializable {
 	public void saveExtraPermissions(Leader l) {
 		leaderService.update(l);
 		loadData();
+		teamController.getUserController().changeEdit();
 	}
 
 	public void deleteLeader(Leader l) {
 		if (!l.getPatrols().isEmpty()) {
 			for (Patrol p : l.getPatrols()) {
-				p.getLeaders().remove(l);
-				patrolService.update(p);
+				if (p.getLeaders().contains(l)) {
+					p.getLeaders().remove(l);
+					patrolService.update(p);
+				}
+			}
+		}
+		if (!l.getTroops().isEmpty()) {
+			for (Troop t : l.getTroops()) {
+				if (t.getLeaders().contains(l)) {
+					t.getLeaders().remove(l);
+					troopService.update(t);
+				}
 			}
 		}
 		roleService.delete(l.getRole());
@@ -225,6 +276,7 @@ public class TeamLeaderController implements Serializable {
 			}
 		} else
 			loadData();
+		teamController.getUserController().changeEdit();
 	}
 
 	public boolean setForSetPatrolModal(Leader l) {
@@ -233,12 +285,11 @@ public class TeamLeaderController implements Serializable {
 		for (Patrol p : l.getPatrols()) {
 			choosablePatrol.remove(p);
 		}
-		Collections.sort(choosablePatrol, new PatrolNameComparator());
 
 		if (!choosablePatrol.isEmpty())
 			patrolToAdd = choosablePatrol.get(0);
 		if (!editedLeader.getPatrols().isEmpty())
-			patrolToDelete = orderSet(editedLeader.getPatrols()).get(0);
+			patrolToDelete = Utils.orderPatrolSet(editedLeader.getPatrols()).get(0);
 
 		return true;
 	}
@@ -247,21 +298,59 @@ public class TeamLeaderController implements Serializable {
 		p.getLeaders().add(l);
 		patrolService.update(p);
 
-		if (p.getLeaders().contains(teamController.getUserController().getLeader())) {
+		if (teamController.getUserController().getLeader().equals(l)) {
 			teamController.getUserController().reloadPatrol();
 		}
 		loadData();
+		teamController.getUserController().changeEdit();
 	}
 
 	public void deletePatrol(Leader l, Patrol p) {
 		p.getLeaders().remove(l);
 		patrolService.update(p);
 
-		if (teamController.getUserController().getLeader().equals(l)
-				|| p.getLeaders().contains(teamController.getUserController().getLeader())) {
+		if (teamController.getUserController().getLeader().equals(l)) {
 			teamController.getUserController().reloadPatrol();
 		}
 		loadData();
+		teamController.getUserController().changeEdit();
+	}
+
+	public boolean setForSetTroopModal(Leader l) {
+		editedLeader = l;
+		choosableTroop = troopService.findAll();
+		for (Troop t : l.getTroops()) {
+			choosableTroop.remove(t);
+		}
+
+		if (!choosableTroop.isEmpty())
+			troopToAdd = choosableTroop.get(0);
+		if (!editedLeader.getTroops().isEmpty())
+			troopToDelete = Utils.orderTroopSet(editedLeader.getTroops()).get(0);
+
+		return true;
+	}
+
+	public void addTroop(Leader l, Troop t) {
+		t.getLeaders().add(l);
+		troopService.update(t);
+
+		if (teamController.getUserController().getLeader().equals(l)) {
+			teamController.getUserController().reloadTroop();
+		}
+		loadData();
+		teamController.getUserController().changeEdit();
+	}
+
+	public void deleteTroop(Leader l, Troop t) {
+		t.getLeaders().remove(l);
+		troopService.update(t);
+
+		if (teamController.getUserController().getLeader().equals(l)) {
+			teamController.getUserController().reloadTroop();
+		}
+		loadData();
+		teamController.getUserController().changeEdit();
 	}
 
 	public boolean setForNewPasswordModal(Leader l) {

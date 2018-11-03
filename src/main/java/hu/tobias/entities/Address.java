@@ -1,6 +1,7 @@
 package hu.tobias.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -34,7 +35,7 @@ public class Address implements Serializable {
 	private String phone;
 
 	@OneToMany(mappedBy = "address")
-	private List<Person> persons;
+	private List<Person> persons = new ArrayList<Person>();
 
 	public Address() {
 		super();
@@ -131,6 +132,8 @@ public class Address implements Serializable {
 	public boolean equals(Object obj) {
 		if (obj instanceof Address) {
 			Address o = (Address) obj;
+			if (this.id == null)
+				return false;
 			return this.id.equals(o.id);
 		}
 		return false;

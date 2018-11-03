@@ -28,4 +28,9 @@ public class ScoutDao extends AbstractDao<Scout, Integer> {
 		TypedQuery<Scout> query = em.createQuery("SELECT s FROM Scout s WHERE s.patrol IS EMPTY", Scout.class);
 		return query.getResultList();
 	}
+	
+	public List<Scout> findAllWithoutLeader() {
+		TypedQuery<Scout> query = em.createQuery("SELECT s FROM Scout s WHERE s.leader IS EMPTY", Scout.class);
+		return query.getResultList();
+	}
 }

@@ -91,6 +91,9 @@
 		<attribute>
 			<name>update</name>
 		</attribute>
+		<attribute>
+			<name>onchange</name>
+		</attribute>
 	</tag>
 	<tag>
 		<tag-name>datepicker</tag-name>

@@ -87,6 +87,8 @@ public class News implements Serializable {
 	public boolean equals(Object obj) {
 		if (obj instanceof News) {
 			News o = (News) obj;
+			if (this.id == null)
+				return false;
 			return this.id.equals(o.id);
 		}
 		return false;

@@ -14,7 +14,169 @@
 	<ui:composition template="/xhtml/team/teamFrame.xhtml">
 		<ui:define name="innerContent">
 
-			TROOP
+			<b:form>
+				<t:pageHeader title="Rajok" saveBean="#{teamTroop}"
+					saveMethod="saveEdit" undoBean="#{userController}"
+					undoMethod="changeEdit">
+					<b:commandButton value="Új raj" iconAwesome="plus" ajax="true"
+						update="@(.new_troop_modal)"
+						onclick="ajax:teamTroop.setForNewTroopModal()"
+						oncomplete="$('.new_troop_modal').modal();return false;" size="md"
+						style="margin: 0px 5px 0px 0px" rendered="#{userController.edit}" />
+				</t:pageHeader>
+
+				<t:dataTable value="#{teamTroop.troops}">
+					<b:dataTableColumn label="Név">
+						<b:link value="#{item.name}" href="#{item.getTroopUrl()}"
+							rendered="#{not userController.edit}" />
+						<b:inputText value="#{item.name}"
+							rendered="#{userController.edit}" />
+					</b:dataTableColumn>
+					<b:dataTableColumn label="Rajvezetők" orderable="false">
+						<div>
+							<b:commandButton iconAwesome="pencil" ajax="true"
+								update="@(.set_leader_modal)"
+								onclick="ajax:teamTroop.setForSetLeaderModal(item)"
+								oncomplete="$('.set_leader_modal').modal();return false;"
+								size="xs" style="margin: 0px 5px 0px 0px"
+								rendered="#{userController.edit}" />
+							<ui:repeat var="leader"
+								value="#{utils.orderLeaderSet(item.leaders)}" varStatus="var">
+								<t:entityLink entity="#{leader}" mode="leader" />
+								<h:outputText value=", " rendered="#{not var.last}"></h:outputText>
+							</ui:repeat>
+						</div>
+					</b:dataTableColumn>
+					<b:dataTableColumn label="Őrsvezetők">
+						<h:outputText value="#{item.getPatrolLeaderNum()}" />
+					</b:dataTableColumn>
+					<b:dataTableColumn label="Őrsök" orderable="false">
+						<div>
+							<b:commandButton iconAwesome="pencil" ajax="true"
+								update="@(.set_patrol_modal)"
+								onclick="ajax:teamTroop.setForSetPatrolModal(item)"
+								oncomplete="$('.set_patrol_modal').modal();return false;"
+								size="xs" style="margin: 0px 5px 0px 0px"
+								rendered="#{userController.edit}" />
+							<ui:repeat var="patrol"
+								value="#{utils.orderPatrolSet(item.patrols)}" varStatus="var">
+								<t:entityLink entity="#{patrol}" mode="patrol" />
+								<h:outputText value=", " rendered="#{not var.last}" />
+							</ui:repeat>
+						</div>
+					</b:dataTableColumn>
+					<b:dataTableColumn label="Létszám">
+						<h:outputText value="#{item.getActiveNum()}" />
+					</b:dataTableColumn>
+					<b:dataTableColumn label="" rendered="#{userController.edit}"
+						orderable="false">
+						<div>
+							<b:commandButton iconAwesome="trash" ajax="true"
+								update="@(.delete_troop_modal)"
+								onclick="ajax:teamTroop.setForTroopDeleteModal(item)"
+								oncomplete="$('.delete_troop_modal').modal();return false;"
+								rendered="#{userController.edit}" />
+						</div>
+					</b:dataTableColumn>
+				</t:dataTable>
+
+				<b:modal title="Új raj létrehozása" styleClass="new_troop_modal"
+					rendered="#{userController.edit}">
+					<b:panelGrid colSpans="4,8">
+						<h:outputLabel value="Raj neve" />
+						<b:inputText value="#{teamTroop.newTroop.name}" />
+					</b:panelGrid>
+					<t:modalFooter mode="create"
+						action="#{teamTroop.saveTroop(teamTroop.newTroop)}" />
+				</b:modal>
+
+				<b:modal title="#{teamTroop.editedTroop.name} raj törlése"
+					styleClass="delete_troop_modal" rendered="#{userController.edit}">
+					<b:panelGrid colSpans="12">
+						<h:outputLabel
+							value="Biztosan szeretnéd törölni a #{teamTroop.editedTroop.name} rajt?" />
+						<t:modalFooter mode="delete"
+							action="#{teamTroop.deleteTroop(teamTroop.editedTroop)}" />
+					</b:panelGrid>
+				</b:modal>
+
+				<b:modal
+					title="#{teamTroop.editedTroop.name} raj vezetőinek szerkesztése"
+					styleClass="set_leader_modal" rendered="#{userController.edit}">
+					<b:tabView pills="true" activeIndex="0">
+						<b:tab title="Új vezető">
+							<br />
+							<b:panelGrid colSpans="12"
+								rendered="#{not empty teamTroop.choosableLeaders}">
+								<h:outputLabel
+									value="Válassz a listából egy vezetőt, akit hozzá szeretnél adni" />
+								<t:dropdown
+									list="#{utils.orderLeaderList(teamTroop.choosableLeaders)}"
+									value="#{teamTroop.leaderToAdd}" mode="leader" />
+								<t:modalFooter mode="save"
+									action="#{teamTroop.addLeader(teamTroop.editedTroop, teamTroop.leaderToAdd)}" />
+							</b:panelGrid>
+							<b:panelGrid colSpans="12"
+								rendered="#{empty teamTroop.choosableLeaders}">
+								<h:outputText value="Nincs olyan vezető, akit hozzáadhatnál." />
+								<t:modalFooter mode="back" />
+							</b:panelGrid>
+						</b:tab>
+						<b:tab title="Vezető törlése"
+							rendered="#{not empty teamTroop.editedTroop.leaders}">
+							<br />
+							<b:panelGrid colSpans="12">
+								<h:outputLabel
+									value="Válassz a listából egy vezetőt, akit törölni szeretnél" />
+								<t:dropdown
+									list="#{utils.orderLeaderSet(teamTroop.editedTroop.leaders)}"
+									value="#{teamTroop.leaderToDelete}" mode="leader" />
+								<t:modalFooter mode="delete"
+									action="#{teamTroop.deleteLeader(teamTroop.editedTroop, teamTroop.leaderToDelete)}" />
+							</b:panelGrid>
+						</b:tab>
+					</b:tabView>
+				</b:modal>
+
+				<b:modal
+					title="#{teamTroop.editedTroop.name} raj őrseinek szerkesztése"
+					styleClass="set_patrol_modal" rendered="#{userController.edit}">
+					<b:tabView pills="true" activeIndex="0">
+						<b:tab title="Új őrs">
+							<br />
+							<b:panelGrid colSpans="12"
+								rendered="#{not empty teamTroop.choosablePatrols}">
+								<h:outputLabel
+									value="Válassz a listából egy őrsöt, akit hozzá szeretnél adni" />
+								<t:dropdown
+									list="#{utils.orderPatrolList(teamTroop.choosablePatrols)}"
+									value="#{teamTroop.patrolToAdd}" mode="patrol" />
+								<t:modalFooter mode="save"
+									action="#{teamTroop.addPatrol(teamTroop.editedTroop, teamTroop.patrolToAdd)}" />
+							</b:panelGrid>
+							<b:panelGrid colSpans="12"
+								rendered="#{empty teamTroop.choosablePatrols}">
+								<h:outputText value="Nincs olyan őrs, akit hozzáadhatnál." />
+								<t:modalFooter mode="back" />
+							</b:panelGrid>
+						</b:tab>
+						<b:tab title="Őrs törlése"
+							rendered="#{not empty teamTroop.editedTroop.patrols}">
+							<br />
+							<b:panelGrid colSpans="12">
+								<h:outputLabel
+									value="Válassz a listából egy őrsöt, akit törölni szeretnél" />
+								<t:dropdown
+									list="#{utils.orderPatrolSet(teamTroop.editedTroop.patrols)}"
+									value="#{teamTroop.patrolToDelete}" mode="patrol" />
+								<t:modalFooter mode="delete"
+									action="#{teamTroop.deletePatrol(teamTroop.editedTroop, teamTroop.patrolToDelete)}" />
+							</b:panelGrid>
+						</b:tab>
+					</b:tabView>
+				</b:modal>
+
+			</b:form>
 
 		</ui:define>
 	</ui:composition>

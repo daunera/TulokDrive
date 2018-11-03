@@ -53,7 +53,7 @@
 			<h:outputText value="#{valueLabel}"
 				rendered="#{not edit and not noText}" />
 			<b:selectOneMenu value="#{value}" rendered="#{edit}" ajax="#{ajax}"
-				update="#{update}">
+				update="#{update}" onchange="#{onchange}">
 				<c:choose>
 					<c:when test="#{mode == 'person'}">
 						<f:selectItems value="#{list}" var="element"

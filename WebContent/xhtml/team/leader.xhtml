@@ -36,7 +36,7 @@
 							<b:dataTableColumn label="Vezető lett">
 								<t:datepicker value="#{item.becomeleader}" showIcon="false" />
 							</b:dataTableColumn>
-							<b:dataTableColumn label="Vezetett egységek">
+							<b:dataTableColumn label="Vezetett őrs">
 								<div>
 									<b:commandButton iconAwesome="pencil" ajax="true"
 										update="@(.set_patrol_modal)"
@@ -47,6 +47,21 @@
 									<ui:repeat var="patrol"
 										value="#{utils.orderPatrolSet(item.patrols)}" varStatus="var">
 										<t:entityLink entity="#{patrol}" mode="patrol" />
+										<h:outputText value=", " rendered="#{not var.last}" />
+									</ui:repeat>
+								</div>
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Vezetett raj">
+								<div>
+									<b:commandButton iconAwesome="pencil" ajax="true"
+										update="@(.set_troop_modal)"
+										onclick="ajax:teamLeader.setForSetTroopModal(item)"
+										oncomplete="$('.set_troop_modal').modal();return false;"
+										size="xs" style="margin: 0px 5px 0px 0px"
+										rendered="#{userController.edit}" />
+									<ui:repeat var="troop"
+										value="#{utils.orderTroopSet(item.troops)}" varStatus="var">
+										<t:entityLink entity="#{troop}" mode="troop" />
 										<h:outputText value=", " rendered="#{not var.last}" />
 									</ui:repeat>
 								</div>
@@ -165,7 +180,8 @@
 								rendered="#{not empty teamLeader.choosablePatrol}">
 								<h:outputLabel
 									value="Válassz a listából egy őrsöt, amihez hozzá szeretnéd adni" />
-								<t:dropdown list="#{teamLeader.choosablePatrol}"
+								<t:dropdown
+									list="#{utils.orderPatrolList(teamLeader.choosablePatrol)}"
 									value="#{teamLeader.patrolToAdd}" mode="patrol"
 									edit="#{teamLeader.patrolToAdd != null}" />
 								<t:modalFooter mode="select"
@@ -195,16 +211,56 @@
 				</b:modal>
 
 				<b:modal
+					title="#{teamLeader.editedLeader.scout.person.getFullName()} vezetett rajainal szerkesztése"
+					styleClass="set_troop_modal" rendered="#{userController.edit}">
+					<b:tabView pills="true" activeIndex="0">
+						<b:tab title="Új raj">
+							<br />
+							<b:panelGrid colSpans="12"
+								rendered="#{not empty teamLeader.choosableTroop}">
+								<h:outputLabel
+									value="Válassz a listából egy rajt, amihez hozzá szeretnéd adni" />
+								<t:dropdown
+									list="#{utils.orderTroopList(teamLeader.choosableTroop)}"
+									value="#{teamLeader.troopToAdd}" mode="troop"
+									edit="#{teamLeader.troopToAdd != null}" />
+								<t:modalFooter mode="select"
+									action="#{teamLeader.addTroop(teamLeader.editedLeader, teamLeader.troopToAdd)}" />
+							</b:panelGrid>
+							<b:panelGrid colSpans="12"
+								rendered="#{empty teamLeader.choosableTroop}">
+								<h:outputText value="Nincs olyan raj, akihez hozzáadhatnád." />
+								<t:modalFooter mode="back" />
+							</b:panelGrid>
+						</b:tab>
+						<b:tab title="Raj törlése"
+							rendered="#{not empty teamLeader.editedLeader.troops}">
+							<br />
+							<b:panelGrid colSpans="12">
+								<h:outputLabel
+									value="Válassz a listából egy rajt, amiről törölni szeretnéd" />
+								<t:dropdown
+									list="#{utils.orderTroopSet(teamLeader.editedLeader.troops)}"
+									value="#{teamLeader.troopToDelete}" mode="troop"
+									edit="#{teamLeader.editedLeader.troops != null}" />
+								<t:modalFooter mode="delete"
+									action="#{teamLeader.deleteTroop(teamLeader.editedLeader, teamLeader.troopToDelete)}" />
+							</b:panelGrid>
+						</b:tab>
+					</b:tabView>
+				</b:modal>
+
+				<b:modal
 					title="#{teamLeader.editedLeader.scout.person.getFullName()} vezetőnek új jelszó generálása"
 					styleClass="new_password_modal" rendered="#{userController.edit}">
 					<b:panelGrid colSpans="3,9">
 						<h:outputLabel value="Generált jelszó" />
-						<h:outputText value="#{teamLeader.generatedPassword}" />
+						<b:inputText value="#{teamLeader.generatedPassword}" />
 					</b:panelGrid>
 					<br />
 					<b:panelGrid colSpans="12">
 						<h:outputLabel
-							value="Biztosan szeretnél új jelszót generálni a #{teamLeader.editedLeader.scout.person.getFullName()} nevű vezetőnek?" />
+							value="Biztosan szeretnél új jelszót beállítani a #{teamLeader.editedLeader.scout.person.getFullName()} nevű vezetőnek?" />
 						<t:modalFooter mode="yes"
 							action="#{teamLeader.saveNewGeneratedPassword(teamLeader.editedLeader, teamLeader.generatedPassword)}" />
 					</b:panelGrid>
@@ -217,16 +273,24 @@
 					rendered="#{userController.edit}">
 					<b:panelGrid colSpans="4,8">
 						<h:outputLabel value="Válassz cserkészt*" />
-						<t:dropdown list="#{teamLeader.scouts}"
-							value="#{teamLeader.newLeader.scout}" mode="scout" />
+						<b:selectOneMenu value="#{teamLeader.newLeader.scout}">
+							<f:selectItems value="#{utils.orderScoutList(teamLeader.scouts)}"
+								var="element" itemValue="#{element}"
+								itemLabel="#{element.person.getFullName()}" />
+							<f:ajax event="change" listener="#{teamLeader.updateNewLeader()}"
+								render="leaderInputs" />
+						</b:selectOneMenu>
+					</b:panelGrid>
+					<b:panelGrid colSpans="4,8" id="leaderInputs">
 						<h:outputLabel value="Felhasználónév*" />
 						<b:inputText value="#{teamLeader.newLeader.username}"
 							required="true" />
 						<h:outputLabel value="Email*" />
 						<b:inputText value="#{teamLeader.newLeader.scout.person.email}"
 							required="true" />
-						<h:outputLabel value="Jelszó" />
-						<h:outputText value="#{teamLeader.generatedPassword}" />
+						<h:outputLabel value="Jelszó*" />
+						<b:inputText value="#{teamLeader.generatedPassword}"
+							required="true" />
 					</b:panelGrid>
 					<div align="right">
 						<h:outputText value="*kötelező kitölteni" />
@@ -238,7 +302,7 @@
 								<b:button value="Vissza" iconAwesome="arrow-left"
 									dismiss="modal" style="margin: 0px 5px;" />
 								<b:commandButton value="Létrehoz" iconAwesome="save" ajax="true"
-									onclick="ajax:teamLeader.saveLeader(teamLeader.newLeader)"
+									onclick="ajax:teamLeader.saveLeader(teamLeader.newLeader, teamLeader.generatedPassword)"
 									process="@form" look="primary" />
 							</div>
 						</b:row>

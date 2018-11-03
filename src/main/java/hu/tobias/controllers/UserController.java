@@ -18,6 +18,7 @@ import hu.tobias.entities.Patrol;
 import hu.tobias.entities.Troop;
 import hu.tobias.entities.exceptions.NotFoundEntityException;
 import hu.tobias.services.comparator.PatrolNameComparator;
+import hu.tobias.services.comparator.TroopNameComparator;
 import hu.tobias.services.dao.LeaderDao;
 
 @Named(value = "userController")
@@ -102,6 +103,12 @@ public class UserController implements Serializable {
 		reloadUser();
 		patrols = new ArrayList<Patrol>(leader.getPatrols());
 		Collections.sort(patrols, new PatrolNameComparator());
+	}
+	
+	public void reloadTroop() {
+		reloadPatrol();
+		troops = new ArrayList<Troop>(leader.getTroops());
+		Collections.sort(troops, new TroopNameComparator());
 	}
 
 	public String getRootUrl() {

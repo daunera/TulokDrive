@@ -150,13 +150,6 @@ public class TroopController implements Serializable {
 		userController.changeEdit();
 		loadData();
 	}
-	
-	public void saveScoutEdit() {
-		for(Scout s : scoutList) {
-			scoutService.update(s);
-		}
-		userController.changeEdit();
-	}
 
 	public boolean isThisActiveTab(String tabName) {
 		TabName tabParam = TabName.valueOf(tabName);

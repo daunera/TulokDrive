@@ -18,7 +18,7 @@ insert into person (id, lastname, firstname, nickname, birthdate, birthplace, em
 insert into person (id, lastname, firstname, nickname, gender, religion, birthdate) values (203, 'Kis','Joana', 'Toby', 2, 1, '2000-05-27 01:01:01');
 insert into person (id, lastname, firstname, nickname, gender, religion, birthdate) values (208, 'Nyúl','Béla', 'Arnold', 1, 0,'1999-05-30 01:01:01');
 
-insert into scout (id, ecsetcode, person_id, status, patrol_id, joindate, leavedate, scoutcard) values(300,'DG3041-6', 202, 1, 900, '2015-01-01 01:01:01', '2015-01-01 01:01:01', 2);
+insert into scout (id, ecsetcode, person_id, status, joindate, leavedate, scoutcard) values(300,'DG3041-6', 202, 1, '2015-01-01 01:01:01', '2015-01-01 01:01:01', 2);
 insert into scout (id, ecsetcode, person_id, status) values(301,'CB3081-8', 203, 2);
 insert into scout (id, ecsetcode, person_id, status, patrol_id) values(306,'ABCDEF-0', 208, 1, 900);
 

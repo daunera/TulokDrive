@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -14,17 +13,21 @@ import javax.inject.Named;
 
 import hu.tobias.entities.Leader;
 import hu.tobias.entities.Patrol;
-import hu.tobias.services.comparator.LeaderNameComparator;
+import hu.tobias.entities.Scout;
 import hu.tobias.services.comparator.PatrolNameComparator;
 import hu.tobias.services.dao.LeaderDao;
 import hu.tobias.services.dao.PatrolDao;
+import hu.tobias.services.dao.ScoutDao;
+import hu.tobias.services.utils.Utils;
 
 @Named(value = "teamPatrol")
 @ViewScoped
-public class TeamPatrolController implements Serializable{
+public class TeamPatrolController implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
+	@EJB
+	private ScoutDao scoutService;
 	@EJB
 	private PatrolDao patrolService;
 	@EJB
@@ -148,32 +151,26 @@ public class TeamPatrolController implements Serializable{
 	}
 
 	public void deletePatrol(Patrol p) {
-		boolean modded = false;
 		boolean refresh = false;
 		if (!p.getScouts().isEmpty()) {
-			p.getScouts().clear();
-			modded = true;
+			for (Scout s : p.getScouts()) {
+				s.setPatrol(null);
+				scoutService.update(s);
+			}
 		}
 		if (!p.getLeaders().isEmpty()) {
-			if (p.getLeaders().contains(teamController.getUserController().getLeader())) {
-				refresh = true;
-			}
+			for (Leader l : p.getLeaders())
+				if (teamController.getUserController().getLeader().equals(l)) {
+					refresh = true;
+					break;
+				}
 			p.getLeaders().clear();
-			modded = true;
-		}
-		if (modded)
 			patrolService.update(p);
+		}
 		patrolService.delete(p);
 		if (refresh)
 			teamController.getUserController().reloadPatrol();
 		loadData();
-	}
-
-	// TODO: lehetne törölni, mert csak egy private helyen van használva
-	public List<Leader> orderSet(Set<Leader> set) {
-		List<Leader> result = new ArrayList<Leader>(set);
-		Collections.sort(result, new LeaderNameComparator());
-		return result;
 	}
 
 	public boolean setForSetLeaderModal(Patrol p) {
@@ -182,12 +179,11 @@ public class TeamPatrolController implements Serializable{
 		for (Leader l : p.getLeaders()) {
 			choosableLeaders.remove(l);
 		}
-		Collections.sort(choosableLeaders, new LeaderNameComparator());
 
 		if (!choosableLeaders.isEmpty())
 			leaderToAdd = choosableLeaders.get(0);
 		if (!editedPatrol.getLeaders().isEmpty())
-			leaderToDelete = orderSet(editedPatrol.getLeaders()).get(0);
+			leaderToDelete = Utils.orderLeaderSet(editedPatrol.getLeaders()).get(0);
 
 		return true;
 	}
@@ -196,7 +192,7 @@ public class TeamPatrolController implements Serializable{
 		p.getLeaders().add(l);
 		patrolService.update(p);
 
-		if (p.getLeaders().contains(teamController.getUserController().getLeader())) {
+		if (teamController.getUserController().getLeader().equals(l)) {
 			teamController.getUserController().reloadPatrol();
 		}
 		loadData();
@@ -206,13 +202,12 @@ public class TeamPatrolController implements Serializable{
 		p.getLeaders().remove(l);
 		patrolService.update(p);
 
-		if (teamController.getUserController().getLeader().equals(l)
-				|| p.getLeaders().contains(teamController.getUserController().getLeader())) {
+		if (teamController.getUserController().getLeader().equals(l)) {
 			teamController.getUserController().reloadPatrol();
 		}
 		loadData();
 	}
-	
+
 	public boolean setForPatrolDeleteModal(Patrol p) {
 		editedPatrol = p;
 		return true;

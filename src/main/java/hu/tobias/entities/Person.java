@@ -276,6 +276,8 @@ public class Person implements Serializable {
 	public boolean equals(Object obj) {
 		if (obj instanceof Person) {
 			Person o = (Person) obj;
+			if (this.id == null)
+				return false;
 			return this.id.equals(o.id);
 		}
 		return false;

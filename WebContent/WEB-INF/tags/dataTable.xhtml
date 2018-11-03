@@ -118,7 +118,7 @@
 			</c:if>
 			<c:if test="#{empty leaderNum}">
 				<c:set var="rowStyleClass"
-					value="#{item.status=='INACTIVE'?'inactive':item.status=='QUITTED'?'quit':''}" />
+					value="#{item.status=='INACTIVE' ? 'inactive' : (item.status=='QUITTED' ? 'quit' : '')}" />
 			</c:if>
 		</c:if>
 		<c:if test="#{colorStat != true}">
@@ -130,7 +130,7 @@
 			searching="#{searching}" scrollHorizontally="#{scrollHorizontally}"
 			scrollX="#{scrollX}" rendered="#{rendered}" style="width: 100%"
 			styleClass="#{noHeadStyle}" rowStyleClass="#{rowStyleClass}"
-			rowHighlight="#{rowHighlight}">
+			rowHighlight="#{rowHighlight}" lang="hu">
 			<c:if test="#{type == 'patrol'}">
 				<b:dataTableColumn label="" orderable="false"
 					styleClass="#{numStyle}"

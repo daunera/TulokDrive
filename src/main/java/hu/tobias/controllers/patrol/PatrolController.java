@@ -15,6 +15,7 @@ import javax.servlet.RequestDispatcher;
 
 import hu.tobias.controllers.Permission;
 import hu.tobias.controllers.UserController;
+import hu.tobias.entities.Leader;
 import hu.tobias.entities.Patrol;
 import hu.tobias.entities.Scout;
 import hu.tobias.entities.enums.TabName;
@@ -108,6 +109,9 @@ public class PatrolController implements Serializable {
 	public void saveScoutEdit() {
 		for(Scout s : patrol.getScouts()) {
 			scoutService.update(s);
+		}
+		for(Leader l : patrol.getLeaders()) {
+			scoutService.update(l.getScout());
 		}
 		userController.changeEdit();
 	}

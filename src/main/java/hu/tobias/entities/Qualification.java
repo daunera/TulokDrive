@@ -111,6 +111,8 @@ public class Qualification implements Serializable {
 	public boolean equals(Object obj) {
 		if (obj instanceof Qualification) {
 			Qualification o = (Qualification) obj;
+			if (this.id == null)
+				return false;
 			return this.id.equals(o.id);
 		}
 		return false;

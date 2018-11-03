@@ -2,6 +2,7 @@ package hu.tobias.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.faces.context.FacesContext;
@@ -46,23 +47,23 @@ public class Scout implements Serializable {
 	private Leader leader;
 
 	@OneToMany(mappedBy = "scout", fetch = FetchType.EAGER)
-	private Set<Promise> promises;
+	private Set<Promise> promises = new HashSet<Promise>();
 
 	@OneToMany(mappedBy = "scout", fetch = FetchType.EAGER)
-	private Set<Challenge> challenges;
+	private Set<Challenge> challenges = new HashSet<Challenge>();
 
 	@OneToMany(mappedBy = "scout", fetch = FetchType.EAGER)
-	private Set<Qualification> qualifications;
+	private Set<Qualification> qualifications = new HashSet<Qualification>();
 
 	@OneToMany(mappedBy = "scout", fetch = FetchType.EAGER)
-	private Set<Fee> fees;
-	
+	private Set<Fee> fees = new HashSet<Fee>();
+
 	@ManyToOne
 	@JoinColumn(name = "patrol_id")
 	private Patrol patrol;
-	
+
 	@OneToMany(mappedBy = "scout", fetch = FetchType.EAGER)
-	private Set<UniformRent> uniforms;
+	private Set<UniformRent> uniforms = new HashSet<UniformRent>();
 
 	public Integer getId() {
 		return id;
@@ -215,6 +216,8 @@ public class Scout implements Serializable {
 	public boolean equals(Object obj) {
 		if (obj instanceof Scout) {
 			Scout o = (Scout) obj;
+			if (this.id == null)
+				return false;
 			return this.id.equals(o.id);
 		}
 		return false;

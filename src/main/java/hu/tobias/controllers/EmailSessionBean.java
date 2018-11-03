@@ -100,6 +100,23 @@ public class EmailSessionBean {
 			e.printStackTrace();
 		}
 	}
+	
+	public void sendLeaderCreatedFromAdmin(String toAddress, String toName, String newPw, String newUn) {
+		Email mail = new Email();
+		mail.setToAddress(toAddress);
+		mail.setToName(toName);
+		mail.setSubject("TulokDrive felhasználód létrejött");
+		mail.setTitle("Nesze neked felhasználó!");
+		mail.addLine("Létrejött a TulokDrive felhasználód. Mostantól az alábbi adatokkal be tudsz lépni a tagnyilvántartóba.");
+		mail.addLine("Felhasználóneved: " + newUn);
+		mail.addLine("Jelszavad: " + newPw);
+
+		try {
+			sendEmail(mail);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	public void sendPwChangedMailFromAdmin(String toAddress, String toName, String newPw) {
 		Email mail = new Email();

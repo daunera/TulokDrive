@@ -2,6 +2,7 @@ package hu.tobias.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -45,10 +46,10 @@ public class Leader implements Serializable {
 	private Date lastlogin = new Date();
 
 	@ManyToMany(mappedBy = "leaders", fetch = FetchType.EAGER)
-	private Set<Patrol> patrols;
-	
+	private Set<Patrol> patrols = new HashSet<Patrol>();
+
 	@ManyToMany(mappedBy = "leaders", fetch = FetchType.EAGER)
-	private Set<Troop> troops;
+	private Set<Troop> troops = new HashSet<Troop>();
 
 	private Boolean god = false;
 	private Boolean uniformer = false;
@@ -203,6 +204,8 @@ public class Leader implements Serializable {
 	public boolean equals(Object obj) {
 		if (obj instanceof Leader) {
 			Leader o = (Leader) obj;
+			if (this.id == null)
+				return false;
 			return this.id.equals(o.id);
 		}
 		return false;

@@ -1,6 +1,7 @@
 package hu.tobias.entities;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -14,6 +15,7 @@ import javax.validation.constraints.NotNull;
 
 import hu.tobias.entities.enums.RentType;
 import hu.tobias.entities.enums.Size;
+import hu.tobias.entities.enums.Status;
 import hu.tobias.services.utils.Utils;
 
 @Entity
@@ -40,10 +42,16 @@ public class UniformRent implements Serializable {
 	private String other;
 
 	public UniformRent() {
+		this.begindate = new Date();
+		this.renttype = RentType.NOW;
+		this.uniformsize = Size.NOTDEFINED;
 	}
 
 	public UniformRent(Scout s) {
 		this.scout = s;
+		this.begindate = new Date();
+		this.renttype = RentType.NOW;
+		this.uniformsize = Size.NOTDEFINED;
 	}
 
 	public Integer getId() {
@@ -118,7 +126,6 @@ public class UniformRent implements Serializable {
 		this.other = other;
 	}
 
-	// TODO
 	public Integer getActualReturnPrice() {
 		if (renttype.equals(RentType.VERYOLD))
 			return 0;
@@ -127,12 +134,12 @@ public class UniformRent implements Serializable {
 		else {
 			int y = Utils.ageInYear(begindate);
 			if (renttype.equals(RentType.OLD)) {
-				int money = 6600 - (y+1)*1500;
+				int money = 6600 - (y + 1) * 1500;
 				if (money < 0)
 					money = 0;
 				return money;
 			} else if (renttype.equals(RentType.NOW)) {
-				int money = 4000 - (y)*1000;
+				int money = 4000 - (y) * 1000;
 				if (money < 0)
 					money = 0;
 				return money;
@@ -141,16 +148,70 @@ public class UniformRent implements Serializable {
 		}
 	}
 
-	// TODO
-	public Date getPlannedReturnDate() {
+	public String getPlannedReturnDate() {
+		Date result = null;
+
 		if (renttype.equals(RentType.VERYOLD))
-			return new Date();
+			result = new Date();
+
 		else if (renttype.equals(RentType.OLD)) {
-			return new Date();
+			if (scout.getPromiseByType("CS") != null)
+				result = new Date();
+			else if (scout.getStatus().equals(Status.QUITTED))
+				result = new Date();
+			else {
+				if (scout.getPatrol().getActualClass() > 5)
+					result = new Date();
+				else if (scout.getPatrol().getActualClass() != 0) {
+					Calendar c = Calendar.getInstance();
+					c.setTime(scout.getPatrol().getBirthdate());
+					c.set(Calendar.MONTH, Calendar.SEPTEMBER);
+					c.set(Calendar.DATE, 1);
+					c.add(Calendar.YEAR, 6 - scout.getPatrol().getStartclass());
+					result = c.getTime();
+				}
+				if (begindate != null) {
+					Calendar c = Calendar.getInstance();
+					c.setTime(begindate);
+					c.add(Calendar.YEAR, 3);
+					if (result != null && result.after(c.getTime())) {
+						c.add(Calendar.DATE, 1);
+						result = c.getTime();
+					}
+				}
+			}
+
 		} else if (renttype.equals(RentType.NOW)) {
-			return new Date();
+			if (scout.getStatus().equals(Status.QUITTED))
+				result = new Date();
+			else {
+				if (scout.getPatrol().getActualClass() > 5) {
+					result = new Date();
+				} else if (scout.getPatrol().getActualClass() != 0) {
+					Calendar c = Calendar.getInstance();
+					c.setTime(scout.getPatrol().getBirthdate());
+					c.set(Calendar.MONTH, Calendar.SEPTEMBER);
+					c.set(Calendar.DATE, 1);
+					c.add(Calendar.YEAR, 6 - scout.getPatrol().getStartclass());
+					result = c.getTime();
+				}
+			}
+
 		} else
-			return new Date();
+			result = new Date();
+
+		Date dt = new Date();
+		Calendar c = Calendar.getInstance();
+		c.setTime(dt);
+		c.add(Calendar.DATE, 1);
+		dt = c.getTime();
+
+		if (result.before(dt))
+			return "MOST";
+		else if (result == null)
+			return "PASSZ";
+		else
+			return Utils.simpleDate(result);
 	}
 
 }

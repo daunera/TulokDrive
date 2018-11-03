@@ -15,13 +15,14 @@
 
 		<ui:param name="pageTitle"
 			value="#{profileController.scout.person.getFullName()}" />
-		<ui:param name="pageLink"
-			value="#{profileController.scout.getScoutUrl()}" />
+		<ui:param name="pageEntity" value="#{profileController.scout}" />
+		<ui:param name="pageEntityType" value="scout" />
 
 		<ui:define name="content">
 
-			<b:panel title="#{pageTitle}" collapsible="false" contentClass="panelNoPadding">
-						
+			<b:panel title="#{pageTitle}" collapsible="false"
+				contentClass="panelNoPadding">
+
 				<b:tabLinks>
 					<b:navLink value="Személyes"
 						href="#{profileController.scout.getScoutUrl()}"
@@ -37,7 +38,8 @@
 						active="#{profileController.isThisActiveTab('LEADER')}"
 						rendered="#{profileController.scout.isALeader()}" />
 					<b:navLink value="Beállítások"
-						href="#{userController.getRootUrl()}user/settings" icon-awesome="gear"
+						href="#{userController.getRootUrl()}user/settings"
+						icon-awesome="gear"
 						rendered="#{profileController.scout.id eq userController.leader.scout.id}" />
 				</b:tabLinks>
 				<div class="fakeTabPadding">

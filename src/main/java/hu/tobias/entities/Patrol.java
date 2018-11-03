@@ -1,6 +1,7 @@
 package hu.tobias.entities;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
 
@@ -13,11 +14,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import hu.tobias.entities.enums.Gender;
 import hu.tobias.entities.enums.Status;
+import hu.tobias.services.utils.Utils;
 
 @Entity
 @Table(name = "patrol")
@@ -32,18 +36,19 @@ public class Patrol implements Serializable {
 
 	private String name;
 	private Date birthdate = new Date();
+	private Integer startclass = 2;
 	private Gender gender = Gender.NOTDEFINED;;
 
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "patrol_scout", joinColumns = @JoinColumn(name = "patrol_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "scout_id", referencedColumnName = "id"))
+	@OneToMany(mappedBy = "patrol", fetch = FetchType.EAGER)
 	private Set<Scout> scouts;
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "patrol_leader", joinColumns = @JoinColumn(name = "patrol_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "leader_id", referencedColumnName = "id"))
 	private Set<Leader> leaders;
 
-	@ManyToMany(mappedBy = "patrols", fetch = FetchType.EAGER)
-	private Set<Troop> troops;
+	@ManyToOne
+	@JoinColumn(name = "troop_id")
+	private Troop troop;
 
 	public Integer getId() {
 		return id;
@@ -67,6 +72,14 @@ public class Patrol implements Serializable {
 
 	public void setBirthdate(Date birthdate) {
 		this.birthdate = birthdate;
+	}
+
+	public Integer getStartclass() {
+		return startclass;
+	}
+
+	public void setStartclass(Integer startclass) {
+		this.startclass = startclass;
 	}
 
 	public Gender getGender() {
@@ -93,12 +106,12 @@ public class Patrol implements Serializable {
 		this.leaders = leaders;
 	}
 
-	public Set<Troop> getTroops() {
-		return troops;
+	public Troop getTroop() {
+		return troop;
 	}
 
-	public void setTroops(Set<Troop> troops) {
-		this.troops = troops;
+	public void setTroop(Troop troop) {
+		this.troop = troop;
 	}
 
 	public String getPatrolUrl() {
@@ -126,6 +139,22 @@ public class Patrol implements Serializable {
 				count++;
 		}
 		return count;
+	}
+
+	public int getActualClass() {
+		if (birthdate == null)
+			return 0;
+		else {
+			Calendar c = Calendar.getInstance();
+			c.setTime(birthdate);
+			if(c.get(Calendar.MONTH) < Calendar.SEPTEMBER) {
+				c.add(Calendar.YEAR, -1);
+			}
+			c.set(Calendar.MONTH, Calendar.SEPTEMBER);
+			c.set(Calendar.DATE, 1);
+			
+			return Utils.ageInYear(c.getTime()) + startclass;
+		}
 	}
 
 }

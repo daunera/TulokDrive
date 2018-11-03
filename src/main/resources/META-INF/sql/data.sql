@@ -6,6 +6,11 @@ insert into address (id, country, city, postcode, street, phone) values (104, 'M
 insert into address (id, country, city, postcode, street) values (105, 'Ukrajna', 'Budapest', '1122', 'Guzsajas u 6');
 insert into address (id, country, city, postcode, street, phone) values (106, 'Sohaország', 'Gőzangyal', '1000', 'Tribün köz','+36111111');
 
+insert into troop(id, name) values (3000, 'Szent Tóbiás');
+
+insert into patrol (id, name, gender, birthdate, startclass, troop_id) values (900, 'Mókuscica', 1, '2018-09-01 01:01:01', 2, 3000);
+insert into patrol (id, name, gender, birthdate, startclass, troop_id) values (901, 'Kankalin', 2, '2016-09-01 01:01:01', 2, 3000);
+
 insert into person (id, lastname, firstname, email, phone, other, gender) values (200, 'Pipogya', 'Márton','kuncm@gmail.com','+36201231234','semmi',1);
 insert into person (id, lastname, firstname, email, phone, other, gender) values (201, 'Boroskót', 'Katus','borospiskota@gmail.com','+36201231234','tényleg',2);
 
@@ -13,9 +18,9 @@ insert into person (id, lastname, firstname, nickname, birthdate, birthplace, em
 insert into person (id, lastname, firstname, nickname, gender, religion, birthdate) values (203, 'Kis','Joana', 'Toby', 2, 1, '2000-05-27 01:01:01');
 insert into person (id, lastname, firstname, nickname, gender, religion, birthdate) values (208, 'Nyúl','Béla', 'Arnold', 1, 0,'1999-05-30 01:01:01');
 
-insert into scout (id, ecsetcode, person_id, status, joindate, leavedate, scoutcard) values(300,'DG3041-6', 202, 1, '2015-01-01 01:01:01', '2015-01-01 01:01:01', 2);
+insert into scout (id, ecsetcode, person_id, status, patrol_id, joindate, leavedate, scoutcard) values(300,'DG3041-6', 202, 1, 900, '2015-01-01 01:01:01', '2015-01-01 01:01:01', 2);
 insert into scout (id, ecsetcode, person_id, status) values(301,'CB3081-8', 203, 2);
-insert into scout (id, ecsetcode, person_id, status) values(306,'ABCDEF-0', 208, 1);
+insert into scout (id, ecsetcode, person_id, status, patrol_id) values(306,'ABCDEF-0', 208, 1, 900);
 
 insert into leader (id, username, password, salt, scout_id, leadername, food, becomeleader, leaderpromise, keynum, god, uniformer) values (400,'admin','$2a$10$zpsVY2/dc/W4Qndx4uG6/.zsnSgY3zbsgKsvpGvQvWMqwAndR8rqS', '$2a$10$zpsVY2/dc/W4Qndx4uG6/.', 300,'Mukaka','itóka', '2015-01-01 01:01:01', '2015-01-01 01:01:01','36900', 1, 0);
 insert into leader (id, username, password, salt, scout_id, god, uniformer) values (401,'kis','$2a$10$zpsVY2/dc/W4Qndx4uG6/.zsnSgY3zbsgKsvpGvQvWMqwAndR8rqS', '$2a$10$zpsVY2/dc/W4Qndx4uG6/.', 301, 0, 1);
@@ -42,34 +47,20 @@ insert into fee (id, scout_id, year, amount, support, completedate, status) valu
 insert into fee (id, scout_id, year, amount, support, completedate, contributor, status) values (800, 300, 2017, 3000, 3000, '2017-10-12 01:01:01', 'apja', 4);
 insert into fee (id, scout_id, year, amount, completedate, status) values (802, 300, 2018, 3000, '2018-03-03 01:01:01', 3);
 
-insert into patrol (id, name, gender, birthdate) values (900, 'Mókuscica', 1, '2018-01-01 01:01:01');
-insert into patrol (id, name, gender) values (901, 'Kankalin', 2);
-
 insert into person (id, lastname, firstname, gender, religion, birthdate) values (204, 'Kis','János', 1, 1, '1997-06-06 01:01:01');
 insert into person (id, lastname, firstname, gender, religion, birthdate) values (205, 'Nagy','Julia', 2, 2, '1993-05-01 01:01:01');
 insert into person (id, lastname, firstname, gender, religion, birthdate) values (206, 'Pék','János', 1, 3, '1990-05-26 01:01:01');
 insert into person (id, lastname, firstname, gender, religion, birthdate) values (207, 'Lakat','Klára', 2, 1, '2002-05-19 01:01:01');
 
-insert into scout (id, ecsetcode, person_id, status) values(302,'FB3081-1', 204,1);
-insert into scout (id, ecsetcode, person_id, status) values(303,'HB3081-2', 205,1);
-insert into scout (id, ecsetcode, person_id, status) values(304,'ZB3081-3', 206,1);
-insert into scout (id, ecsetcode, person_id, status) values(305,'JB3081-4', 207,1);
-
-insert into patrol_scout(patrol_id, scout_id) values (900, 300);
-insert into patrol_scout(patrol_id, scout_id) values (900, 302);
-insert into patrol_scout(patrol_id, scout_id) values (900, 306);
-insert into patrol_scout(patrol_id, scout_id) values (900, 304);
-
-insert into patrol_scout(patrol_id, scout_id) values (901, 303);
-insert into patrol_scout(patrol_id, scout_id) values (901, 305);
+insert into scout (id, ecsetcode, person_id, status, patrol_id) values(302,'FB3081-1', 204, 1, 900);
+insert into scout (id, ecsetcode, person_id, status, patrol_id) values(303,'HB3081-2', 205, 1, 901);
+insert into scout (id, ecsetcode, person_id, status, patrol_id) values(304,'ZB3081-3', 206, 1, 900);
+insert into scout (id, ecsetcode, person_id, status, patrol_id) values(305,'JB3081-4', 207, 1, 901);
 
 insert into patrol_leader(patrol_id, leader_id) values (900, 400);
 insert into patrol_leader(patrol_id, leader_id) values (901, 401);
 insert into patrol_leader(patrol_id, leader_id) values (901, 400);
 
-insert into troop(id, name) values (3000, 'Szent Tóbiás');
-insert into troop_patrol(troop_id, patrol_id) values (3000, 900);
-insert into troop_patrol(troop_id, patrol_id) values (3000, 901);
 insert into troop_leader(troop_id, leader_id) values (3000, 400);
 insert into troop_leader(troop_id, leader_id) values (3000, 401);
 

@@ -14,8 +14,8 @@
 	<ui:composition template="/xhtml/layout/commonLayout.xhtml">
 
 		<ui:param name="pageTitle" value="#{patrolController.patrol.name} őrs" />
-		<ui:param name="pageLink"
-			value="#{patrolController.patrol.getPatrolUrl()}" />
+		<ui:param name="pageEntity" value="#{patrolController.patrol}" />
+		<ui:param name="pageEntityType" value="patrol" />
 
 		<ui:define name="content">
 

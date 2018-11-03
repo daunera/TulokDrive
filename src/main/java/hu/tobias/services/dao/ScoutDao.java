@@ -23,11 +23,9 @@ public class ScoutDao extends AbstractDao<Scout, Integer> {
 	public EntityManager em() {
 		return em;
 	}
-	
-	public List<Scout> findAllExecptParamList(List<Scout> list) {
-		TypedQuery<Scout> query = em
-				.createQuery("SELECT s FROM Scout s WHERE s NOT IN (:list)", Scout.class)
-				.setParameter("list", list);
+
+	public List<Scout> findAllWithoutPatrol() {
+		TypedQuery<Scout> query = em.createQuery("SELECT s FROM Scout s WHERE s.patrol IS EMPTY", Scout.class);
 		return query.getResultList();
 	}
 }

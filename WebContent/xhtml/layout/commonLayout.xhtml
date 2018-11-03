@@ -25,9 +25,35 @@
 
 			<b:breadcrumbs rendered="#{not hideBread}">
 				<b:navLink value="Főoldal" href="#{userController.getRootUrl()}" />
-				<c:if test="#{not empty pageLink}">
-					<b:navLink value="#{pageTitle}" href="#{pageLink}" />
-				</c:if>
+				<c:choose>
+					<c:when test="#{pageEntityType == 'patrol'}">
+						<c:if test="#{pageEntity.troop != null}">
+							<b:navLink value="#{pageEntity.troop.name} raj"
+								href="#{pageEntity.troop.getTroopUrl()}" />
+						</c:if>
+						<b:navLink value="#{pageEntity.name} őrs"
+							href="#{pageEntity.getPatrolUrl()}" />
+					</c:when>
+					<c:when test="#{pageEntityType == 'scout'}">
+						<c:if test="#{pageEntity.patrol != null}">
+							<c:if test="#{pageEntity.patrol.troop != null}">
+								<b:navLink value="#{pageEntity.patrol.troop.name} raj"
+									href="#{pageEntity.patrol.troop.getTroopUrl()}" />
+							</c:if>
+							<b:navLink value="#{pageEntity.patrol.name} őrs"
+								href="#{pageEntity.patrol.getPatrolUrl()}" />
+						</c:if>
+						<b:navLink value="#{pageEntity.person.getFullName()}"
+							href="#{pageEntity.getScoutUrl()}" />
+					</c:when>
+					<c:when test="#{pageEntityType == 'troop'}">
+						<b:navLink value="#{pageEntity.name}"
+							href="#{pageEntity.getTroopUrl()}" />
+					</c:when>
+					<c:otherwise>
+						<b:navLink value="#{pageTitle}" href="#{pageLink}" />
+					</c:otherwise>
+				</c:choose>
 			</b:breadcrumbs>
 
 			<b:panelGrid col-spans="12">

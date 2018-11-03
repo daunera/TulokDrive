@@ -43,11 +43,7 @@ public class PatrolInfoController implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		if (patrolController.getPatrol().getScouts().isEmpty())
-			allScouts = new ArrayList<Scout>(scoutService.findAll());
-		else
-			allScouts = new ArrayList<Scout>(scoutService
-					.findAllExecptParamList(new ArrayList<Scout>(patrolController.getPatrol().getScouts())));
+		allScouts = new ArrayList<Scout>(scoutService.findAllWithoutPatrol());
 		Collections.sort(allScouts, new ScoutNameComparator());
 		newScout = createNewScout();
 	}

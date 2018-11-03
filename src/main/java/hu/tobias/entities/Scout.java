@@ -11,7 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -56,9 +56,10 @@ public class Scout implements Serializable {
 
 	@OneToMany(mappedBy = "scout", fetch = FetchType.EAGER)
 	private Set<Fee> fees;
-
-	@ManyToMany(mappedBy = "scouts", fetch = FetchType.EAGER)
-	private Set<Patrol> patrols;
+	
+	@ManyToOne
+	@JoinColumn(name = "patrol_id")
+	private Patrol patrol;
 	
 	@OneToMany(mappedBy = "scout", fetch = FetchType.EAGER)
 	private Set<UniformRent> uniforms;
@@ -159,12 +160,12 @@ public class Scout implements Serializable {
 		this.fees = fees;
 	}
 
-	public Set<Patrol> getPatrols() {
-		return patrols;
+	public Patrol getPatrol() {
+		return patrol;
 	}
 
-	public void setPatrols(Set<Patrol> patrols) {
-		this.patrols = patrols;
+	public void setPatrol(Patrol patrol) {
+		this.patrol = patrol;
 	}
 
 	public Set<UniformRent> getUniforms() {

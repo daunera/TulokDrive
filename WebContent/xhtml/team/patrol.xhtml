@@ -57,6 +57,10 @@
 					<b:dataTableColumn label="Alakulás ideje">
 						<t:datepicker value="#{item.birthdate}" showIcon="false" />
 					</b:dataTableColumn>
+					<b:dataTableColumn label="Induláskori osztály">
+						<t:textField value="#{item.startclass}"
+							tooltip="Az őrs indulásakkor hanyadik osztályosok voltak a gyerekek" />
+					</b:dataTableColumn>
 					<b:dataTableColumn label="" rendered="#{userController.edit}"
 						orderable="false">
 						<div>
@@ -77,8 +81,10 @@
 						<h:outputLabel value="Nem" />
 						<t:dropdown list="#{enums.genders}"
 							value="#{teamPatrol.newPatrol.gender}" />
-						<h:outputLabel value="Születésnap" />
+						<h:outputLabel value="Alakulás ideje" />
 						<t:datepicker value="#{teamPatrol.newPatrol.birthdate}" />
+						<h:outputLabel value="Induláskor hanyadik osztályosok?" />
+						<b:inputText value="#{teamPatrol.newPatrol.startclass}" />
 					</b:panelGrid>
 					<t:modalFooter mode="create"
 						action="#{teamPatrol.savePatrol(teamPatrol.newPatrol)}" />

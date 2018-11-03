@@ -17,27 +17,30 @@
 		<ui:param name="pageLink"
 			value="#{userController.getRootUrl()}uniforms" />
 
+
 		<ui:define name="content">
 
 			<b:panel collapsible="false">
 				<b:form>
 					<t:pageHeader title="Cserkészing kölcsönzés"
-						undoBean="#{userController}" undoMethod="changeEdit" />
+						undoBean="#{userController}" undoMethod="changeEdit">
+						<b:commandButton value="Új kölcsönzés" iconAwesome="plus"
+							ajax="true" update="@(.new_rent_modal)"
+							onclick="ajax:uniformController.setForNewRentModal()"
+							oncomplete="$('.new_rent_modal').modal();return false;" size="md"
+							style="margin: 0px 5px 0px 0px" rendered="#{userController.edit}" />
+					</t:pageHeader>
 					<b:tabView pills="true">
 						<b:tab title="Aktív kölcsönzések">
 							<t:dataTable value="#{uniformController.activeRents}">
 								<b:dataTableColumn label="Név" style="width:20%;">
-									<t:entityLink entity="#{item.scout}" edit="#{not userController.leader.god}" />
+									<t:entityLink entity="#{item.scout}"
+										edit="#{not userController.leader.god}" />
 								</b:dataTableColumn>
 								<b:dataTableColumn label="Őrs" style="width:13%;">
-									<ui:repeat var="patrol"
-										value="#{utils.orderPatrolSet(item.scout.patrols)}"
-										varStatus="var">
-										<t:entityLink entity="#{patrol}" mode="patrol" edit="#{not userController.leader.god}" />
-										<h:outputText value=", " rendered="#{not var.last}" />
-									</ui:repeat>
+									<t:entityLink entity="#{item.scout.patrol}" mode="patrol"
+										edit="#{not userController.leader.god}" />
 								</b:dataTableColumn>
-
 								<b:dataTableColumn label="Kezdete">
 									<t:datepicker value="#{item.begindate}" showIcon="false" />
 								</b:dataTableColumn>
@@ -47,28 +50,82 @@
 								<b:dataTableColumn label="Pénz">
 									<t:textField value="#{item.price}" />
 								</b:dataTableColumn>
-								<b:dataTableColumn label="Visszavétel">
+								<b:dataTableColumn label="Típus"
+									rendered="#{userController.edit}">
+									<t:dropdown list="#{enums.rentTypes}" value="#{item.renttype}" />
+								</b:dataTableColumn>
+								<b:dataTableColumn label="Visszavétel"
+									rendered="#{not userController.edit}">
 									<h:outputText value="#{item.getPlannedReturnDate()}">
 										<f:convertDateTime pattern="yyyy.MM.dd" />
 									</h:outputText>
 								</b:dataTableColumn>
+								<b:dataTableColumn label="Visszavétel"
+									rendered="#{userController.edit}" orderable="false">
+									<div>
+										<b:commandButton iconAwesome="arrow-right" ajax="true"
+											update="@(.back_rent_modal)"
+											onclick="ajax:uniformController.setForRentBackModal(item)"
+											oncomplete="$('.back_rent_modal').modal();return false;"
+											rendered="#{userController.edit}" value="Visszavesz" />
+									</div>
+								</b:dataTableColumn>
 								<b:dataTableColumn label="Most visszajár">
-									<h:outputText value="#{item.getActualReturnPrice()}" />
+									<h:outputText value="#{item.getActualReturnPrice()} Ft" />
+								</b:dataTableColumn>
+
+								<b:dataTableColumn label="" rendered="#{userController.edit}"
+									orderable="false">
+									<div>
+										<b:commandButton iconAwesome="trash" ajax="true"
+											update="@(.delete_rent_modal)"
+											onclick="ajax:uniformController.setForRentDeleteModal(item)"
+											oncomplete="$('.delete_rent_modal').modal();return false;"
+											rendered="#{userController.edit}" />
+									</div>
 								</b:dataTableColumn>
 							</t:dataTable>
+
+							<b:modal
+								title="#{uniformController.selectedRent.scout.person.getFullName()} kölcsönzésének törlése"
+								styleClass="delete_rent_modal" rendered="#{userController.edit}">
+								<b:panelGrid colSpans="12">
+									<h:outputLabel
+										value="Biztosan szeretnéd törölni #{uniformController.selectedRent.scout.person.getFullName()} cserkészing kölcsönzését?" />
+									<t:modalFooter mode="delete"
+										action="#{uniformController.deleteRent(uniformController.selectedRent)}" />
+								</b:panelGrid>
+							</b:modal>
+
+							<b:modal
+								title="#{uniformController.selectedRent.scout.person.getFullName()} cserkészing visszavétele"
+								styleClass="back_rent_modal" rendered="#{userController.edit}">
+								<b:panelGrid colSpans="4,8">
+									<h:outputLabel value="Visszavétel ideje" />
+									<t:datepicker
+										value="#{uniformController.selectedRent.returndate}" />
+									<h:outputLabel value="Most visszajár" />
+									<h:outputText
+										value="#{uniformController.selectedRent.getActualReturnPrice()} Ft" />
+								</b:panelGrid>
+								<b:panelGrid colSpans="12">
+									<h:outputLabel
+										value="Biztosan szeretnéd visszavenni #{uniformController.selectedRent.scout.person.getFullName()} cserkészingét?" />
+								</b:panelGrid>
+								<t:modalFooter mode="save"
+									action="#{uniformController.backingRent(uniformController.selectedRent)}" />
+							</b:modal>
+
 						</b:tab>
 						<b:tab title="Visszahozott ingek">
 							<t:dataTable value="#{uniformController.returnedRents}">
 								<b:dataTableColumn label="Név">
-									<t:entityLink entity="#{item.scout}" edit="#{not userController.leader.god}" />
+									<t:entityLink entity="#{item.scout}"
+										edit="#{not userController.leader.god}" />
 								</b:dataTableColumn>
 								<b:dataTableColumn label="Őrs" style="width:13%;">
-									<ui:repeat var="patrol"
-										value="#{utils.orderPatrolSet(item.scout.patrols)}"
-										varStatus="var">
-										<t:entityLink entity="#{patrol}" mode="patrol" edit="#{not userController.leader.god}" />
-										<h:outputText value=", " rendered="#{not var.last}" />
-									</ui:repeat>
+									<t:entityLink entity="#{item.scout.patrol}" mode="patrol"
+										edit="#{not userController.leader.god}" />
 								</b:dataTableColumn>
 								<b:dataTableColumn label="Kezdete">
 									<t:datepicker value="#{item.begindate}" showIcon="false" />
@@ -81,10 +138,56 @@
 										<f:convertDateTime pattern="yyyy.MM.dd" />
 									</h:outputText>
 								</b:dataTableColumn>
+								<b:dataTableColumn label="" rendered="#{userController.edit}"
+									orderable="false">
+									<div>
+										<b:commandButton iconAwesome="trash" ajax="true"
+											update="@(.delete_returned_rent_modal)"
+											onclick="ajax:uniformController.setForRentDeleteModal(item)"
+											oncomplete="$('.delete_returned_rent_modal').modal();return false;"
+											rendered="#{userController.edit}" />
+									</div>
+								</b:dataTableColumn>
 							</t:dataTable>
+
+							<b:modal
+								title="#{uniformController.selectedRent.scout.person.getFullName()} kölcsönzésének törlése"
+								styleClass="delete_returned_rent_modal"
+								rendered="#{userController.edit}">
+								<b:panelGrid colSpans="12">
+									<h:outputLabel
+										value="Biztosan szeretnéd törölni #{uniformController.selectedRent.scout.person.getFullName()} cserkészing kölcsönzését?" />
+									<t:modalFooter mode="delete"
+										action="#{uniformController.deleteRent(uniformController.selectedRent)}" />
+								</b:panelGrid>
+							</b:modal>
+
 						</b:tab>
 					</b:tabView>
+
+					<b:modal title="Új kölcsönzés hozzáadása"
+						styleClass="new_rent_modal" rendered="#{userController.edit}">
+						<h:outputLabel value="Válassz cserkészt" />
+						<t:dropdown list="#{uniformController.scouts}"
+							value="#{uniformController.newRent.scout}" mode="scout" />
+						<b:panelGrid colSpans="4,8">
+							<h:outputLabel value="Kezdete" />
+							<t:datepicker value="#{uniformController.newRent.begindate}" />
+							<h:outputLabel value="Méret" />
+							<t:dropdown list="#{enums.sizes}"
+								value="#{uniformController.newRent.uniformsize}" />
+							<h:outputLabel value="Pénz" />
+							<b:inputText value="#{uniformController.newRent.price}" />
+							<h:outputLabel value="Kölcsönzés típusa" />
+							<t:dropdown list="#{enums.rentTypes}"
+								value="#{uniformController.newRent.renttype}" />
+						</b:panelGrid>
+						<t:modalFooter mode="create"
+							action="#{uniformController.saveRent(uniformController.newRent)}" />
+					</b:modal>
+
 				</b:form>
+
 			</b:panel>
 
 		</ui:define>

@@ -82,9 +82,8 @@ public class Permission implements Serializable {
 					return true;
 		}
 
-		for (Patrol p : userController.getLeader().getScout().getPatrols())
-			if (p.getId().equals(patrolid))
-				return true;
+		if (userController.getLeader().getScout().getPatrol().getId().equals(patrolid))
+			return true;
 
 		userController.redirectRelative("error/permission");
 		return false;
@@ -99,10 +98,8 @@ public class Permission implements Serializable {
 			if (t.getId().equals(troopid))
 				return true;
 
-		for (Patrol p : userController.getLeader().getScout().getPatrols())
-			for (Troop t : p.getTroops())
-				if (t.getId().equals(troopid))
-					return true;
+		if (userController.getLeader().getScout().getPatrol().getTroop().getId().equals(troopid))
+			return true;
 
 		userController.redirectRelative("error/permission");
 		return false;

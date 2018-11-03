@@ -14,8 +14,8 @@
 	<ui:composition template="/xhtml/layout/commonLayout.xhtml">
 
 		<ui:param name="pageTitle" value="#{troopController.troop.name} raj" />
-		<ui:param name="pageLink"
-			value="#{troopController.troop.getTroopUrl()}" />
+		<ui:param name="pageEntity" value="#{troopController.troop}" />
+		<ui:param name="pageEntityType" value="troop" />
 
 		<ui:define name="content">
 

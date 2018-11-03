@@ -19,9 +19,8 @@ public class Troop implements Serializable {
 	private Integer id;
 
 	private String name;
-
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "troop_patrol", joinColumns = @JoinColumn(name = "troop_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "patrol_id", referencedColumnName = "id"))
+	
+	@OneToMany(mappedBy = "troop", fetch = FetchType.EAGER)
 	private Set<Patrol> patrols;
 
 	@ManyToMany(fetch = FetchType.EAGER)

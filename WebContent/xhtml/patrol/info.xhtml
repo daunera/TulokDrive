@@ -25,6 +25,9 @@
 					<t:rowWithLabel label="Alakulás ideje">
 						<t:datepicker value="#{patrolController.patrol.birthdate}" />
 					</t:rowWithLabel>
+					<t:rowWithLabel label="Induláskori évfolyam">
+						<t:textField value="#{patrolController.patrol.startclass}" />
+					</t:rowWithLabel>
 					<t:rowWithLabel label="Nem">
 						<t:dropdown list="#{enums.genders}"
 							value="#{patrolController.patrol.gender}" />

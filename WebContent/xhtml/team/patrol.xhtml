@@ -55,7 +55,8 @@
 						<h:outputText value="#{item.getActiveNum()}" />
 					</b:dataTableColumn>
 					<b:dataTableColumn label="Alakulás ideje">
-						<t:datepicker value="#{item.birthdate}" showIcon="false" />
+						<t:datepicker value="#{item.birthdate}" showIcon="false"
+							autoPopup="false" />
 					</b:dataTableColumn>
 					<b:dataTableColumn label="Induláskori osztály">
 						<t:textField value="#{item.startclass}"
@@ -110,7 +111,8 @@
 								rendered="#{not empty teamPatrol.choosableLeaders}">
 								<h:outputLabel
 									value="Válassz a listából egy vezetőt, akit hozzá szeretnél adni" />
-								<t:dropdown list="#{utils.orderLeaderList(teamPatrol.choosableLeaders)}"
+								<t:dropdown
+									list="#{utils.orderLeaderList(teamPatrol.choosableLeaders)}"
 									value="#{teamPatrol.leaderToAdd}" mode="leader" />
 								<t:modalFooter mode="save"
 									action="#{teamPatrol.addLeader(teamPatrol.editedPatrol, teamPatrol.leaderToAdd)}" />

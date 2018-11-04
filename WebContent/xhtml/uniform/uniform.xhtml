@@ -42,7 +42,8 @@
 										edit="#{not userController.leader.god}" />
 								</b:dataTableColumn>
 								<b:dataTableColumn label="Kezdete">
-									<t:datepicker value="#{item.begindate}" showIcon="false" />
+									<t:datepicker value="#{item.begindate}" showIcon="false"
+										autoPopup="false" />
 								</b:dataTableColumn>
 								<b:dataTableColumn label="Méret">
 									<t:dropdown list="#{enums.sizes}" value="#{item.uniformsize}" />
@@ -128,7 +129,8 @@
 										edit="#{not userController.leader.god}" />
 								</b:dataTableColumn>
 								<b:dataTableColumn label="Kezdete">
-									<t:datepicker value="#{item.begindate}" showIcon="false" />
+									<t:datepicker value="#{item.begindate}" showIcon="false"
+										autoPopup="false" />
 								</b:dataTableColumn>
 								<b:dataTableColumn label="Méret">
 									<t:dropdown list="#{enums.sizes}" value="#{item.uniformsize}" />

@@ -27,14 +27,15 @@
 			<c:set var="showIcon" value="true" />
 		</c:if>
 
-		<b:row styleClass="pulledRow" style="margin-bottom: 5px;">
+		<b:row styleClass="pulledRow">
 			<h:outputText value="#{value}" rendered="#{not edit}">
 				<f:convertDateTime pattern="yyyy.MM.dd" />
 			</h:outputText>
 			<b:dateTimePicker value="#{value}" mode="#{mode}" rendered="#{edit}"
 				format="YYYY.MM.DD" showTime="false" allowInputToggle="#{autoPopup}"
-				showIcon="#{showIcon}" widgetParent="##{widgetParent}"
-				placeholder="éééé.hh.nn" />
+				showIcon="#{showIcon}" widgetParent="#{widgetParent}"
+				placeholder="éééé.hh.nn"
+				style="#{autoPopup=='false' ? 'margin-bottom: 0px;' : 'margin-bottom: 15px;'}" />
 		</b:row>
 	</ui:composition>
 </h:body>

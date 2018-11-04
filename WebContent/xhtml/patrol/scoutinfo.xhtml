@@ -30,10 +30,10 @@
 						<t:dropdown list="#{enums.statuses}" value="#{item.status}" />
 					</b:dataTableColumn>
 					<b:dataTableColumn label="Belépés ideje">
-						<t:datepicker value="#{item.joindate}" showIcon="false" />
+						<t:datepicker value="#{item.joindate}" showIcon="false" autoPopup="false" />
 					</b:dataTableColumn>
 					<b:dataTableColumn label="Kilépés ideje">
-						<t:datepicker value="#{item.leavedate}" showIcon="false" />
+						<t:datepicker value="#{item.leavedate}" showIcon="false" autoPopup="false" />
 					</b:dataTableColumn>
 					<b:dataTableColumn label="Tagkártya">
 						<t:dropdown list="#{enums.cards}" value="#{item.scoutcard}" />

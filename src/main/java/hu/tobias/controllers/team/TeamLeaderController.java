@@ -222,6 +222,7 @@ public class TeamLeaderController implements Serializable {
 	}
 
 	public void saveLeader(Leader l, String pw) {
+		l.setPassword(pw);
 		if (l.getId() == null) {
 			leaderService.create(l);
 			roleService.create(new Userroles(l));

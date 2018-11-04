@@ -34,7 +34,8 @@
 								<t:entityLink entity="#{item}" mode="leader" />
 							</b:dataTableColumn>
 							<b:dataTableColumn label="Vezető lett">
-								<t:datepicker value="#{item.becomeleader}" showIcon="false" />
+								<t:datepicker value="#{item.becomeleader}" showIcon="false"
+									autoPopup="false" />
 							</b:dataTableColumn>
 							<b:dataTableColumn label="Vezetett őrs">
 								<div>
@@ -86,7 +87,8 @@
 								<t:entityLink entity="#{item}" mode="leader" />
 							</b:dataTableColumn>
 							<b:dataTableColumn label="Egy dátum">
-								<t:datepicker value="#{item.leaderpromise}" showIcon="false" />
+								<t:datepicker value="#{item.leaderpromise}" showIcon="false"
+									autoPopup="false" />
 							</b:dataTableColumn>
 							<b:dataTableColumn label="Egy szó">
 								<t:textField value="#{item.leadername}" />
@@ -106,7 +108,8 @@
 								<t:textField value="#{item.keynum}" />
 							</b:dataTableColumn>
 							<b:dataTableColumn label="Átvétel ideje">
-								<t:datepicker value="#{item.keydate}" showIcon="false" />
+								<t:datepicker value="#{item.keydate}" showIcon="false"
+									autoPopup="false" />
 							</b:dataTableColumn>
 						</t:dataTable>
 					</b:tab>
@@ -120,7 +123,9 @@
 								<t:textField value="#{item.username}" />
 							</b:dataTableColumn>
 							<b:dataTableColumn label="Utolsó bejelentkezés">
-								<h:outputText value="#{item.lastlogin}" />
+								<h:outputText value="#{item.lastlogin}">
+									<f:convertDateTime pattern="yyyy.MM.dd HH:mm:ss" />
+								</h:outputText>
 							</b:dataTableColumn>
 							<b:dataTableColumn label="Jelszó"
 								rendered="#{userController.edit}" orderable="false">

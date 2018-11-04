@@ -244,12 +244,21 @@ public class Person implements Serializable {
 	}
 
 	public String getFullName() {
-		return lastname + " " + firstname;
+		if (lastname == null && firstname == null)
+			return "Nincs név";
+		else if (lastname == null)
+			return firstname;
+		else if (firstname == null)
+			return lastname;
+		else
+			return lastname + " " + firstname;
 	}
-	
+
 	public String getPersonalName() {
-		if(!Utils.isEmpty(nickname))
+		if (!Utils.isEmpty(nickname))
 			return nickname;
+		else if (firstname == null)
+			return "Nincs név";
 		else
 			return firstname;
 	}

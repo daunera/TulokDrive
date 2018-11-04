@@ -250,10 +250,6 @@
 		<tag-name>addressModal</tag-name>
 		<source>tags/modals/addressModal.xhtml</source>
 		<attribute>
-			<name>scout</name>
-			<required>true</required>
-		</attribute>
-		<attribute>
 			<name>edit</name>
 		</attribute>
 		<attribute>
@@ -267,17 +263,13 @@
 		<tag-name>parentModal</tag-name>
 		<source>tags/modals/parentModal.xhtml</source>
 		<attribute>
-			<name>scout</name>
-			<required>true</required>
-		</attribute>
-		<attribute>
 			<name>edit</name>
 		</attribute>
 		<attribute>
 			<name>styleClass</name>
 		</attribute>
 		<attribute>
-			<name>parent</name>
+			<name>updater</name>
 		</attribute>
 	</tag>
 	<tag>

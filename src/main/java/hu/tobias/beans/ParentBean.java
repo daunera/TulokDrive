@@ -2,7 +2,6 @@ package hu.tobias.beans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -13,7 +12,6 @@ import javax.inject.Named;
 import hu.tobias.entities.Person;
 import hu.tobias.entities.Scout;
 import hu.tobias.entities.enums.Gender;
-import hu.tobias.services.comparator.PersonNameComparator;
 import hu.tobias.services.dao.PersonDao;
 
 @Named(value = "parentBean")
@@ -30,6 +28,7 @@ public class ParentBean implements Serializable {
 	private Person selectedParent = new Person();
 
 	private Gender editedGender;
+	private Scout editedScout;
 
 	public ParentBean() {
 	}
@@ -78,14 +77,30 @@ public class ParentBean implements Serializable {
 		this.editedGender = editedGender;
 	}
 
-	public boolean setForModal(Scout s, String gender) {
-		editedGender = Gender.valueOf(gender);
+	public Scout getEditedScout() {
+		return editedScout;
+	}
+
+	public void setEditedScout(Scout editedScout) {
+		this.editedScout = editedScout;
+	}
+
+	public boolean setForFatherModal(Scout s) {
+		setForModal(s, Gender.MALE);
+		return true;
+	}
+
+	public boolean setForMotherModal(Scout s) {
+		setForModal(s, Gender.FEMALE);
+		return true;
+	}
+
+	public boolean setForModal(Scout s, Gender gender) {
+		editedScout = s;
+		editedGender = gender;
 
 		parents = personService.findAllInOneGender(editedGender);
 		parents.remove(s.getPerson());
-		Collections.sort(parents, new PersonNameComparator());
-
-		newParent = new Person(editedGender);
 
 		if (editedGender.equals(Gender.FEMALE) && s.getPerson().hasMother())
 			selectedParent = s.getPerson().getMother();
@@ -96,10 +111,12 @@ public class ParentBean implements Serializable {
 		else
 			selectedParent = new Person(editedGender);
 
+		newParent = new Person(editedGender);
+
 		return true;
 	}
 
-	public void saveParent(Scout s, Gender g, Person p) {
+	public void saveParent(Scout s, Gender g, Person p, Runnable function) {
 		if (!g.equals(Gender.NOTDEFINED)) {
 			if (p.getId() == null)
 				personService.create(p);
@@ -112,10 +129,11 @@ public class ParentBean implements Serializable {
 				s.getPerson().setMother(p);
 
 			personService.update(s.getPerson());
+			function.run();
 		}
 	}
 
-	public void deleteParent(Scout s, Gender g) {
+	public void deleteParent(Scout s, Gender g, Runnable function) {
 		if (g.equals(Gender.MALE) && s.getPerson().hasFather()) {
 			s.getPerson().setFather(null);
 			personService.update(s.getPerson());
@@ -123,6 +141,7 @@ public class ParentBean implements Serializable {
 			s.getPerson().setMother(null);
 			personService.update(s.getPerson());
 		}
+		function.run();
 	}
 
 }

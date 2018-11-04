@@ -19,26 +19,17 @@
 			<c:set var="styleClass" value="parent_modal" />
 		</c:if>
 
-		<c:if test="#{parentBean.selectedParent.gender == 'MALE'}">
-			<c:set var="parentText1" value="apukája" />
-			<c:set var="parentText2" value="apa" />
-		</c:if>
-
-		<c:if test="#{parentBean.selectedParent.gender == 'FEMALE'}">
-			<c:set var="parentText1" value="anyukája" />
-			<c:set var="parentText2" value="anya" />
-		</c:if>
-
 		<b:modal
-			title="#{scout.person.getFullName()} #{parentText1} szerkesztése"
+			title="#{parentBean.editedScout.person.getFullName()} #{parentBean.editedGender == 'MALE' ? 'apukájának' : 'anyukájának'} szerkesztése"
 			styleClass="#{styleClass}" rendered="#{edit}">
 			<b:tabView pills="true" activeIndex="0">
 				<b:tab title="Meglévő szerkesztése">
 					<br />
 					<h:outputLabel value="Válassz a meglévő személyek közül" />
-					<t:dropdown list="#{parentBean.parents}"
-						value="#{parentBean.selectedParent}" mode="person" ajax="true"
-						update="parentInputs" />
+					<t:dropdown list="#{utils.orderPersonList(parentBean.parents)}"
+						value="#{parentBean.selectedParent}" mode="person">
+						<f:ajax event="change" render="parentInputs" />
+					</t:dropdown>
 					<b:panelGrid colSpans="2,10" id="parentInputs">
 						<h:outputLabel value="Vezetéknév" />
 						<b:inputText value="#{parentBean.selectedParent.lastname}" />
@@ -53,10 +44,11 @@
 							rows="2" />
 					</b:panelGrid>
 					<t:modalFooter mode="modify"
-						action="#{parentBean.saveParent(scout, parentBean.editedGender, parentBean.selectedParent)}"
-						deleteAction="#{parentBean.deleteParent(scout, parentBean.editedGender)}" />
+						action="#{parentBean.saveParent(parentBean.editedScout, parentBean.editedGender, parentBean.selectedParent, updater)}"
+						deleteAction="#{parentBean.deleteParent(parentBean.editedScout, parentBean.editedGender, updater)}" />
 				</b:tab>
-				<b:tab title="Új #{parentText2} létrehozása">
+				<b:tab
+					title="Új #{parentBean.editedGender == 'MALE' ? 'apa' : 'anya'}">
 					<br />
 					<b:panelGrid colSpans="2,10">
 						<h:outputLabel value="Vezetéknév" />
@@ -71,12 +63,10 @@
 						<b:inputTextarea value="#{parentBean.newParent.other}" rows="2" />
 					</b:panelGrid>
 					<t:modalFooter mode="create"
-						action="#{parentBean.saveParent(scout, parentBean.editedGender, parentBean.newParent)}" />
+						action="#{parentBean.saveParent(parentBean.editedScout, parentBean.editedGender, parentBean.newParent, updater)}" />
 				</b:tab>
 			</b:tabView>
 		</b:modal>
-
-
 
 	</ui:composition>
 </h:body>

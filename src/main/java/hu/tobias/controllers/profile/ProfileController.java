@@ -1,6 +1,8 @@
 package hu.tobias.controllers.profile;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -11,9 +13,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.RequestDispatcher;
 
-import org.apache.commons.lang3.StringUtils;
-
-import hu.tobias.beans.AddressBean;
 import hu.tobias.controllers.Permission;
 import hu.tobias.controllers.UserController;
 import hu.tobias.entities.Scout;
@@ -38,8 +37,6 @@ public class ProfileController implements Serializable {
 
 	@Inject
 	private Permission permission;
-	@Inject
-	private AddressBean addressBean;
 
 	private Runnable loader = new Runnable() {
 
@@ -84,14 +81,6 @@ public class ProfileController implements Serializable {
 		this.permission = permission;
 	}
 
-	public AddressBean getAddressBean() {
-		return addressBean;
-	}
-
-	public void setAddressBean(AddressBean addressBean) {
-		this.addressBean = addressBean;
-	}
-
 	public Runnable getLoader() {
 		return loader;
 	}
@@ -121,25 +110,22 @@ public class ProfileController implements Serializable {
 		loadData();
 	}
 
-	public void cancelEdit() {
-	}
-
 	public void saveEdit() {
 		personService.update(scout.getPerson());
 		userController.reloadUser();
 		userController.changeEdit();
 	}
-
+	
 	public boolean isThisActiveTab(String tabName) {
 		TabName tabParam = TabName.valueOf(tabName);
 
 		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 		String path = (String) externalContext.getRequestMap().get(RequestDispatcher.FORWARD_REQUEST_URI);
-		String[] pathArray = path.split("/");
+		List<String> pathArray = Arrays.asList((path.split("/")));
 
-		if (StringUtils.isNumeric(pathArray[pathArray.length - 1]) && tabParam == TabName.PERSONAL) {
+		if (pathArray.contains(tabParam.getLabel())) {
 			return true;
-		} else if (tabParam.getLabel().equals(pathArray[pathArray.length - 1]))
+		} else if (pathArray.get(pathArray.size() - 2).equals("scout") && tabParam.equals(TabName.PERSONAL))
 			return true;
 
 		return false;

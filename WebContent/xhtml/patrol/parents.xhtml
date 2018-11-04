@@ -29,9 +29,9 @@
 							<b:dataTableColumn label="" rendered="#{userController.edit}"
 								orderable="false">
 								<b:commandButton iconAwesome="pencil" ajax="true"
-									update="@(.mother_modal)"
-									onclick="ajax:patrolParents.setForMotherModal(item)"
-									oncomplete="$('.mother_modal').modal();return false;" />
+									update="@(.parent_modal)"
+									onclick="ajax:parentBean.setForMotherModal(item)"
+									oncomplete="$('.parent_modal').modal();return false;" />
 							</b:dataTableColumn>
 							<b:dataTableColumn label="Anya neve">
 								<h:outputText value="#{item.person.mother.getFullName()}" />
@@ -47,54 +47,6 @@
 							</b:dataTableColumn>
 						</t:dataTable>
 
-						<b:modal
-							title="#{patrolController.moddedScout.person.getFullName()} anyukájának szerkesztése"
-							styleClass="mother_modal" rendered="#{userController.edit}">
-							<b:tabView pills="true" activeIndex="0">
-								<b:tab title="Meglévő szerkesztése">
-									<br />
-									<h:outputLabel value="Válassz a meglévő személyek közül" />
-									<t:dropdown list="#{patrolParents.mothers}"
-										value="#{patrolParents.selectedMother}" mode="person"
-										ajax="true" update="motherInputs" />
-
-									<b:panelGrid colSpans="2,10" id="motherInputs">
-										<h:outputLabel value="Vezetéknév" />
-										<b:inputText value="#{patrolParents.selectedMother.lastname}" />
-										<h:outputLabel value="Keresztnév" />
-										<b:inputText value="#{patrolParents.selectedMother.firstname}" />
-										<h:outputLabel value="Email" />
-										<b:inputText value="#{patrolParents.selectedMother.email}" />
-										<h:outputLabel value="Telefon" />
-										<b:inputText value="#{patrolParents.selectedMother.phone}" />
-										<h:outputLabel value="Egyéb" />
-										<b:inputTextarea value="#{patrolParents.selectedMother.other}"
-											rows="2" />
-									</b:panelGrid>
-									<t:modalFooter mode="modify"
-										action="#{patrolParents.saveParent(patrolController.moddedScout, patrolParents.editedGender, patrolParents.selectedMother)}"
-										deleteAction="#{patrolParents.deleteParent(patrolController.moddedScout, patrolParents.editedGender)}" />
-								</b:tab>
-								<b:tab title="Új anya létrehozása">
-									<br />
-									<b:panelGrid colSpans="2,10">
-										<h:outputLabel value="Vezetéknév" />
-										<b:inputText value="#{patrolParents.newMother.lastname}" />
-										<h:outputLabel value="Keresztnév" />
-										<b:inputText value="#{patrolParents.newMother.firstname}" />
-										<h:outputLabel value="Email" />
-										<b:inputText value="#{patrolParents.newMother.email}" />
-										<h:outputLabel value="Telefon" />
-										<b:inputText value="#{patrolParents.newMother.phone}" />
-										<h:outputLabel value="Egyéb" />
-										<b:inputTextarea value="#{patrolParents.newMother.other}"
-											rows="2" />
-									</b:panelGrid>
-									<t:modalFooter mode="create"
-										action="#{patrolParents.saveParent(patrolController.moddedScout, patrolParents.editedGender, patrolParents.newMother)}" />
-								</b:tab>
-							</b:tabView>
-						</b:modal>
 					</b:tab>
 
 					<b:tab title="Apa">
@@ -106,9 +58,9 @@
 								orderable="false">
 								<b:panelGrid colSpans="12">
 									<b:commandButton iconAwesome="pencil" ajax="true"
-										update="@(.father_modal)"
-										onclick="ajax:patrolParents.setForFatherModal(item)"
-										oncomplete="$('.father_modal').modal();return false;" />
+										update="@(.parent_modal)"
+										onclick="ajax:parentBean.setForFatherModal(item)"
+										oncomplete="$('.parent_modal').modal();return false;" />
 								</b:panelGrid>
 							</b:dataTableColumn>
 							<b:dataTableColumn label="Apa neve">
@@ -124,56 +76,13 @@
 								<h:outputText value="#{item.person.father.other}" />
 							</b:dataTableColumn>
 						</t:dataTable>
-						<b:modal
-							title="#{patrolController.moddedScout.person.getFullName()} apukájának szerkesztése"
-							styleClass="father_modal" rendered="#{userController.edit}">
-							<b:tabView pills="true" activeIndex="0">
-								<b:tab title="Meglévő szerkesztése">
-									<br />
-									<h:outputLabel value="Válassz a meglévő személyek közül" />
-									<t:dropdown list="#{patrolParents.fathers}"
-										value="#{patrolParents.selectedFather}" mode="person"
-										ajax="true" update="fatherInputs" />
-									<b:panelGrid colSpans="2,10" id="fatherInputs">
-										<h:outputLabel value="Vezetéknév" />
-										<b:inputText value="#{patrolParents.selectedFather.lastname}" />
-										<h:outputLabel value="Keresztnév" />
-										<b:inputText value="#{patrolParents.selectedFather.firstname}" />
-										<h:outputLabel value="Email" />
-										<b:inputText value="#{patrolParents.selectedFather.email}" />
-										<h:outputLabel value="Telefon" />
-										<b:inputText value="#{patrolParents.selectedFather.phone}" />
-										<h:outputLabel value="Egyéb" />
-										<b:inputTextarea value="#{patrolParents.selectedFather.other}"
-											rows="2" />
-									</b:panelGrid>
-									<t:modalFooter mode="modify"
-										action="#{patrolParents.saveParent(patrolController.moddedScout, patrolParents.editedGender, patrolParents.selectedFather)}"
-										deleteAction="#{patrolParents.deleteParent(patrolController.moddedScout, patrolParents.editedGender)}" />
-								</b:tab>
-								<b:tab title="Új apa létrehozása">
-									<br />
-									<b:panelGrid colSpans="2,10">
-										<h:outputLabel value="Vezetéknév" />
-										<b:inputText value="#{patrolParents.newFather.lastname}" />
-										<h:outputLabel value="Keresztnév" />
-										<b:inputText value="#{patrolParents.newFather.firstname}" />
-										<h:outputLabel value="Email" />
-										<b:inputText value="#{patrolParents.newFather.email}" />
-										<h:outputLabel value="Telefon" />
-										<b:inputText value="#{patrolParents.newFather.phone}" />
-										<h:outputLabel value="Egyéb" />
-										<b:inputTextarea value="#{patrolParents.newFather.other}"
-											rows="2" />
-									</b:panelGrid>
-									<t:modalFooter mode="create"
-										action="#{patrolParents.saveParent(patrolController.moddedScout, patrolParents.editedGender, patrolParents.newFather)}" />
-								</b:tab>
-							</b:tabView>
-						</b:modal>
+
 					</b:tab>
 
 				</b:tabView>
+
+				<t:parentModal updater="#{patrolController.loader}" />
+
 			</b:form>
 
 		</ui:define>

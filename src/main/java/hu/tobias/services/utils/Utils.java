@@ -15,11 +15,13 @@ import org.apache.commons.lang3.RandomStringUtils;
 import hu.tobias.entities.Address;
 import hu.tobias.entities.Leader;
 import hu.tobias.entities.Patrol;
+import hu.tobias.entities.Person;
 import hu.tobias.entities.Scout;
 import hu.tobias.entities.Troop;
 import hu.tobias.services.comparator.AddressComparator;
 import hu.tobias.services.comparator.LeaderNameComparator;
 import hu.tobias.services.comparator.PatrolNameComparator;
+import hu.tobias.services.comparator.PersonNameComparator;
 import hu.tobias.services.comparator.ScoutNameComparator;
 import hu.tobias.services.comparator.ScoutStatusNameComparator;
 import hu.tobias.services.comparator.TroopNameComparator;
@@ -118,6 +120,18 @@ public class Utils {
 	public static List<Address> orderAddressList(List<Address> list) {
 		List<Address> result = list;
 		Collections.sort(result, new AddressComparator());
+		return result;
+	}
+
+	public static List<Person> orderPersonSet(Set<Person> set) {
+		List<Person> result = new ArrayList<Person>(set);
+		Collections.sort(result, new PersonNameComparator());
+		return result;
+	}
+
+	public static List<Person> orderPersonList(List<Person> list) {
+		List<Person> result = list;
+		Collections.sort(result, new PersonNameComparator());
 		return result;
 	}
 

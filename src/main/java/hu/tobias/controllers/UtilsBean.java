@@ -13,6 +13,7 @@ import javax.inject.Named;
 import hu.tobias.entities.Address;
 import hu.tobias.entities.Leader;
 import hu.tobias.entities.Patrol;
+import hu.tobias.entities.Person;
 import hu.tobias.entities.Scout;
 import hu.tobias.entities.Troop;
 import hu.tobias.entities.enums.Status;
@@ -66,6 +67,14 @@ public class UtilsBean implements Serializable {
 
 	public List<Address> orderAddressList(List<Address> list) {
 		return Utils.orderAddressList(list);
+	}
+
+	public List<Person> orderPersonSet(Set<Person> set) {
+		return Utils.orderPersonSet(set);
+	}
+
+	public List<Person> orderPersonList(List<Person> list) {
+		return Utils.orderPersonList(list);
 	}
 
 	public List<Scout> getPatrolPeople(Patrol p) {

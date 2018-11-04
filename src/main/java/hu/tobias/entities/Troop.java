@@ -88,6 +88,17 @@ public class Troop implements Serializable {
 		return count;
 	}
 
+	public int getAllLeaderNum() {
+		int count = getLeaderNum();
+		for (Patrol p : patrols) {
+			for (Leader l : p.getLeaders()) {
+				if (!leaders.contains(l))
+					count++;
+			}
+		}
+		return count;
+	}
+
 	public int getActiveNum() {
 		int count = 0;
 		for (Patrol p : patrols) {

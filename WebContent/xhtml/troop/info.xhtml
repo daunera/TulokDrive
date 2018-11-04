@@ -13,9 +13,108 @@
 <h:body>
 	<ui:composition template="/xhtml/troop/troopFrame.xhtml">
 		<ui:define name="innerContent">
-		
-			INFO
-		
+
+			<b:form>
+				<t:pageHeader title="Raji adatok" saveBean="#{troopInfo}"
+					saveMethod="saveEdit" undoBean="#{troopController}"
+					undoMethod="undoEdit" />
+				<t:table>
+					<t:rowWithLabel label="Raj neve">
+						<t:textField value="#{troopController.troop.name}" />
+					</t:rowWithLabel>
+					<t:rowWithLabel label="Vezetők száma (összes)">
+						<h:outputText value="#{troopController.troop.getAllLeaderNum()}" />
+					</t:rowWithLabel>
+					<t:rowWithLabel label="Létszám">
+						<h:outputText value="#{troopController.troop.getActiveNum()}" />
+					</t:rowWithLabel>
+				</t:table>
+
+				<h:outputText
+					value="#{troopController.troop.getLeaderNum() > 1 ? 'Rajvezetők' : 'Rajvezető'}"
+					styleClass="subTitle" />
+				<t:table>
+					<ui:repeat var="leader"
+						value="#{utils.orderLeaderSet(troopController.troop.leaders)}"
+						varStatus="var">
+						<t:row>
+							<t:entityLink entity="#{leader}" mode="leader" edit="false" />
+						</t:row>
+					</ui:repeat>
+				</t:table>
+
+				<b:panelGrid colSpans="12">
+
+					<b:row styleClass="pulledRow">
+						<h:outputText value="Őrsök" styleClass="subTitle" />
+						<b:commandButton value="Új őrs" iconAwesome="plus" ajax="true"
+							update="@(.patrol_modal)"
+							onclick="ajax:troopInfo.setForNewPatrolModal()"
+							oncomplete="$('.patrol_modal').modal();return false;" size="md"
+							rendered="#{userController.edit}" />
+					</b:row>
+					<t:dataTable value="#{troopController.troop.patrols}"
+						order="patrol"
+						rendered="#{not empty troopController.troop.patrols}" nums="true">
+						<b:dataTableColumn label="">
+							<b:row styleClass="pulledRow">
+								<t:entityLink entity="#{item}" mode="patrol" />
+								<b:commandButton value="Töröl" iconAwesome="trash" ajax="true"
+									update="@(.delete_patrol_modal)"
+									onclick="ajax:troopInfo.setForDeletePatrolModal(item)"
+									oncomplete="$('.delete_patrol_modal').modal();return false;"
+									size="xs" rendered="#{userController.edit}"
+									style="margin-left:10px;" />
+
+							</b:row>
+						</b:dataTableColumn>
+						<b:dataTableColumn label="Őrsvezetők">
+							<ui:repeat var="leader"
+								value="#{utils.orderLeaderSet(item.leaders)}" varStatus="var">
+								<t:entityLink entity="#{leader}" mode="leader" />
+								<h:outputText value=", " rendered="#{not var.last}"></h:outputText>
+							</ui:repeat>
+						</b:dataTableColumn>
+						<b:dataTableColumn label="Létszám">
+							<h:outputText value="#{item.getActiveNum()}" />
+						</b:dataTableColumn>
+					</t:dataTable>
+					<h:outputText
+						value="A szerkesztés gombra kattintva tudsz új őrsöt hozzáadni"
+						rendered="#{empty troopController.troop.patrols}" />
+				</b:panelGrid>
+
+				<b:modal title="Új őrs a(z) #{troopController.troop.name} rajba"
+					rendered="#{userController.edit}" styleClass="patrol_modal">
+					<b:panelGrid colSpans="12"
+						rendered="#{not empty troopInfo.patrols}">
+						<b:panelGrid colSpans="12">
+							<h:outputLabel value="Válassz a listából" />
+							<t:dropdown list="#{utils.orderScoutList(troopInfo.patrols)}"
+								value="#{troopInfo.selectedPatrol}" mode="patrol" />
+						</b:panelGrid>
+						<t:modalFooter mode="select"
+							action="#{troopInfo.savePatrol(troopInfo.selectedPatrol)}" />
+					</b:panelGrid>
+					<b:panelGrid colSpans="12" rendered="#{empty troopInfo.patrols}">
+						<h:outputText value="Nincs olyan őrs, akit hozzáadhatnál a rajhoz" />
+						<t:modalFooter mode="back" />
+					</b:panelGrid>
+				</b:modal>
+
+				<b:modal
+					title="#{troopInfo.selectedPatrol.name} törlése a(z) #{troopController.troop.name} rajból"
+					styleClass="delete_patrol_modal" rendered="#{userController.edit}">
+					<b:panelGrid colSpans="12">
+						<h:outputLabel
+							value="Biztosan szeretnéd törölni a(z) #{troopInfo.selectedPatrol.name} őrsöt a(z) #{troopController.troop.name} rajból?" />
+						<t:modalFooter mode="delete"
+							action="#{troopInfo.deletePatrol(troopInfo.selectedPatrol)}" />
+					</b:panelGrid>
+				</b:modal>
+
+			</b:form>
+
 		</ui:define>
 	</ui:composition>
 </h:body>

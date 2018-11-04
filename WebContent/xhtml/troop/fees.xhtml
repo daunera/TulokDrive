@@ -13,9 +13,74 @@
 <h:body>
 	<ui:composition template="/xhtml/troop/troopFrame.xhtml">
 		<ui:define name="innerContent">
-		
-			FEES
-		
+
+			<b:form>
+				<t:pageHeader title="Tagdíjak" saveButton="false"
+					undoBean="#{userController}" undoMethod="changeEdit" />
+
+				<b:pillLinks>
+					<ui:repeat var="year" value="#{feeBean.years}">
+						<b:navLink value="#{year}"
+							href="#{troopController.troop.getTroopUrl()}/fees/#{year}"
+							active="#{feeBean.selectedYear eq year}" />
+					</ui:repeat>
+				</b:pillLinks>
+
+				<t:dataTable value="#{troopController.troop}" type="troop">
+					<b:dataTableColumn label="Név">
+						<t:entityLink entity="#{item}" />
+					</b:dataTableColumn>
+					<b:dataTableColumn label="" rendered="#{userController.edit}"
+						orderable="false">
+						<div>
+							<b:commandButton iconAwesome="pencil" ajax="true"
+								update="@(.fee_edit_modal)"
+								onclick="ajax:feeBean.setForSelectedModal(item.getFeeByYear(feeBean.selectedYear))"
+								oncomplete="$('.fee_edit_modal').modal();return false;"
+								rendered="#{not empty item.getFeeByYear(feeBean.selectedYear) }" />
+							<b:commandButton iconAwesome="plus" ajax="true"
+								update="@(.fee_new_modal)"
+								onclick="ajax:feeBean.setForNewModal(item, feeBean.selectedYear)"
+								oncomplete="$('.fee_new_modal').modal();return false;"
+								rendered="#{empty item.getFeeByYear(feeBean.selectedYear)}" />
+						</div>
+					</b:dataTableColumn>
+					<b:dataTableColumn label="Státusz">
+						<h:outputText
+							value="#{item.getFeeByYear(feeBean.selectedYear).status.label}" />
+					</b:dataTableColumn>
+					<b:dataTableColumn label="Összeg">
+						<h:outputText
+							value="#{item.getFeeByYear(feeBean.selectedYear).amount} Ft"
+							rendered="#{not empty item.getFeeByYear(feeBean.selectedYear).amount}" />
+						<h:outputText value=""
+							rendered="#{empty item.getFeeByYear(feeBean.selectedYear).amount}" />
+					</b:dataTableColumn>
+					<b:dataTableColumn label="Támogatás">
+						<h:outputText
+							value="#{item.getFeeByYear(feeBean.selectedYear).support} Ft"
+							rendered="#{not empty item.getFeeByYear(feeBean.selectedYear).support and item.getFeeByYear(feeBean.selectedYear).support ne 0}" />
+						<h:outputText value=""
+							rendered="#{empty item.getFeeByYear(feeBean.selectedYear).support or item.getFeeByYear(feeBean.selectedYear).support eq 0}" />
+					</b:dataTableColumn>
+					<b:dataTableColumn label="Befizetés napja">
+						<h:outputText
+							value="#{item.getFeeByYear(feeBean.selectedYear).completeDate}">
+							<f:convertDateTime pattern="yyyy.MM.dd" />
+						</h:outputText>
+					</b:dataTableColumn>
+					<b:dataTableColumn label="Egyéb">
+						<h:outputText
+							value="#{item.getFeeByYear(feeBean.selectedYear).getOtherInfo()}" />
+					</b:dataTableColumn>
+
+				</t:dataTable>
+
+				<t:feeEditModal updater="#{troopController.loader}" />
+				<t:feeNewModal updater="#{troopController.loader}" />
+
+			</b:form>
+
 		</ui:define>
 	</ui:composition>
 </h:body>

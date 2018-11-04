@@ -14,7 +14,76 @@
 	<ui:composition template="/xhtml/troop/troopFrame.xhtml">
 		<ui:define name="innerContent">
 		
-			PARENTS
+			<b:form>
+				<t:pageHeader title="Szülők adatai" saveButton="false"
+					undoBean="#{troopController}" undoMethod="undoEdit" />
+
+				<b:tabView pills="true">
+
+					<b:tab title="Anya">
+
+						<t:dataTable value="#{troopController.troop}" type="troop">
+							<b:dataTableColumn label="Név">
+								<t:entityLink entity="#{item}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="" rendered="#{userController.edit}"
+								orderable="false">
+								<b:commandButton iconAwesome="pencil" ajax="true"
+									update="@(.parent_modal)"
+									onclick="ajax:parentBean.setForMotherModal(item)"
+									oncomplete="$('.parent_modal').modal();return false;" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Anya neve">
+								<h:outputText value="#{item.person.mother.getFullName()}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Email">
+								<h:outputText value="#{item.person.mother.email}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Telefon">
+								<h:outputText value="#{item.person.mother.phone}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Egyéb">
+								<h:outputText value="#{item.person.mother.other}" />
+							</b:dataTableColumn>
+						</t:dataTable>
+
+					</b:tab>
+
+					<b:tab title="Apa">
+						<t:dataTable value="#{troopController.troop}" type="troop">
+							<b:dataTableColumn label="Név">
+								<t:entityLink entity="#{item}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="" rendered="#{userController.edit}"
+								orderable="false">
+								<b:panelGrid colSpans="12">
+									<b:commandButton iconAwesome="pencil" ajax="true"
+										update="@(.parent_modal)"
+										onclick="ajax:parentBean.setForFatherModal(item)"
+										oncomplete="$('.parent_modal').modal();return false;" />
+								</b:panelGrid>
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Apa neve">
+								<h:outputText value="#{item.person.father.getFullName()}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Email">
+								<h:outputText value="#{item.person.father.email}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Telefon">
+								<h:outputText value="#{item.person.father.phone}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Egyéb">
+								<h:outputText value="#{item.person.father.other}" />
+							</b:dataTableColumn>
+						</t:dataTable>
+
+					</b:tab>
+
+				</b:tabView>
+
+				<t:parentModal updater="#{troopController.loader}" />
+
+			</b:form>
 		
 		</ui:define>
 	</ui:composition>

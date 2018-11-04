@@ -91,6 +91,26 @@ public class UtilsBean implements Serializable {
 		return result;
 	}
 
+	public List<Scout> getTroopPeople(Troop t) {
+
+		List<Scout> result = new ArrayList<Scout>();
+		for (Leader l : orderLeaderSet(t.getLeaders())) {
+			result.add(l.getScout());
+		}
+
+		List<Leader> patrolLeaderList = Utils.orderLeaderSet(t.getPatrolLeader());
+		patrolLeaderList.removeAll(t.getLeaders());
+		for (Leader l : patrolLeaderList) {
+			result.add(l.getScout());
+		}
+
+		List<Scout> scoutList = Utils.orderScoutSetByStatus(t.getScouts());
+		scoutList.removeAll(result);
+		result.addAll(scoutList);
+
+		return result;
+	}
+
 	public int countActive(Collection<Scout> collection) {
 		int count = 0;
 		for (Scout s : collection) {

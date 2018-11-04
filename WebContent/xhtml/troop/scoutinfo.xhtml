@@ -13,9 +13,36 @@
 <h:body>
 	<ui:composition template="/xhtml/troop/troopFrame.xhtml">
 		<ui:define name="innerContent">
-		
-			SCOUTINFO
-		
+
+			<b:form>
+				<t:pageHeader title="Cserkész adatok" saveBean="#{troopController}"
+					saveMethod="saveScoutEdit" undoBean="#{troopController}"
+					undoMethod="undoEdit" />
+
+				<t:dataTable value="#{troopController.troop}" type="troop">
+					<b:dataTableColumn label="Név">
+						<t:entityLink entity="#{item}" />
+					</b:dataTableColumn>
+					<b:dataTableColumn label="ECSET-kód">
+						<t:textField value="#{item.ecsetcode}" />
+					</b:dataTableColumn>
+					<b:dataTableColumn label="Aktivitás">
+						<t:dropdown list="#{enums.statuses}" value="#{item.status}" />
+					</b:dataTableColumn>
+					<b:dataTableColumn label="Belépés ideje">
+						<t:datepicker value="#{item.joindate}" showIcon="false"
+							autoPopup="false" />
+					</b:dataTableColumn>
+					<b:dataTableColumn label="Kilépés ideje">
+						<t:datepicker value="#{item.leavedate}" showIcon="false"
+							autoPopup="false" />
+					</b:dataTableColumn>
+					<b:dataTableColumn label="Tagkártya">
+						<t:dropdown list="#{enums.cards}" value="#{item.scoutcard}" />
+					</b:dataTableColumn>
+				</t:dataTable>
+			</b:form>
+
 		</ui:define>
 	</ui:composition>
 </h:body>

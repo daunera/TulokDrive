@@ -22,6 +22,16 @@
 				</c:if>
 				<c:set var="value" value="#{people}" />
 			</c:when>
+			<c:when test="#{type == 'troop'}">
+				<c:set var="people" value="#{utils.getTroopPeople(value)}" />
+				<c:set var="leaderNum" value="#{value.getAllLeaderNum()}" />
+				<c:set var="activeNum" value="#{value.getActiveNum()}" />
+				<c:set var="nums" value="true" />
+				<c:if test="#{empty colorStat}">
+					<c:set var="colorStat" value="true" />
+				</c:if>
+				<c:set var="value" value="#{people}" />
+			</c:when>
 			<c:otherwise>
 				<c:set var="value" value="#{value}" />
 			</c:otherwise>
@@ -131,14 +141,14 @@
 			scrollX="#{scrollX}" rendered="#{rendered}" style="width: 100%"
 			styleClass="#{noHeadStyle}" rowStyleClass="#{rowStyleClass}"
 			rowHighlight="#{rowHighlight}" lang="hu">
-			<c:if test="#{type == 'patrol'}">
+			<c:if test="#{not empty type}">
 				<b:dataTableColumn label="" orderable="false"
 					styleClass="#{numStyle}"
 					value="#{value.indexOf(item) lt leaderNum ? '' : value.indexOf(item) - leaderNum lt activeNum ? value.indexOf(item) + 1 - leaderNum : ''}"
 					style="width:18px;" />
 				<ui:insert />
 			</c:if>
-			<c:if test="#{type != 'patrol'}">
+			<c:if test="#{empty type}">
 				<c:if test="#{not empty activeNum}">
 					<b:dataTableColumn label="" orderable="false"
 						styleClass="#{numStyle}"

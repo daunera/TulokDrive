@@ -1,9 +1,7 @@
 package hu.tobias.controllers.troop;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -17,14 +15,12 @@ import javax.servlet.RequestDispatcher;
 
 import hu.tobias.controllers.Permission;
 import hu.tobias.controllers.UserController;
-import hu.tobias.entities.Patrol;
+import hu.tobias.entities.Leader;
 import hu.tobias.entities.Scout;
 import hu.tobias.entities.Troop;
 import hu.tobias.entities.enums.TabName;
 import hu.tobias.entities.exceptions.NotFoundEntityException;
-import hu.tobias.services.comparator.PatrolNameComparator;
-import hu.tobias.services.comparator.ScoutNameComparator;
-import hu.tobias.services.dao.PatrolDao;
+import hu.tobias.services.dao.PersonDao;
 import hu.tobias.services.dao.ScoutDao;
 import hu.tobias.services.dao.TroopDao;
 
@@ -37,21 +33,26 @@ public class TroopController implements Serializable {
 	@EJB
 	private TroopDao troopService;
 	@EJB
-	private PatrolDao patrolService;
-	@EJB
 	private ScoutDao scoutService;
+	@EJB
+	private PersonDao personService;
 
 	@Inject
 	private UserController userController;
 
 	@Inject
 	private Permission permission;
+	
+	private Runnable loader = new Runnable() {
+
+		@Override
+		public void run() {
+			loadData();
+		}
+	};
 
 	private Troop troop = new Troop();
 	private int troopid;
-
-	private List<Patrol> patrolList;
-	private List<Scout> scoutList;
 
 	public TroopController() {
 	}
@@ -67,15 +68,6 @@ public class TroopController implements Serializable {
 		} catch (NotFoundEntityException e) {
 			userController.redirectDbError();
 		}
-
-		patrolList = new ArrayList<Patrol>(troop.getPatrols());
-		Collections.sort(patrolList, new PatrolNameComparator());
-
-		scoutList = new ArrayList<Scout>();
-		for (Patrol p : patrolList) {
-			scoutList.addAll(p.getScouts());
-		}
-		Collections.sort(scoutList, new ScoutNameComparator());
 	}
 
 	public UserController getUserController() {
@@ -94,6 +86,14 @@ public class TroopController implements Serializable {
 		this.permission = permission;
 	}
 
+	public Runnable getLoader() {
+		return loader;
+	}
+
+	public void setLoader(Runnable loader) {
+		this.loader = loader;
+	}
+
 	public Troop getTroop() {
 		return troop;
 	}
@@ -110,25 +110,30 @@ public class TroopController implements Serializable {
 		this.troopid = troopid;
 	}
 
-	public List<Patrol> getPatrolList() {
-		return patrolList;
-	}
-
-	public void setPatrolList(List<Patrol> patrolList) {
-		this.patrolList = patrolList;
-	}
-
-	public List<Scout> getScoutList() {
-		return scoutList;
-	}
-
-	public void setScoutList(List<Scout> scoutList) {
-		this.scoutList = scoutList;
-	}
-
 	public void undoEdit() {
 		userController.changeEdit();
 		loadData();
+	}
+	
+	public void saveScoutEdit() {
+		for (Scout s : troop.getScouts()) {
+			scoutService.update(s);
+		}
+		for (Leader l : troop.getAllLeader()) {
+			scoutService.update(l.getScout());
+		}
+		userController.changeEdit();
+	}
+	
+	public void savePersonalEdit() {
+		for (Scout s : troop.getScouts()) {
+			personService.update(s.getPerson());
+		}
+		for (Leader l : troop.getAllLeader()) {
+			personService.update(l.getScout().getPerson());
+		}
+		userController.reloadUser();
+		userController.changeEdit();
 	}
 
 	public boolean isThisActiveTab(String tabName) {

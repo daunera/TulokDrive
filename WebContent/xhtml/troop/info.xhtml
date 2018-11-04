@@ -57,16 +57,15 @@
 						order="patrol"
 						rendered="#{not empty troopController.troop.patrols}" nums="true">
 						<b:dataTableColumn label="">
-							<b:row styleClass="pulledRow">
-								<t:entityLink entity="#{item}" mode="patrol" />
-								<b:commandButton value="Töröl" iconAwesome="trash" ajax="true"
-									update="@(.delete_patrol_modal)"
-									onclick="ajax:troopInfo.setForDeletePatrolModal(item)"
-									oncomplete="$('.delete_patrol_modal').modal();return false;"
-									size="xs" rendered="#{userController.edit}"
-									style="margin-left:10px;" />
-
-							</b:row>
+							<t:entityLink entity="#{item}" mode="patrol" />
+						</b:dataTableColumn>
+						<b:dataTableColumn label="" orderable="false">
+							<b:commandButton iconAwesome="trash" ajax="true"
+								update="@(.delete_patrol_modal)"
+								onclick="ajax:troopInfo.setForDeletePatrolModal(item)"
+								oncomplete="$('.delete_patrol_modal').modal();return false;"
+								size="md" rendered="#{userController.edit}"
+								style="margin-left:10px;" />
 						</b:dataTableColumn>
 						<b:dataTableColumn label="Őrsvezetők">
 							<ui:repeat var="leader"
@@ -77,6 +76,9 @@
 						</b:dataTableColumn>
 						<b:dataTableColumn label="Létszám">
 							<h:outputText value="#{item.getActiveNum()}" />
+						</b:dataTableColumn>
+						<b:dataTableColumn label="Aktuális évfolyam">
+							<h:outputText value="#{item.getActualClass()}" />
 						</b:dataTableColumn>
 					</t:dataTable>
 					<h:outputText

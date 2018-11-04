@@ -13,9 +13,109 @@
 <h:body>
 	<ui:composition template="/xhtml/troop/troopFrame.xhtml">
 		<ui:define name="innerContent">
-		
-			PERSONAL
-		
+
+			<b:form>
+				<t:pageHeader title="Személyes adatok" saveBean="#{troopController}"
+					saveMethod="savePersonalEdit" undoBean="#{troopController}"
+					undoMethod="undoEdit" />
+
+				<b:tabView pills="true">
+					<b:tab title="Név és születés">
+
+						<t:dataTable value="#{troopController.troop}" type="troop">
+							<b:dataTableColumn label="Név">
+								<t:nameField value="#{item}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Becenév">
+								<t:textField value="#{item.person.nickname}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Születési hely">
+								<t:textField value="#{item.person.birthplace}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Születési idő">
+								<t:datepicker value="#{item.person.birthdate}" showIcon="false"
+									autoPopup="false" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Névnap">
+								<t:textField value="#{item.person.nameday}" mask="99-99"
+									placeholder="hh-nn" />
+							</b:dataTableColumn>
+						</t:dataTable>
+					</b:tab>
+
+					<b:tab title="Elérhetőség">
+						<t:dataTable value="#{troopController.troop}" type="troop">
+							<b:dataTableColumn label="Név">
+								<t:entityLink entity="#{item}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Email">
+								<t:textField value="#{item.person.email}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Telefon">
+								<t:textField value="#{item.person.phone}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Cím">
+								<b:panelGrid colSpans="10,2" rendered="#{userController.edit}"
+									style="margin-right:5px">
+									<h:outputText
+										value="#{item.person.address.getFullAddressWithPhone()}" />
+									<b:commandButton iconAwesome="pencil" ajax="true"
+										update="@(.address_modal)"
+										onclick="ajax:addressBean.setForModal(item)"
+										oncomplete="$('.address_modal').modal();return false;" />
+								</b:panelGrid>
+								<h:outputText rendered="#{not userController.edit}"
+									value="#{item.person.address.getFullAddressWithPhone()}" />
+							</b:dataTableColumn>
+						</t:dataTable>
+
+						<t:addressModal updater="#{troopController.loader}" />
+
+					</b:tab>
+
+					<b:tab title="Igazolványok">
+						<t:dataTable value="#{troopController.troop}" type="troop">
+							<b:dataTableColumn label="Név">
+								<t:entityLink entity="#{item}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Szem.ig.szám">
+								<t:textField value="#{item.person.personcardid}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="TAJ-szám">
+								<t:textField value="#{item.person.tajid}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Diák.ig.szám">
+								<t:textField value="#{item.person.studentcardid}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="OM-azonosító">
+								<t:textField value="#{item.person.omid}" />
+							</b:dataTableColumn>
+						</t:dataTable>
+					</b:tab>
+
+					<b:tab title="Egyéb">
+						<t:dataTable value="#{troopController.troop}" type="troop">
+							<b:dataTableColumn label="Név">
+								<t:entityLink entity="#{item}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Vallás">
+								<t:dropdown list="#{enums.religions}"
+									value="#{item.person.religion}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Ételérzékenység">
+								<t:textArea value="#{item.person.foodsensitivity}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Betegség">
+								<t:textArea value="#{item.person.disease}" />
+							</b:dataTableColumn>
+							<b:dataTableColumn label="Egyéb">
+								<t:textArea value="#{item.person.other}" />
+							</b:dataTableColumn>
+						</t:dataTable>
+					</b:tab>
+				</b:tabView>
+			</b:form>
+
 		</ui:define>
 	</ui:composition>
 </h:body>

@@ -58,9 +58,9 @@
 						<t:datepicker value="#{item.birthdate}" showIcon="false"
 							autoPopup="false" />
 					</b:dataTableColumn>
-					<b:dataTableColumn label="Induláskori osztály">
+					<b:dataTableColumn label="Induláskori évfolyam">
 						<t:textField value="#{item.startclass}"
-							tooltip="Az őrs indulásakkor hanyadik osztályosok voltak a gyerekek" />
+							tooltip="Az őrs indulásakkor hanyadik évfolyamosok voltak a gyerekek" />
 					</b:dataTableColumn>
 					<b:dataTableColumn label="" rendered="#{userController.edit}"
 						orderable="false">
@@ -84,7 +84,7 @@
 							value="#{teamPatrol.newPatrol.gender}" />
 						<h:outputLabel value="Alakulás ideje" />
 						<t:datepicker value="#{teamPatrol.newPatrol.birthdate}" />
-						<h:outputLabel value="Induláskor hanyadik osztályosok?" />
+						<h:outputLabel value="Induláskori évfolyam" />
 						<b:inputText value="#{teamPatrol.newPatrol.startclass}" />
 					</b:panelGrid>
 					<t:modalFooter mode="create"

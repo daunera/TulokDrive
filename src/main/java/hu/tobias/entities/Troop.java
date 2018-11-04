@@ -107,4 +107,32 @@ public class Troop implements Serializable {
 		return count;
 	}
 
+	public Set<Scout> getScouts() {
+		Set<Scout> result = new HashSet<Scout>();
+		for (Patrol p : patrols) {
+			result.addAll(p.getScouts());
+		}
+		return result;
+	}
+
+	public Set<Leader> getPatrolLeader() {
+		Set<Leader> result = new HashSet<Leader>();
+		for (Patrol p : patrols) {
+			result.addAll(p.getLeaders());
+		}
+		return result;
+	}
+
+	public Set<Leader> getAllLeader() {
+		Set<Leader> result = new HashSet<Leader>();
+		result.addAll(leaders);
+		for (Patrol p : patrols) {
+			for (Leader l : p.getLeaders()) {
+				if (!leaders.contains(l))
+					result.add(l);
+			}
+		}
+		return result;
+	}
+
 }

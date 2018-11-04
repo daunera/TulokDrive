@@ -1,9 +1,6 @@
 package hu.tobias.controllers.patrol;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -11,11 +8,9 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import hu.tobias.entities.Address;
+import hu.tobias.beans.AddressBean;
 import hu.tobias.entities.Leader;
 import hu.tobias.entities.Scout;
-import hu.tobias.services.comparator.AddressComparator;
-import hu.tobias.services.dao.AddressDao;
 import hu.tobias.services.dao.PersonDao;
 
 @Named(value = "patrolPersonal")
@@ -26,16 +21,11 @@ public class PatrolPersonalController implements Serializable {
 
 	@EJB
 	private PersonDao personService;
-	@EJB
-	private AddressDao addressService;
 
 	@Inject
 	private PatrolController patrolController;
-
-	// TODO: addressModal not working
-	private List<Address> addresses = new ArrayList<Address>();
-	private Address newAddress = new Address();
-	private Address selectedAddress = new Address();
+	@Inject
+	private AddressBean addressBean;
 
 	public PatrolPersonalController() {
 	}
@@ -52,28 +42,12 @@ public class PatrolPersonalController implements Serializable {
 		this.patrolController = patrolController;
 	}
 
-	public List<Address> getAddresses() {
-		return addresses;
+	public AddressBean getAddressBean() {
+		return addressBean;
 	}
 
-	public void setAddresses(List<Address> addresses) {
-		this.addresses = addresses;
-	}
-
-	public Address getNewAddress() {
-		return newAddress;
-	}
-
-	public void setNewAddress(Address newAddress) {
-		this.newAddress = newAddress;
-	}
-
-	public Address getSelectedAddress() {
-		return selectedAddress;
-	}
-
-	public void setSelectedAddress(Address selectedAddress) {
-		this.selectedAddress = selectedAddress;
+	public void setAddressBean(AddressBean addressBean) {
+		this.addressBean = addressBean;
 	}
 
 	public void saveEdit() {
@@ -87,38 +61,8 @@ public class PatrolPersonalController implements Serializable {
 		patrolController.getUserController().changeEdit();
 	}
 
-	public void saveAddress(Scout s, Address a) {
-		if (a.getId() == null) {
-			addressService.create(a);
-		} else
-			addressService.update(a);
-
-		s.getPerson().setAddress(a);
-		personService.update(s.getPerson());
-		patrolController.loadData();
-	}
-
-	public void deleteAddress(Scout s) {
-		if (s.getPerson().hasAddress()) {
-			s.getPerson().setAddress(null);
-		}
-		personService.update(s.getPerson());
-		patrolController.loadData();
-	}
-
 	public boolean setForModal(Scout s) {
-		addresses = addressService.findAll();
-		Collections.sort(addresses, new AddressComparator());
-
-		if (s.getPerson().hasAddress())
-			selectedAddress = s.getPerson().getAddress();
-		else if (addresses.size() > 0)
-			selectedAddress = addresses.get(0);
-		else
-			selectedAddress = new Address();
-
-		newAddress = new Address();
-
+		addressBean.setForModal(s);
 		patrolController.setModdedScout(s);
 
 		return true;

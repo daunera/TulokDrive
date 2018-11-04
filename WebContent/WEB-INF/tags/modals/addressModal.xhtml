@@ -6,7 +6,7 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:t="http://tulok.vzma.hu/tags">
+	xmlns:o="http://omnifaces.org/ui" xmlns:t="http://tulok.vzma.hu/tags">
 <h:body>
 
 	<ui:composition>
@@ -19,15 +19,17 @@
 			<c:set var="styleClass" value="address_modal" />
 		</c:if>
 
-		<b:modal title="Cím szerkesztése" styleClass="#{styleClass}"
-			rendered="#{edit}">
+		<b:modal
+			title="#{addressBean.editedScout.person.getFullName()} címének szerkesztése"
+			styleClass="#{styleClass}" rendered="#{edit}">
 			<b:tabView pills="true" activeIndex="0">
 				<b:tab title="Meglévő címek">
 					<br />
 					<h:outputLabel value="Válassz a meglévő címek közül" />
-					<t:dropdown list="#{addressBean.addresses}"
-						value="#{addressBean.selectedAddress}" mode="address" ajax="true"
-						update="addressInputs" />
+					<t:dropdown list="#{utils.orderAddressList(addressBean.addresses)}"
+						value="#{addressBean.selectedAddress}" mode="address">
+						<f:ajax event="change" render="addressInputs" />
+					</t:dropdown>
 					<b:panelGrid colSpans="2,10" id="addressInputs">
 						<h:outputLabel value="Ország" />
 						<b:inputText value="#{addressBean.selectedAddress.country}" />
@@ -52,8 +54,8 @@
 						<b:inputText value="#{addressBean.selectedAddress.phone}" />
 					</b:panelGrid>
 					<t:modalFooter mode="modify"
-						action="#{addressBean.saveAddress(addressBean.editedScout, addressBean.selectedAddress)}"
-						deleteAction="#{addressBean.deleteAddress(addressBean.editedScout)}" />
+						action="#{addressBean.saveAddress(addressBean.editedScout, addressBean.selectedAddress, updater)}"
+						deleteAction="#{addressBean.deleteAddress(addressBean.editedScout, updater)}" />
 				</b:tab>
 				<b:tab title="Új cím hozzáadása">
 					<br />
@@ -83,7 +85,7 @@
 						<b:inputText value="#{addressBean.newAddress.phone}" />
 					</b:panelGrid>
 					<t:modalFooter mode="create"
-						action="#{addressBean.saveAddress(addressBean.editedScout, addressBean.newAddress)}" />
+						action="#{addressBean.saveAddress(addressBean.editedScout, addressBean.newAddress, updater)}" />
 				</b:tab>
 
 			</b:tabView>

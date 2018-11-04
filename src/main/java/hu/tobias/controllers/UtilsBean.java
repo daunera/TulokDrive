@@ -10,6 +10,7 @@ import java.util.Set;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 
+import hu.tobias.entities.Address;
 import hu.tobias.entities.Leader;
 import hu.tobias.entities.Patrol;
 import hu.tobias.entities.Scout;
@@ -26,7 +27,7 @@ public class UtilsBean implements Serializable {
 	public List<Patrol> orderPatrolSet(Set<Patrol> set) {
 		return Utils.orderPatrolSet(set);
 	}
-	
+
 	public List<Patrol> orderPatrolList(List<Patrol> list) {
 		return Utils.orderPatrolList(list);
 	}
@@ -34,7 +35,7 @@ public class UtilsBean implements Serializable {
 	public List<Leader> orderLeaderSet(Set<Leader> set) {
 		return Utils.orderLeaderSet(set);
 	}
-	
+
 	public List<Leader> orderLeaderList(List<Leader> list) {
 		return Utils.orderLeaderList(list);
 	}
@@ -42,11 +43,11 @@ public class UtilsBean implements Serializable {
 	public List<Troop> orderTroopSet(Set<Troop> set) {
 		return Utils.orderTroopSet(set);
 	}
-	
+
 	public List<Troop> orderTroopList(List<Troop> list) {
 		return Utils.orderTroopList(list);
 	}
-	
+
 	public List<Scout> orderScoutSet(Set<Scout> set) {
 		return orderScoutSet(set);
 	}
@@ -57,6 +58,14 @@ public class UtilsBean implements Serializable {
 
 	public List<Scout> orderScoutSetByStatus(Set<Scout> set) {
 		return Utils.orderScoutSetByStatus(set);
+	}
+
+	public List<Address> orderAddressSet(Set<Address> set) {
+		return Utils.orderAddressSet(set);
+	}
+
+	public List<Address> orderAddressList(List<Address> list) {
+		return Utils.orderAddressList(list);
 	}
 
 	public List<Scout> getPatrolPeople(Patrol p) {
@@ -81,7 +90,7 @@ public class UtilsBean implements Serializable {
 		}
 		return count;
 	}
-	
+
 	public static String simpleDate(Date d) {
 		return Utils.simpleDate(d);
 	}

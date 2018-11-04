@@ -259,6 +259,9 @@
 		<attribute>
 			<name>styleClass</name>
 		</attribute>
+		<attribute>
+			<name>updater</name>
+		</attribute>
 	</tag>
 	<tag>
 		<tag-name>parentModal</tag-name>

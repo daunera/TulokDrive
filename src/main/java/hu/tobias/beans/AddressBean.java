@@ -2,7 +2,6 @@ package hu.tobias.beans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -14,7 +13,6 @@ import javax.inject.Named;
 import hu.tobias.controllers.UserController;
 import hu.tobias.entities.Address;
 import hu.tobias.entities.Scout;
-import hu.tobias.services.comparator.AddressComparator;
 import hu.tobias.services.dao.AddressDao;
 import hu.tobias.services.dao.PersonDao;
 
@@ -88,7 +86,6 @@ public class AddressBean implements Serializable {
 		editedScout = s;
 		
 		addresses = addressService.findAll();
-		Collections.sort(addresses, new AddressComparator());
 
 		if (s.getPerson().hasAddress())
 			selectedAddress = s.getPerson().getAddress();
@@ -102,7 +99,7 @@ public class AddressBean implements Serializable {
 		return true;
 	}
 	
-	public void saveAddress(Scout s, Address a) {
+	public void saveAddress(Scout s, Address a, Runnable function) {
 		if (a.getId() == null) {
 			addressService.create(a);
 		} else
@@ -110,13 +107,15 @@ public class AddressBean implements Serializable {
 
 		s.getPerson().setAddress(a);
 		personService.update(s.getPerson());
+		function.run();
 	}
 
-	public void deleteAddress(Scout s) {
+	public void deleteAddress(Scout s, Runnable function) {
 		if (s.getPerson().hasAddress()) {
 			s.getPerson().setAddress(null);
 		}
 		personService.update(s.getPerson());
+		function.run();
 	}
 
 }

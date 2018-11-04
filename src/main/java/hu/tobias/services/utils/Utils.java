@@ -12,10 +12,12 @@ import java.util.Set;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
+import hu.tobias.entities.Address;
 import hu.tobias.entities.Leader;
 import hu.tobias.entities.Patrol;
 import hu.tobias.entities.Scout;
 import hu.tobias.entities.Troop;
+import hu.tobias.services.comparator.AddressComparator;
 import hu.tobias.services.comparator.LeaderNameComparator;
 import hu.tobias.services.comparator.PatrolNameComparator;
 import hu.tobias.services.comparator.ScoutNameComparator;
@@ -52,13 +54,13 @@ public class Utils {
 	public static String getHelpMailto() {
 		return "mailto:dauner.agoston+tulokdrive@cserkesz.hu?subject=TulokDrive+visszajelzés";
 	}
-	
+
 	public static List<Patrol> orderPatrolSet(Set<Patrol> set) {
 		List<Patrol> result = new ArrayList<Patrol>(set);
 		Collections.sort(result, new PatrolNameComparator());
 		return result;
 	}
-	
+
 	public static List<Patrol> orderPatrolList(List<Patrol> list) {
 		List<Patrol> result = list;
 		Collections.sort(result, new PatrolNameComparator());
@@ -70,7 +72,7 @@ public class Utils {
 		Collections.sort(result, new LeaderNameComparator());
 		return result;
 	}
-	
+
 	public static List<Leader> orderLeaderList(List<Leader> list) {
 		List<Leader> result = list;
 		Collections.sort(result, new LeaderNameComparator());
@@ -82,7 +84,7 @@ public class Utils {
 		Collections.sort(result, new TroopNameComparator());
 		return result;
 	}
-	
+
 	public static List<Troop> orderTroopList(List<Troop> list) {
 		List<Troop> result = list;
 		Collections.sort(result, new TroopNameComparator());
@@ -94,7 +96,7 @@ public class Utils {
 		Collections.sort(result, new ScoutNameComparator());
 		return result;
 	}
-	
+
 	public static List<Scout> orderScoutList(List<Scout> list) {
 		List<Scout> result = list;
 		Collections.sort(result, new ScoutNameComparator());
@@ -104,6 +106,18 @@ public class Utils {
 	public static List<Scout> orderScoutSetByStatus(Set<Scout> set) {
 		List<Scout> result = new ArrayList<Scout>(set);
 		Collections.sort(result, new ScoutStatusNameComparator());
+		return result;
+	}
+
+	public static List<Address> orderAddressSet(Set<Address> set) {
+		List<Address> result = new ArrayList<Address>(set);
+		Collections.sort(result, new AddressComparator());
+		return result;
+	}
+
+	public static List<Address> orderAddressList(List<Address> list) {
+		List<Address> result = list;
+		Collections.sort(result, new AddressComparator());
 		return result;
 	}
 

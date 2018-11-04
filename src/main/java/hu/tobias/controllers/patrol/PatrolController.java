@@ -40,6 +40,14 @@ public class PatrolController implements Serializable {
 	@Inject
 	private Permission permission;
 
+	private Runnable loader = new Runnable() {
+
+		@Override
+		public void run() {
+			loadData();
+		}
+	};
+
 	private Patrol patrol = new Patrol();
 	private int patrolid;
 
@@ -75,6 +83,14 @@ public class PatrolController implements Serializable {
 
 	public void setPermission(Permission permission) {
 		this.permission = permission;
+	}
+
+	public Runnable getLoader() {
+		return loader;
+	}
+
+	public void setLoader(Runnable loader) {
+		this.loader = loader;
 	}
 
 	public Patrol getPatrol() {

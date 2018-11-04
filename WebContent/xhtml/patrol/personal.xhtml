@@ -61,7 +61,7 @@
 										value="#{item.person.address.getFullAddressWithPhone()}" />
 									<b:commandButton iconAwesome="pencil" ajax="true"
 										update="@(.address_modal)"
-										onclick="ajax:addressBean.setForModal(item)"
+										onclick="ajax:patrolPersonal.setForModal(item)"
 										oncomplete="$('.address_modal').modal();return false;" />
 								</b:panelGrid>
 								<h:outputText rendered="#{not userController.edit}"
@@ -69,7 +69,7 @@
 							</b:dataTableColumn>
 						</t:dataTable>
 
-						<t:addressModal />
+						<t:addressModal updater="#{patrolController.loader}" />
 
 					</b:tab>
 

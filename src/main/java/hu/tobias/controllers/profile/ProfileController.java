@@ -13,6 +13,7 @@ import javax.servlet.RequestDispatcher;
 
 import org.apache.commons.lang3.StringUtils;
 
+import hu.tobias.beans.AddressBean;
 import hu.tobias.controllers.Permission;
 import hu.tobias.controllers.UserController;
 import hu.tobias.entities.Scout;
@@ -24,26 +25,36 @@ import hu.tobias.services.dao.ScoutDao;
 @Named(value = "profileController")
 @ViewScoped
 public class ProfileController implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	@EJB
 	private PersonDao personService;
 	@EJB
 	private ScoutDao scoutService;
-	
+
 	@Inject
 	private UserController userController;
-	
+
 	@Inject
 	private Permission permission;
-	
+	@Inject
+	private AddressBean addressBean;
+
+	private Runnable loader = new Runnable() {
+
+		@Override
+		public void run() {
+			loadData();
+		}
+	};
+
 	private Scout scout = new Scout();
 	private int scoutid;
-		
-	public ProfileController() {	
+
+	public ProfileController() {
 	}
-	
+
 	@PostConstruct
 	public void init() {
 	}
@@ -73,6 +84,22 @@ public class ProfileController implements Serializable {
 		this.permission = permission;
 	}
 
+	public AddressBean getAddressBean() {
+		return addressBean;
+	}
+
+	public void setAddressBean(AddressBean addressBean) {
+		this.addressBean = addressBean;
+	}
+
+	public Runnable getLoader() {
+		return loader;
+	}
+
+	public void setLoader(Runnable loader) {
+		this.loader = loader;
+	}
+
 	public Scout getScout() {
 		return scout;
 	}
@@ -88,8 +115,7 @@ public class ProfileController implements Serializable {
 	public void setScoutid(int scoutid) {
 		this.scoutid = scoutid;
 	}
-	
-	
+
 	public void undoEdit() {
 		userController.changeEdit();
 		loadData();
@@ -97,23 +123,23 @@ public class ProfileController implements Serializable {
 
 	public void cancelEdit() {
 	}
-	
+
 	public void saveEdit() {
 		personService.update(scout.getPerson());
 		userController.reloadUser();
 		userController.changeEdit();
 	}
-	
+
 	public boolean isThisActiveTab(String tabName) {
 		TabName tabParam = TabName.valueOf(tabName);
-		
+
 		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 		String path = (String) externalContext.getRequestMap().get(RequestDispatcher.FORWARD_REQUEST_URI);
 		String[] pathArray = path.split("/");
 
-		if (StringUtils.isNumeric(pathArray[pathArray.length-1]) && tabParam == TabName.PERSONAL) {
+		if (StringUtils.isNumeric(pathArray[pathArray.length - 1]) && tabParam == TabName.PERSONAL) {
 			return true;
-		} else if (tabParam.getLabel().equals(pathArray[pathArray.length-1]))
+		} else if (tabParam.getLabel().equals(pathArray[pathArray.length - 1]))
 			return true;
 
 		return false;

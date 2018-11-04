@@ -18,7 +18,7 @@
 				<t:pageHeader title="Személyes adatok"
 					saveBean="#{profileController}" saveMethod="saveEdit"
 					undoBean="#{profileController}" undoMethod="undoEdit" />
-					
+
 				<t:table>
 					<t:rowWithLabel label="Vezetéknév">
 						<t:textField value="#{profileController.scout.person.lastname}" />
@@ -98,7 +98,7 @@
 					</t:rowWithLabel>
 				</t:table>
 
-				<t:addressModal scout="#{profileController.scout}" />
+				<t:addressModal updater="#{profileController.loader}" />
 
 			</b:form>
 

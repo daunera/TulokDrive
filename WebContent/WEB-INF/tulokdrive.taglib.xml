@@ -298,5 +298,31 @@
 			<name>updater</name>
 		</attribute>
 	</tag>
+	<tag>
+		<tag-name>challengeEditModal</tag-name>
+		<source>tags/modals/challengeEditModal.xhtml</source>
+		<attribute>
+			<name>edit</name>
+		</attribute>
+		<attribute>
+			<name>styleClass</name>
+		</attribute>
+		<attribute>
+			<name>updater</name>
+		</attribute>
+	</tag>
+	<tag>
+		<tag-name>challengeNewModal</tag-name>
+		<source>tags/modals/challengeNewModal.xhtml</source>
+		<attribute>
+			<name>edit</name>
+		</attribute>
+		<attribute>
+			<name>styleClass</name>
+		</attribute>
+		<attribute>
+			<name>updater</name>
+		</attribute>
+	</tag>
 
 </facelet-taglib>

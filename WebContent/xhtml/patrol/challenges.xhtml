@@ -25,20 +25,23 @@
 							<b:dataTableColumn label="Név">
 								<t:entityLink entity="#{item}" />
 							</b:dataTableColumn>
+							<b:dataTableColumn label="" rendered="#{userController.edit}"
+								orderable="false">
+								<b:commandButton iconAwesome="plus" size="xs"
+									style="margin-right:5px" ajax="true"
+									update="@(.challenge_new_modal)"
+									onclick="ajax:challengeBean.setForNewModal(item)"
+									oncomplete="$('.challenge_new_modal').modal();return false;"
+									rendered="#{not item.hasEveryChallenge() and userController.edit}" />
+							</b:dataTableColumn>
 							<b:dataTableColumn label="Piros pajzs">
 								<div>
 									<b:commandButton iconAwesome="pencil" size="xs"
 										style="margin-right:5px" ajax="true"
-										update="@(.edit_kcs_challenge_modal)"
-										onclick="ajax:patrolChallenge.setForSelectedModal(item, item.getChallengeByType('KCS1'))"
-										oncomplete="$('.edit_kcs_challenge_modal').modal();return false;"
+										update="@(.challenge_edit_modal)"
+										onclick="ajax:challengeBean.setForEditModal(item.getChallengeByType('KCS1'))"
+										oncomplete="$('.challenge_edit_modal').modal();return false;"
 										rendered="#{not empty item.getChallengeByType('KCS1').getDetails() and userController.edit}" />
-									<b:commandButton iconAwesome="plus" size="xs"
-										style="margin-right:5px" ajax="true"
-										update="@(.new_kcs_challenge_modal)"
-										onclick="ajax:patrolChallenge.setForNewModal(item, 'KCS1')"
-										oncomplete="$('.new_kcs_challenge_modal').modal();return false;"
-										rendered="#{empty item.getChallengeByType('KCS1').getDetails() and userController.edit}" />
 									<h:outputText
 										value="#{item.getChallengeByType('KCS1').getDetails()}" />
 								</div>
@@ -47,16 +50,10 @@
 								<div>
 									<b:commandButton iconAwesome="pencil" size="xs"
 										style="margin-right:5px" ajax="true"
-										update="@(.edit_kcs_challenge_modal)"
-										onclick="ajax:patrolChallenge.setForSelectedModal(item, item.getChallengeByType('KCS2'))"
-										oncomplete="$('.edit_kcs_challenge_modal').modal();return false;"
+										update="@(.challenge_edit_modal)"
+										onclick="ajax:challengeBean.setForEditModal(item.getChallengeByType('KCS2'))"
+										oncomplete="$('.challenge_edit_modal').modal();return false;"
 										rendered="#{not empty item.getChallengeByType('KCS2').getDetails() and userController.edit}" />
-									<b:commandButton iconAwesome="plus" size="xs"
-										style="margin-right:5px" ajax="true"
-										update="@(.new_kcs_challenge_modal)"
-										onclick="ajax:patrolChallenge.setForNewModal(item, 'KCS2')"
-										oncomplete="$('.new_kcs_challenge_modal').modal();return false;"
-										rendered="#{empty item.getChallengeByType('KCS2').getDetails() and userController.edit}" />
 									<h:outputText
 										value="#{item.getChallengeByType('KCS2').getDetails()}" />
 								</div>
@@ -65,48 +62,15 @@
 								<div>
 									<b:commandButton iconAwesome="pencil" size="xs"
 										style="margin-right:5px" ajax="true"
-										update="@(.edit_kcs_challenge_modal)"
-										onclick="ajax:patrolChallenge.setForSelectedModal(item, item.getChallengeByType('KCS3'))"
-										oncomplete="$('.edit_kcs_challenge_modal').modal();return false;"
+										update="@(.challenge_edit_modal)"
+										onclick="ajax:challengeBean.setForEditModal(item.getChallengeByType('KCS3'))"
+										oncomplete="$('.challenge_edit_modal').modal();return false;"
 										rendered="#{not empty item.getChallengeByType('KCS3').getDetails() and userController.edit}" />
-									<b:commandButton iconAwesome="plus" size="xs"
-										style="margin-right:5px" ajax="true"
-										update="@(.new_kcs_challenge_modal)"
-										onclick="ajax:patrolChallenge.setForNewModal(item, 'KCS3')"
-										oncomplete="$('.new_kcs_challenge_modal').modal();return false;"
-										rendered="#{empty item.getChallengeByType('KCS3').getDetails() and userController.edit}" />
 									<h:outputText
 										value="#{item.getChallengeByType('KCS3').getDetails()}" />
 								</div>
 							</b:dataTableColumn>
 						</t:dataTable>
-						<b:modal
-							title="Kiscserkész #{patrolChallenge.selectedChallenge.type.label} próba szerkesztése"
-							styleClass="edit_kcs_challenge_modal"
-							rendered="#{userController.edit}">
-							<b:panelGrid colSpans="4,8">
-								<h:outputLabel value="Dátum" />
-								<t:datepicker value="#{patrolChallenge.selectedChallenge.date}" />
-								<h:outputLabel value="Helyszín" />
-								<b:inputText value="#{patrolChallenge.selectedChallenge.place}" />
-							</b:panelGrid>
-							<t:modalFooter mode="modify"
-								action="#{patrolChallenge.saveChallenge(patrolController.moddedScout, patrolChallenge.selectedChallenge)}"
-								deleteAction="#{patrolChallenge.deleteChallenge(patrolController.moddedScout, patrolChallenge.selectedChallenge)}" />
-						</b:modal>
-						<b:modal
-							title="Új Kiscserkész #{patrolChallenge.newChallenge.type.label} próba"
-							styleClass="new_kcs_challenge_modal"
-							rendered="#{userController.edit}">
-							<b:panelGrid colSpans="4,8">
-								<h:outputLabel value="Dátum" />
-								<t:datepicker value="#{patrolChallenge.newChallenge.date}" />
-								<h:outputLabel value="Helyszín" />
-								<b:inputText value="#{patrolChallenge.newChallenge.place}" />
-							</b:panelGrid>
-							<t:modalFooter mode="create"
-								action="#{patrolChallenge.saveChallenge(patrolController.moddedScout, patrolChallenge.newChallenge)}" />
-						</b:modal>
 					</b:tab>
 
 					<b:tab title="Cserkész">
@@ -114,20 +78,23 @@
 							<b:dataTableColumn label="Név">
 								<t:entityLink entity="#{item}" />
 							</b:dataTableColumn>
+							<b:dataTableColumn label="" rendered="#{userController.edit}"
+								orderable="false">
+								<b:commandButton iconAwesome="plus" size="xs"
+									style="margin-right:5px" ajax="true"
+									update="@(.challenge_new_modal)"
+									onclick="ajax:challengeBean.setForNewModal(item)"
+									oncomplete="$('.challenge_new_modal').modal();return false;"
+									rendered="#{not item.hasEveryChallenge() and userController.edit}" />
+							</b:dataTableColumn>
 							<b:dataTableColumn label="Újonc">
 								<div>
 									<b:commandButton iconAwesome="pencil" size="xs"
 										style="margin-right:5px" ajax="true"
-										update="@(.edit_cs_challenge_modal)"
-										onclick="ajax:patrolChallenge.setForSelectedModal(item, item.getChallengeByType('CS1'))"
-										oncomplete="$('.edit_cs_challenge_modal').modal();return false;"
+										update="@(.challenge_edit_modal)"
+										onclick="ajax:challengeBean.setForEditModal(item.getChallengeByType('CS1'))"
+										oncomplete="$('.challenge_edit_modal').modal();return false;"
 										rendered="#{not empty item.getChallengeByType('CS1').getDetails() and userController.edit}" />
-									<b:commandButton iconAwesome="plus" size="xs"
-										style="margin-right:5px" ajax="true"
-										update="@(.new_cs_challenge_modal)"
-										onclick="ajax:patrolChallenge.setForNewModal(item, 'CS1')"
-										oncomplete="$('.new_cs_challenge_modal').modal();return false;"
-										rendered="#{empty item.getChallengeByType('CS1').getDetails() and userController.edit}" />
 									<h:outputText
 										value="#{item.getChallengeByType('CS1').getDetails()}" />
 								</div>
@@ -136,16 +103,10 @@
 								<div>
 									<b:commandButton iconAwesome="pencil" size="xs"
 										style="margin-right:5px" ajax="true"
-										update="@(.edit_cs_challenge_modal)"
-										onclick="ajax:patrolChallenge.setForSelectedModal(item, item.getChallengeByType('CS2'))"
-										oncomplete="$('.edit_cs_challenge_modal').modal();return false;"
+										update="@(.challenge_edit_modal)"
+										onclick="ajax:challengeBean.setForEditModal(item.getChallengeByType('CS2'))"
+										oncomplete="$('.challenge_edit_modal').modal();return false;"
 										rendered="#{not empty item.getChallengeByType('CS2').getDetails() and userController.edit}" />
-									<b:commandButton iconAwesome="plus" size="xs"
-										style="margin-right:5px" ajax="true"
-										update="@(.new_cs_challenge_modal)"
-										onclick="ajax:patrolChallenge.setForNewModal(item, 'CS2')"
-										oncomplete="$('.new_cs_challenge_modal').modal();return false;"
-										rendered="#{empty item.getChallengeByType('CS2').getDetails() and userController.edit}" />
 									<h:outputText
 										value="#{item.getChallengeByType('CS2').getDetails()}" />
 								</div>
@@ -154,16 +115,10 @@
 								<div>
 									<b:commandButton iconAwesome="pencil" size="xs"
 										style="margin-right:5px" ajax="true"
-										update="@(.edit_cs_challenge_modal)"
-										onclick="ajax:patrolChallenge.setForSelectedModal(item, item.getChallengeByType('CS3'))"
-										oncomplete="$('.edit_cs_challenge_modal').modal();return false;"
+										update="@(.challenge_edit_modal)"
+										onclick="ajax:challengeBean.setForEditModal(item.getChallengeByType('CS3'))"
+										oncomplete="$('.challenge_edit_modal').modal();return false;"
 										rendered="#{not empty item.getChallengeByType('CS3').getDetails() and userController.edit}" />
-									<b:commandButton iconAwesome="plus" size="xs"
-										style="margin-right:5px" ajax="true"
-										update="@(.new_cs_challenge_modal)"
-										onclick="ajax:patrolChallenge.setForNewModal(item, 'CS3')"
-										oncomplete="$('.new_cs_challenge_modal').modal();return false;"
-										rendered="#{empty item.getChallengeByType('CS3').getDetails() and userController.edit}" />
 									<h:outputText
 										value="#{item.getChallengeByType('CS3').getDetails()}" />
 								</div>
@@ -172,48 +127,15 @@
 								<div>
 									<b:commandButton iconAwesome="pencil" size="xs"
 										style="margin-right:5px" ajax="true"
-										update="@(.edit_cs_challenge_modal)"
-										onclick="ajax:patrolChallenge.setForSelectedModal(item, item.getChallengeByType('CS4'))"
-										oncomplete="$('.edit_cs_challenge_modal').modal();return false;"
+										update="@(.challenge_edit_modal)"
+										onclick="ajax:challengeBean.setForEditModal(item.getChallengeByType('CS4'))"
+										oncomplete="$('.challenge_edit_modal').modal();return false;"
 										rendered="#{not empty item.getChallengeByType('CS4').getDetails() and userController.edit}" />
-									<b:commandButton iconAwesome="plus" size="xs"
-										style="margin-right:5px" ajax="true"
-										update="@(.new_cs_challenge_modal)"
-										onclick="ajax:patrolChallenge.setForNewModal(item, 'CS4')"
-										oncomplete="$('.new_cs_challenge_modal').modal();return false;"
-										rendered="#{empty item.getChallengeByType('CS4').getDetails() and userController.edit}" />
 									<h:outputText
 										value="#{item.getChallengeByType('CS4').getDetails()}" />
 								</div>
 							</b:dataTableColumn>
 						</t:dataTable>
-						<b:modal
-							title="#{patrolChallenge.selectedChallenge.type.label} próba szerkesztése"
-							styleClass="edit_cs_challenge_modal"
-							rendered="#{userController.edit}">
-							<b:panelGrid colSpans="4,8">
-								<h:outputLabel value="Dátum" />
-								<t:datepicker value="#{patrolChallenge.selectedChallenge.date}" />
-								<h:outputLabel value="Helyszín" />
-								<b:inputText value="#{patrolChallenge.selectedChallenge.place}" />
-							</b:panelGrid>
-							<t:modalFooter mode="modify"
-								action="#{patrolChallenge.saveChallenge(patrolController.moddedScout, patrolChallenge.selectedChallenge)}"
-								deleteAction="#{patrolChallenge.deleteChallenge(patrolController.moddedScout, patrolChallenge.selectedChallenge)}" />
-						</b:modal>
-						<b:modal
-							title="Új #{patrolChallenge.newChallenge.type.label} próba"
-							styleClass="new_cs_challenge_modal"
-							rendered="#{userController.edit}">
-							<b:panelGrid colSpans="4,8">
-								<h:outputLabel value="Dátum" />
-								<t:datepicker value="#{patrolChallenge.newChallenge.date}" />
-								<h:outputLabel value="Helyszín" />
-								<b:inputText value="#{patrolChallenge.newChallenge.place}" />
-							</b:panelGrid>
-							<t:modalFooter mode="create"
-								action="#{patrolChallenge.saveChallenge(patrolController.moddedScout, patrolChallenge.newChallenge)}" />
-						</b:modal>
 					</b:tab>
 
 					<b:tab title="Kósza">
@@ -221,20 +143,23 @@
 							<b:dataTableColumn label="Név">
 								<t:entityLink entity="#{item}" />
 							</b:dataTableColumn>
+							<b:dataTableColumn label="" rendered="#{userController.edit}"
+								orderable="false">
+								<b:commandButton iconAwesome="plus" size="xs"
+									style="margin-right:5px" ajax="true"
+									update="@(.challenge_new_modal)"
+									onclick="ajax:challengeBean.setForNewModal(item)"
+									oncomplete="$('.challenge_new_modal').modal();return false;"
+									rendered="#{not item.hasEveryChallenge() and userController.edit}" />
+							</b:dataTableColumn>
 							<b:dataTableColumn label="1. év (nyakkendő)">
 								<div>
 									<b:commandButton iconAwesome="pencil" size="xs"
 										style="margin-right:5px" ajax="true"
-										update="@(.edit_ko_challenge_modal)"
-										onclick="ajax:patrolChallenge.setForSelectedModal(item, item.getChallengeByType('KO1'))"
-										oncomplete="$('.edit_ko_challenge_modal').modal();return false;"
+										update="@(.challenge_edit_modal)"
+										onclick="ajax:challengeBean.setForEditModal(item.getChallengeByType('KO1'))"
+										oncomplete="$('.challenge_edit_modal').modal();return false;"
 										rendered="#{not empty item.getChallengeByType('KO1').getDetails() and userController.edit}" />
-									<b:commandButton iconAwesome="plus" size="xs"
-										style="margin-right:5px" ajax="true"
-										update="@(.new_ko_challenge_modal)"
-										onclick="ajax:patrolChallenge.setForNewModal(item, 'KO1')"
-										oncomplete="$('.new_ko_challenge_modal').modal();return false;"
-										rendered="#{empty item.getChallengeByType('KO1').getDetails() and userController.edit}" />
 									<h:outputText
 										value="#{item.getChallengeByType('KO1').getDetails()}" />
 								</div>
@@ -243,16 +168,10 @@
 								<div>
 									<b:commandButton iconAwesome="pencil" size="xs"
 										style="margin-right:5px" ajax="true"
-										update="@(.edit_ko_challenge_modal)"
-										onclick="ajax:patrolChallenge.setForSelectedModal(item, item.getChallengeByType('KO2'))"
-										oncomplete="$('.edit_ko_challenge_modal').modal();return false;"
+										update="@(.challenge_edit_modal)"
+										onclick="ajax:challengeBean.setForEditModal(item.getChallengeByType('KO2'))"
+										oncomplete="$('.challenge_edit_modal').modal();return false;"
 										rendered="#{not empty item.getChallengeByType('KO2').getDetails() and userController.edit}" />
-									<b:commandButton iconAwesome="plus" size="xs"
-										style="margin-right:5px" ajax="true"
-										update="@(.new_ko_challenge_modal)"
-										onclick="ajax:patrolChallenge.setForNewModal(item, 'KO2')"
-										oncomplete="$('.new_ko_challenge_modal').modal();return false;"
-										rendered="#{empty item.getChallengeByType('KO2').getDetails() and userController.edit}" />
 									<h:outputText
 										value="#{item.getChallengeByType('KO2').getDetails()}" />
 								</div>
@@ -261,16 +180,10 @@
 								<div>
 									<b:commandButton iconAwesome="pencil" size="xs"
 										style="margin-right:5px" ajax="true"
-										update="@(.edit_ko_challenge_modal)"
-										onclick="ajax:patrolChallenge.setForSelectedModal(item, item.getChallengeByType('KO3'))"
-										oncomplete="$('.edit_ko_challenge_modal').modal();return false;"
+										update="@(.challenge_edit_modal)"
+										onclick="ajax:challengeBean.setForEditModal(item.getChallengeByType('KO3'))"
+										oncomplete="$('.challenge_edit_modal').modal();return false;"
 										rendered="#{not empty item.getChallengeByType('KO3').getDetails() and userController.edit}" />
-									<b:commandButton iconAwesome="plus" size="xs"
-										style="margin-right:5px" ajax="true"
-										update="@(.new_ko_challenge_modal)"
-										onclick="ajax:patrolChallenge.setForNewModal(item, 'KO3')"
-										oncomplete="$('.new_ko_challenge_modal').modal();return false;"
-										rendered="#{empty item.getChallengeByType('KO3').getDetails() and userController.edit}" />
 									<h:outputText
 										value="#{item.getChallengeByType('KO3').getDetails()}" />
 								</div>
@@ -279,16 +192,10 @@
 								<div>
 									<b:commandButton iconAwesome="pencil" size="xs"
 										style="margin-right:5px" ajax="true"
-										update="@(.edit_ko_challenge_modal)"
-										onclick="ajax:patrolChallenge.setForSelectedModal(item, item.getChallengeByType('KO4'))"
-										oncomplete="$('.edit_ko_challenge_modal').modal();return false;"
+										update="@(.challenge_edit_modal)"
+										onclick="ajax:challengeBean.setForEditModal(item.getChallengeByType('KO4'))"
+										oncomplete="$('.challenge_edit_modal').modal();return false;"
 										rendered="#{not empty item.getChallengeByType('KO4').getDetails() and userController.edit}" />
-									<b:commandButton iconAwesome="plus" size="xs"
-										style="margin-right:5px" ajax="true"
-										update="@(.new_ko_challenge_modal)"
-										onclick="ajax:patrolChallenge.setForNewModal(item, 'KO4')"
-										oncomplete="$('.new_ko_challenge_modal').modal();return false;"
-										rendered="#{empty item.getChallengeByType('KO4').getDetails() and userController.edit}" />
 									<h:outputText
 										value="#{item.getChallengeByType('KO4').getDetails()}" />
 								</div>
@@ -297,48 +204,15 @@
 								<div>
 									<b:commandButton iconAwesome="pencil" size="xs"
 										style="margin-right:5px" ajax="true"
-										update="@(.edit_ko_challenge_modal)"
-										onclick="ajax:patrolChallenge.setForSelectedModal(item, item.getChallengeByType('KO'))"
-										oncomplete="$('.edit_ko_challenge_modal').modal();return false;"
+										update="@(.challenge_edit_modal)"
+										onclick="ajax:challengeBean.setForEditModal(item.getChallengeByType('KO'))"
+										oncomplete="$('.challenge_edit_modal').modal();return false;"
 										rendered="#{not empty item.getChallengeByType('KO').getDetails() and userController.edit}" />
-									<b:commandButton iconAwesome="plus" size="xs"
-										style="margin-right:5px" ajax="true"
-										update="@(.new_ko_challenge_modal)"
-										onclick="ajax:patrolChallenge.setForNewModal(item, 'KO')"
-										oncomplete="$('.new_ko_challenge_modal').modal();return false;"
-										rendered="#{empty item.getChallengeByType('KO').getDetails() and userController.edit}" />
 									<h:outputText
 										value="#{item.getChallengeByType('KO').getDetails()}" />
 								</div>
 							</b:dataTableColumn>
 						</t:dataTable>
-						<b:modal
-							title="#{patrolChallenge.selectedChallenge.type.label} próba szerkesztése"
-							styleClass="edit_ko_challenge_modal"
-							rendered="#{userController.edit}">
-							<b:panelGrid colSpans="4,8">
-								<h:outputLabel value="Dátum" />
-								<t:datepicker value="#{patrolChallenge.selectedChallenge.date}" />
-								<h:outputLabel value="Helyszín" />
-								<b:inputText value="#{patrolChallenge.selectedChallenge.place}" />
-							</b:panelGrid>
-							<t:modalFooter mode="modify"
-								action="#{patrolChallenge.saveChallenge(patrolController.moddedScout, patrolChallenge.selectedChallenge)}"
-								deleteAction="#{patrolChallenge.deleteChallenge(patrolController.moddedScout, patrolChallenge.selectedChallenge)}" />
-						</b:modal>
-						<b:modal
-							title="Új #{patrolChallenge.newChallenge.type.label} próba"
-							styleClass="new_ko_challenge_modal"
-							rendered="#{userController.edit}">
-							<b:panelGrid colSpans="4,8">
-								<h:outputLabel value="Dátum" />
-								<t:datepicker value="#{patrolChallenge.newChallenge.date}" />
-								<h:outputLabel value="Helyszín" />
-								<b:inputText value="#{patrolChallenge.newChallenge.place}" />
-							</b:panelGrid>
-							<t:modalFooter mode="create"
-								action="#{patrolChallenge.saveChallenge(patrolController.moddedScout, patrolChallenge.newChallenge)}" />
-						</b:modal>
 					</b:tab>
 
 					<b:tab title="Vándor">
@@ -346,20 +220,23 @@
 							<b:dataTableColumn label="Név">
 								<t:entityLink entity="#{item}" />
 							</b:dataTableColumn>
+							<b:dataTableColumn label="" rendered="#{userController.edit}"
+								orderable="false">
+								<b:commandButton iconAwesome="plus" size="xs"
+									style="margin-right:5px" ajax="true"
+									update="@(.challenge_new_modal)"
+									onclick="ajax:challengeBean.setForNewModal(item)"
+									oncomplete="$('.challenge_new_modal').modal();return false;"
+									rendered="#{not item.hasEveryChallenge() and userController.edit}" />
+							</b:dataTableColumn>
 							<b:dataTableColumn label="1. év (nyakkendő)">
 								<div>
 									<b:commandButton iconAwesome="pencil" size="xs"
 										style="margin-right:5px" ajax="true"
-										update="@(.edit_va_challenge_modal)"
-										onclick="ajax:patrolChallenge.setForSelectedModal(item, item.getChallengeByType('VA1'))"
-										oncomplete="$('.edit_va_challenge_modal').modal();return false;"
+										update="@(.challenge_edit_modal)"
+										onclick="ajax:challengeBean.setForEditModal(item.getChallengeByType('VA1'))"
+										oncomplete="$('.challenge_edit_modal').modal();return false;"
 										rendered="#{not empty item.getChallengeByType('VA1').getDetails() and userController.edit}" />
-									<b:commandButton iconAwesome="plus" size="xs"
-										style="margin-right:5px" ajax="true"
-										update="@(.new_va_challenge_modal)"
-										onclick="ajax:patrolChallenge.setForNewModal(item, 'VA1')"
-										oncomplete="$('.new_va_challenge_modal').modal();return false;"
-										rendered="#{empty item.getChallengeByType('VA1').getDetails() and userController.edit}" />
 									<h:outputText
 										value="#{item.getChallengeByType('VA1').getDetails()}" />
 								</div>
@@ -368,16 +245,10 @@
 								<div>
 									<b:commandButton iconAwesome="pencil" size="xs"
 										style="margin-right:5px" ajax="true"
-										update="@(.edit_va_challenge_modal)"
-										onclick="ajax:patrolChallenge.setForSelectedModal(item, item.getChallengeByType('VA2'))"
-										oncomplete="$('.edit_va_challenge_modal').modal();return false;"
+										update="@(.challenge_edit_modal)"
+										onclick="ajax:challengeBean.setForEditModal(item.getChallengeByType('VA2'))"
+										oncomplete="$('.challenge_edit_modal').modal();return false;"
 										rendered="#{not empty item.getChallengeByType('VA2').getDetails() and userController.edit}" />
-									<b:commandButton iconAwesome="plus" size="xs"
-										style="margin-right:5px" ajax="true"
-										update="@(.new_va_challenge_modal)"
-										onclick="ajax:patrolChallenge.setForNewModal(item, 'VA2')"
-										oncomplete="$('.new_va_challenge_modal').modal();return false;"
-										rendered="#{empty item.getChallengeByType('VA2').getDetails() and userController.edit}" />
 									<h:outputText
 										value="#{item.getChallengeByType('VA2').getDetails()}" />
 								</div>
@@ -386,16 +257,10 @@
 								<div>
 									<b:commandButton iconAwesome="pencil" size="xs"
 										style="margin-right:5px" ajax="true"
-										update="@(.edit_va_challenge_modal)"
-										onclick="ajax:patrolChallenge.setForSelectedModal(item, item.getChallengeByType('VA3'))"
-										oncomplete="$('.edit_va_challenge_modal').modal();return false;"
+										update="@(.challenge_edit_modal)"
+										onclick="ajax:challengeBean.setForEditModal(item.getChallengeByType('VA3'))"
+										oncomplete="$('.challenge_edit_modal').modal();return false;"
 										rendered="#{not empty item.getChallengeByType('VA3').getDetails() and userController.edit}" />
-									<b:commandButton iconAwesome="plus" size="xs"
-										style="margin-right:5px" ajax="true"
-										update="@(.new_va_challenge_modal)"
-										onclick="ajax:patrolChallenge.setForNewModal(item, 'VA3')"
-										oncomplete="$('.new_va_challenge_modal').modal();return false;"
-										rendered="#{empty item.getChallengeByType('VA3').getDetails() and userController.edit}" />
 									<h:outputText
 										value="#{item.getChallengeByType('VA3').getDetails()}" />
 								</div>
@@ -404,16 +269,10 @@
 								<div>
 									<b:commandButton iconAwesome="pencil" size="xs"
 										style="margin-right:5px" ajax="true"
-										update="@(.edit_va_challenge_modal)"
-										onclick="ajax:patrolChallenge.setForSelectedModal(item, item.getChallengeByType('VA4'))"
-										oncomplete="$('.edit_va_challenge_modal').modal();return false;"
+										update="@(.challenge_edit_modal)"
+										onclick="ajax:challengeBean.setForEditModal(item.getChallengeByType('VA4'))"
+										oncomplete="$('.challenge_edit_modal').modal();return false;"
 										rendered="#{not empty item.getChallengeByType('VA4').getDetails() and userController.edit}" />
-									<b:commandButton iconAwesome="plus" size="xs"
-										style="margin-right:5px" ajax="true"
-										update="@(.new_va_challenge_modal)"
-										onclick="ajax:patrolChallenge.setForNewModal(item, 'VA4')"
-										oncomplete="$('.new_va_challenge_modal').modal();return false;"
-										rendered="#{empty item.getChallengeByType('VA4').getDetails() and userController.edit}" />
 									<h:outputText
 										value="#{item.getChallengeByType('VA4').getDetails()}" />
 								</div>
@@ -422,51 +281,21 @@
 								<div>
 									<b:commandButton iconAwesome="pencil" size="xs"
 										style="margin-right:5px" ajax="true"
-										update="@(.edit_va_challenge_modal)"
-										onclick="ajax:patrolChallenge.setForSelectedModal(item, item.getChallengeByType('VAV'))"
-										oncomplete="$('.edit_va_challenge_modal').modal();return false;"
+										update="@(.challenge_edit_modal)"
+										onclick="ajax:challengeBean.setForEditModal(item.getChallengeByType('VAV'))"
+										oncomplete="$('.challenge_edit_modal').modal();return false;"
 										rendered="#{not empty item.getChallengeByType('VAV').getDetails() and userController.edit}" />
-									<b:commandButton iconAwesome="plus" size="xs"
-										style="margin-right:5px" ajax="true"
-										update="@(.new_va_challenge_modal)"
-										onclick="ajax:patrolChallenge.setForNewModal(item, 'VAV')"
-										oncomplete="$('.new_va_challenge_modal').modal();return false;"
-										rendered="#{empty item.getChallengeByType('VAV').getDetails() and userController.edit}" />
 									<h:outputText
 										value="#{item.getChallengeByType('VAV').getDetails()}" />
 								</div>
 							</b:dataTableColumn>
 						</t:dataTable>
-						<b:modal
-							title="#{patrolChallenge.selectedChallenge.type.label} próba szerkesztése"
-							styleClass="edit_va_challenge_modal"
-							rendered="#{userController.edit}">
-							<b:panelGrid colSpans="4,8">
-								<h:outputLabel value="Dátum" />
-								<t:datepicker value="#{patrolChallenge.selectedChallenge.date}" />
-								<h:outputLabel value="Helyszín" />
-								<b:inputText value="#{patrolChallenge.selectedChallenge.place}" />
-							</b:panelGrid>
-							<t:modalFooter mode="modify"
-								action="#{patrolChallenge.saveChallenge(patrolController.moddedScout, patrolChallenge.selectedChallenge)}"
-								deleteAction="#{patrolChallenge.deleteChallenge(patrolController.moddedScout, patrolChallenge.selectedChallenge)}" />
-						</b:modal>
-						<b:modal
-							title="Új #{patrolChallenge.newChallenge.type.label} próba"
-							styleClass="new_va_challenge_modal"
-							rendered="#{userController.edit}">
-							<b:panelGrid colSpans="4,8">
-								<h:outputLabel value="Dátum" />
-								<t:datepicker value="#{patrolChallenge.newChallenge.date}" />
-								<h:outputLabel value="Helyszín" />
-								<b:inputText value="#{patrolChallenge.newChallenge.place}" />
-							</b:panelGrid>
-							<t:modalFooter mode="create"
-								action="#{patrolChallenge.saveChallenge(patrolController.moddedScout, patrolChallenge.newChallenge)}" />
-						</b:modal>
 					</b:tab>
 
 				</b:tabView>
+
+				<t:challengeNewModal updater="#{patrolController.loader}" />
+				<t:challengeEditModal updater="#{patrolController.loader}" />
 
 			</b:form>
 

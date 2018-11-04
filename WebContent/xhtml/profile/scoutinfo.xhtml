@@ -130,9 +130,9 @@
 					<b:row styleClass="pulledRow">
 						<h:outputText value="Próbák" styleClass="subTitle" />
 						<b:commandButton value="Új" iconAwesome="plus" size="md"
-							ajax="true" update="@(.new_challenge_modal)"
-							onclick="ajax:profileScout.setForNewChallengeModal(profileController.scout)"
-							oncomplete="$('.new_challenge_modal').modal();return false;"
+							ajax="true" update="@(.challenge_new_modal)"
+							onclick="ajax:challengeBean.setForNewModal(profileController.scout)"
+							oncomplete="$('.challenge_new_modal').modal();return false;"
 							rendered="#{userController.edit}" />
 					</b:row>
 					<t:table>
@@ -142,43 +142,17 @@
 									style="padding-left:20px;" />
 								<b:commandButton iconAwesome="pencil" size="xs"
 									style="margin-left:5px" ajax="true"
-									update="@(.edit_challenge_modal)"
-									onclick="ajax:profileScout.setForEditChallengeModal(item)"
-									oncomplete="$('.edit_challenge_modal').modal();return false;"
+									update="@(.challenge_edit_modal)"
+									onclick="ajax:challengeBean.setForEditModal(item)"
+									oncomplete="$('.challenge_edit_modal').modal();return false;"
 									rendered="#{userController.edit}" />
 							</t:row>
 						</ui:repeat>
 					</t:table>
 
-					<b:modal
-						title="#{profileScout.selectedChallenge.type.label} próba szerkesztése"
-						styleClass="edit_challenge_modal"
-						rendered="#{userController.edit}">
-						<b:panelGrid colSpans="4,8">
-							<h:outputLabel value="Dátum" />
-							<t:datepicker value="#{profileScout.selectedChallenge.date}" />
-							<h:outputLabel value="Helyszín" />
-							<b:inputText value="#{profileScout.selectedChallenge.place}" />
-						</b:panelGrid>
-						<t:modalFooter mode="modify"
-							action="#{profileScout.saveChallenge(profileScout.selectedChallenge)}"
-							deleteAction="#{profileScout.deleteChallenge(profileScout.selectedChallenge)}" />
-					</b:modal>
+					<t:challengeEditModal updater="#{profileScout.loader}" />
+					<t:challengeNewModal updater="#{profileScout.loader}" />
 
-					<b:modal title="Új próba" styleClass="new_challenge_modal"
-						rendered="#{userController.edit}">
-						<b:panelGrid colSpans="4,8">
-							<h:outputLabel value="Típus" />
-							<t:dropdown list="#{enums.challenges}"
-								value="#{profileScout.newChallenge.type}" />
-							<h:outputLabel value="Dátum" />
-							<t:datepicker value="#{profileScout.newChallenge.date}" />
-							<h:outputLabel value="Helyszín" />
-							<b:inputText value="#{profileScout.newChallenge.place}" />
-						</b:panelGrid>
-						<t:modalFooter mode="create"
-							action="#{profileScout.saveChallenge(profileScout.newChallenge)}" />
-					</b:modal>
 				</b:panelGrid>
 			</b:form>
 

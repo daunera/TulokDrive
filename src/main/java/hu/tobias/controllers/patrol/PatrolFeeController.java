@@ -102,14 +102,12 @@ public class PatrolFeeController implements Serializable {
 	}
 
 	public boolean setForSelectedModal(Fee f) {
-		patrolController.setModdedScout(f.getScout());
 		selectedFee = f;
 
 		return true;
 	}
 
 	public boolean setForNewModal(Scout s, Integer y) {
-		patrolController.setModdedScout(s);
 		newFee = new Fee(s, y);
 		newFee.setAmount(feeTypeService.findActualTeamFee().getAmount());
 		newFee.setStatus(FeeStatusType.OV);

@@ -15,9 +15,9 @@
 		<ui:define name="innerContent">
 
 			<b:form>
-				<t:pageHeader title="Személyes adatok" saveBean="#{patrolPersonal}"
-					saveMethod="saveEdit" undoBean="#{patrolController}"
-					undoMethod="undoEdit" />
+				<t:pageHeader title="Személyes adatok"
+					saveBean="#{patrolController}" saveMethod="savePersonalEdit"
+					undoBean="#{patrolController}" undoMethod="undoEdit" />
 
 				<b:tabView pills="true">
 					<b:tab title="Név és születés">
@@ -61,7 +61,7 @@
 										value="#{item.person.address.getFullAddressWithPhone()}" />
 									<b:commandButton iconAwesome="pencil" ajax="true"
 										update="@(.address_modal)"
-										onclick="ajax:patrolPersonal.setForModal(item)"
+										onclick="ajax:addressBean.setForModal(item)"
 										oncomplete="$('.address_modal').modal();return false;" />
 								</b:panelGrid>
 								<h:outputText rendered="#{not userController.edit}"

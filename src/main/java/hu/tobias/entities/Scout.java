@@ -249,6 +249,14 @@ public class Scout implements Serializable {
 		return null;
 	}
 
+	public boolean hasEveryChallenge() {
+		for (ChallengeType ct : ChallengeType.values()) {
+			if (getChallengeByType(ct.toString()) == null)
+				return false;
+		}
+		return true;
+	}
+
 	public Fee getFeeByYear(Integer year) {
 		for (Fee f : fees) {
 			if (f.getYear().equals(year))

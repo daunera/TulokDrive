@@ -18,8 +18,6 @@ import hu.tobias.entities.Scout;
 import hu.tobias.services.comparator.ChallengeComparator;
 import hu.tobias.services.comparator.PromiseComparator;
 import hu.tobias.services.comparator.QualificationComparator;
-import hu.tobias.services.dao.ChallengeDao;
-import hu.tobias.services.dao.PromiseDao;
 import hu.tobias.services.dao.QualificationDao;
 import hu.tobias.services.dao.ScoutDao;
 
@@ -28,29 +26,22 @@ import hu.tobias.services.dao.ScoutDao;
 public class ProfileScoutController implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@EJB
 	private ScoutDao scoutService;
-	@EJB
-	private PromiseDao promiseService;
-	@EJB
-	private ChallengeDao challengeService;
 	@EJB
 	private QualificationDao qualificationService;
 
 	@Inject
 	private ProfileController profileController;
 
-	private Challenge newChallenge = new Challenge();
-	private Qualification newQualification = new Qualification();
-
 	private List<Promise> promiseList;
 	private List<Challenge> challengeList;
 	private List<Qualification> qualificationList;
 
-	private Challenge selectedChallenge = new Challenge();
+	private Qualification newQualification = new Qualification();
 	private Qualification selectedQualification = new Qualification();
-	
+
 	private Runnable loader = new Runnable() {
 
 		@Override
@@ -67,7 +58,7 @@ public class ProfileScoutController implements Serializable {
 	public void init() {
 		loadData();
 	}
-	
+
 	public void loadData() {
 		loadPromises();
 		loadChallenges();
@@ -95,14 +86,6 @@ public class ProfileScoutController implements Serializable {
 
 	public void setProfileController(ProfileController profileController) {
 		this.profileController = profileController;
-	}
-
-	public Challenge getNewChallenge() {
-		return newChallenge;
-	}
-
-	public void setNewChallenge(Challenge newChallenge) {
-		this.newChallenge = newChallenge;
 	}
 
 	public Qualification getNewQualification() {
@@ -137,14 +120,6 @@ public class ProfileScoutController implements Serializable {
 		this.qualificationList = qualificationList;
 	}
 
-	public Challenge getSelectedChallenge() {
-		return selectedChallenge;
-	}
-
-	public void setSelectedChallenge(Challenge selectedChallenge) {
-		this.selectedChallenge = selectedChallenge;
-	}
-
 	public Qualification getSelectedQualification() {
 		return selectedQualification;
 	}
@@ -164,37 +139,6 @@ public class ProfileScoutController implements Serializable {
 	public void saveEdit() {
 		scoutService.update(profileController.getScout());
 		profileController.getUserController().changeEdit();
-	}
-
-	public boolean setForNewChallengeModal(Scout s) {
-		newChallenge = new Challenge(s);
-		return true;
-	}
-
-	public boolean setForEditChallengeModal(Challenge c) {
-		selectedChallenge = c;
-		return true;
-	}
-
-	public void deleteChallenge(Challenge c) {
-		challengeList.remove(c);
-		scoutService.update(c.getScout());
-		challengeService.delete(c);
-
-		profileController.loadData();
-		loadChallenges();
-	}
-
-	public void saveChallenge(Challenge c) {
-		if (c.getId() == null) {
-			challengeService.create(c);
-			challengeList.add(c);
-			scoutService.update(c.getScout());
-		} else
-			challengeService.update(c);
-
-		profileController.loadData();
-		loadChallenges();
 	}
 
 	public boolean setForNewQualificationModal(Scout s) {

@@ -54,7 +54,6 @@ public class PromiseBean implements Serializable {
 	public void savePromise(Promise p, Runnable function) {
 		if (p.getId() == null) {
 			promiseService.create(p);
-			scoutService.update(p.getScout());
 		} else
 			promiseService.update(p);
 		function.run();

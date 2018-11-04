@@ -21,6 +21,7 @@ import hu.tobias.entities.Scout;
 import hu.tobias.entities.enums.TabName;
 import hu.tobias.entities.exceptions.NotFoundEntityException;
 import hu.tobias.services.dao.PatrolDao;
+import hu.tobias.services.dao.PersonDao;
 import hu.tobias.services.dao.ScoutDao;
 
 @Named(value = "patrolController")
@@ -33,6 +34,8 @@ public class PatrolController implements Serializable {
 	private PatrolDao patrolService;
 	@EJB
 	private ScoutDao scoutService;
+	@EJB
+	private PersonDao personService;
 
 	@Inject
 	private UserController userController;
@@ -50,8 +53,6 @@ public class PatrolController implements Serializable {
 
 	private Patrol patrol = new Patrol();
 	private int patrolid;
-
-	private Scout moddedScout = new Scout();
 
 	public PatrolController() {
 	}
@@ -109,14 +110,6 @@ public class PatrolController implements Serializable {
 		this.patrolid = patrolid;
 	}
 
-	public Scout getModdedScout() {
-		return moddedScout;
-	}
-
-	public void setModdedScout(Scout moddedScout) {
-		this.moddedScout = moddedScout;
-	}
-
 	public void undoEdit() {
 		userController.changeEdit();
 		loadData();
@@ -129,6 +122,17 @@ public class PatrolController implements Serializable {
 		for (Leader l : patrol.getLeaders()) {
 			scoutService.update(l.getScout());
 		}
+		userController.changeEdit();
+	}
+	
+	public void savePersonalEdit() {
+		for (Scout s : patrol.getScouts()) {
+			personService.update(s.getPerson());
+		}
+		for (Leader l : patrol.getLeaders()) {
+			personService.update(l.getScout().getPerson());
+		}
+		userController.reloadUser();
 		userController.changeEdit();
 	}
 

@@ -273,8 +273,8 @@
 		</attribute>
 	</tag>
 	<tag>
-		<tag-name>promiseModal</tag-name>
-		<source>tags/modals/promiseModal.xhtml</source>
+		<tag-name>promiseEditModal</tag-name>
+		<source>tags/modals/promiseEditModal.xhtml</source>
 		<attribute>
 			<name>edit</name>
 		</attribute>
@@ -282,10 +282,20 @@
 			<name>styleClass</name>
 		</attribute>
 		<attribute>
-			<name>action</name>
+			<name>updater</name>
+		</attribute>
+	</tag>
+	<tag>
+		<tag-name>promiseNewModal</tag-name>
+		<source>tags/modals/promiseNewModal.xhtml</source>
+		<attribute>
+			<name>edit</name>
 		</attribute>
 		<attribute>
-			<name>deleteAction</name>
+			<name>styleClass</name>
+		</attribute>
+		<attribute>
+			<name>updater</name>
 		</attribute>
 	</tag>
 

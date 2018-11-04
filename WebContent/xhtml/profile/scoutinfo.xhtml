@@ -43,9 +43,9 @@
 					<b:row styleClass="pulledRow">
 						<h:outputText value="Fogadalmak" styleClass="subTitle" />
 						<b:commandButton value="Új" iconAwesome="plus" size="md"
-							ajax="true" update="@(.promise_modal)"
+							ajax="true" update="@(.promise_new_modal)"
 							onclick="ajax:promiseBean.setForNewModal(profileController.scout)"
-							oncomplete="$('.promise_modal').modal();return false;"
+							oncomplete="$('.promise_new_modal').modal();return false;"
 							rendered="#{userController.edit}" />
 					</b:row>
 					<t:table>
@@ -54,14 +54,17 @@
 								<h:outputText value="#{item.getFullInfo()}"
 									style="padding-left:20px;" />
 								<b:commandButton iconAwesome="pencil" size="xs"
-									style="margin-left:5px" ajax="true" update="@(.promise_modal)"
+									style="margin-left:5px" ajax="true"
+									update="@(.promise_edit_modal)"
 									onclick="ajax:promiseBean.setForEditModal(item)"
-									oncomplete="$('.promise_modal').modal();return false;"
+									oncomplete="$('.promise_edit_modal').modal();return false;"
 									rendered="#{userController.edit}" />
 							</t:row>
 						</ui:repeat>
 					</t:table>
-					<t:promiseModal />
+
+					<t:promiseEditModal updater="#{profileScout.loader}" />
+					<t:promiseNewModal updater="#{profileScout.loader}" />
 
 					<br />
 					<b:row styleClass="pulledRow">

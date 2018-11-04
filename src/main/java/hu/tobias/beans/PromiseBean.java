@@ -1,7 +1,6 @@
 package hu.tobias.beans;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
@@ -15,44 +14,55 @@ import hu.tobias.services.dao.ScoutDao;
 @Named(value = "promiseBean")
 @ViewScoped
 public class PromiseBean implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	@EJB
 	private ScoutDao scoutService;
 	@EJB
 	private PromiseDao promiseService;
-	
-	//private List<Promise> promiseList; //TODO promiseplace list
+
 	private Promise selectedPromise = new Promise();
-	
+	private Promise newPromise = new Promise();
+
 	public Promise getSelectedPromise() {
 		return selectedPromise;
 	}
+
 	public void setSelectedPromise(Promise selectedPromise) {
 		this.selectedPromise = selectedPromise;
 	}
-	
+
+	public Promise getNewPromise() {
+		return newPromise;
+	}
+
+	public void setNewPromise(Promise newPromise) {
+		this.newPromise = newPromise;
+	}
+
 	public boolean setForEditModal(Promise p) {
 		selectedPromise = p;
 		return true;
 	}
-	
+
 	public boolean setForNewModal(Scout s) {
-		selectedPromise = new Promise(s);
+		newPromise = new Promise(s);
 		return true;
 	}
-	
-	public void savePromise(Promise p) {
+
+	public void savePromise(Promise p, Runnable function) {
 		if (p.getId() == null) {
 			promiseService.create(p);
 			scoutService.update(p.getScout());
 		} else
 			promiseService.update(p);
+		function.run();
 	}
-	
-	public void deletePromise(Promise p) {
+
+	public void deletePromise(Promise p, Runnable function) {
 		promiseService.delete(p);
+		function.run();
 	}
 
 }

@@ -232,6 +232,14 @@ public class Scout implements Serializable {
 		return null;
 	}
 
+	public boolean hasEveryPromise() {
+		for (PromiseType pt : PromiseType.values()) {
+			if (getPromiseByType(pt.toString()) == null)
+				return false;
+		}
+		return true;
+	}
+
 	public Challenge getChallengeByType(String type) {
 		ChallengeType challengeType = ChallengeType.valueOf(type);
 		for (Challenge c : challenges) {

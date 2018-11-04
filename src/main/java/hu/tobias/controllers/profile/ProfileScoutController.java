@@ -11,7 +11,6 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import hu.tobias.beans.PromiseBean;
 import hu.tobias.entities.Challenge;
 import hu.tobias.entities.Promise;
 import hu.tobias.entities.Qualification;
@@ -41,8 +40,6 @@ public class ProfileScoutController implements Serializable {
 
 	@Inject
 	private ProfileController profileController;
-	@Inject
-	private PromiseBean promiseBean;
 
 	private Challenge newChallenge = new Challenge();
 	private Qualification newQualification = new Qualification();
@@ -53,12 +50,25 @@ public class ProfileScoutController implements Serializable {
 
 	private Challenge selectedChallenge = new Challenge();
 	private Qualification selectedQualification = new Qualification();
+	
+	private Runnable loader = new Runnable() {
+
+		@Override
+		public void run() {
+			profileController.loadData();
+			loadData();
+		}
+	};
 
 	public ProfileScoutController() {
 	}
 
 	@PostConstruct
 	public void init() {
+		loadData();
+	}
+	
+	public void loadData() {
 		loadPromises();
 		loadChallenges();
 		loadQualifications();
@@ -143,26 +153,17 @@ public class ProfileScoutController implements Serializable {
 		this.selectedQualification = selectedQualification;
 	}
 
+	public Runnable getLoader() {
+		return loader;
+	}
+
+	public void setLoader(Runnable loader) {
+		this.loader = loader;
+	}
+
 	public void saveEdit() {
 		scoutService.update(profileController.getScout());
 		profileController.getUserController().changeEdit();
-	}
-
-	public void deletePromise(Promise p) {
-		promiseList.remove(p);
-		promiseBean.deletePromise(p);
-
-		profileController.loadData();
-		loadPromises();
-	}
-
-	public void savePromise(Promise p) {
-		if (p.getId() == null)
-			promiseList.add(p);
-		promiseBean.savePromise(p);
-
-		profileController.loadData();
-		loadPromises();
 	}
 
 	public boolean setForNewChallengeModal(Scout s) {

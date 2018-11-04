@@ -22,20 +22,23 @@
 					<b:dataTableColumn label="Név">
 						<t:entityLink entity="#{item}" />
 					</b:dataTableColumn>
+					<b:dataTableColumn label="" rendered="#{userController.edit}"
+						orderable="false">
+						<b:commandButton iconAwesome="plus" size="xs"
+							style="margin-right:5px" ajax="true"
+							update="@(.promise_new_modal)"
+							onclick="ajax:promiseBean.setForNewModal(item)"
+							oncomplete="$('.promise_new_modal').modal();return false;"
+							rendered="#{not item.hasEveryPromise() and userController.edit}" />
+					</b:dataTableColumn>
 					<b:dataTableColumn label="Kiscserkész ígéret">
 						<div>
 							<b:commandButton iconAwesome="pencil" size="xs"
 								style="margin-right:5px" ajax="true"
-								update="@(.edit_promise_modal)"
-								onclick="ajax:patrolPromise.setForSelectedModal(item, item.getPromiseByType('KCS'))"
-								oncomplete="$('.edit_promise_modal').modal();return false;"
+								update="@(.promise_edit_modal)"
+								onclick="ajax:promiseBean.setForEditModal(item.getPromiseByType('KCS'))"
+								oncomplete="$('.promise_edit_modal').modal();return false;"
 								rendered="#{not empty item.getPromiseByType('KCS').getDetails() and userController.edit}" />
-							<b:commandButton iconAwesome="plus" size="xs"
-								style="margin-right:5px" ajax="true"
-								update="@(.new_promise_modal)"
-								onclick="ajax:patrolPromise.setForNewModal(item, 'KCS')"
-								oncomplete="$('.new_promise_modal').modal();return false;"
-								rendered="#{empty item.getPromiseByType('KCS').getDetails() and userController.edit}" />
 							<h:outputText
 								value="#{item.getPromiseByType('KCS').getDetails()}" />
 						</div>
@@ -44,16 +47,10 @@
 						<div>
 							<b:commandButton iconAwesome="pencil" size="xs"
 								style="margin-right:5px" ajax="true"
-								update="@(.edit_promise_modal)"
-								onclick="ajax:patrolPromise.setForSelectedModal(item, item.getPromiseByType('CS'))"
-								oncomplete="$('.edit_promise_modal').modal();return false;"
+								update="@(.promise_edit_modal)"
+								onclick="ajax:promiseBean.setForEditModal(item.getPromiseByType('CS'))"
+								oncomplete="$('.promise_edit_modal').modal();return false;"
 								rendered="#{not empty item.getPromiseByType('CS').getDetails() and userController.edit}" />
-							<b:commandButton iconAwesome="plus" size="xs"
-								style="margin-right:5px" ajax="true"
-								update="@(.new_promise_modal)"
-								onclick="ajax:patrolPromise.setForNewModal(item, 'CS')"
-								oncomplete="$('.new_promise_modal').modal();return false;"
-								rendered="#{empty item.getPromiseByType('CS').getDetails() and userController.edit}" />
 							<h:outputText value="#{item.getPromiseByType('CS').getDetails()}" />
 						</div>
 					</b:dataTableColumn>
@@ -61,16 +58,10 @@
 						<div>
 							<b:commandButton iconAwesome="pencil" size="xs"
 								style="margin-right:5px" ajax="true"
-								update="@(.edit_promise_modal)"
-								onclick="ajax:patrolPromise.setForSelectedModal(item, item.getPromiseByType('FE'))"
-								oncomplete="$('.edit_promise_modal').modal();return false;"
+								update="@(.promise_edit_modal)"
+								onclick="ajax:promiseBean.setForEditModal(item.getPromiseByType('FE'))"
+								oncomplete="$('.promise_edit_modal').modal();return false;"
 								rendered="#{not empty item.getPromiseByType('FE').getDetails() and userController.edit}" />
-							<b:commandButton iconAwesome="plus" size="xs"
-								style="margin-right:5px" ajax="true"
-								update="@(.new_promise_modal)"
-								onclick="ajax:patrolPromise.setForNewModal(item, 'FE')"
-								oncomplete="$('.new_promise_modal').modal();return false;"
-								rendered="#{empty item.getPromiseByType('FE').getDetails() and userController.edit}" />
 							<h:outputText value="#{item.getPromiseByType('FE').getDetails()}" />
 						</div>
 					</b:dataTableColumn>
@@ -78,46 +69,19 @@
 						<div>
 							<b:commandButton iconAwesome="pencil" size="xs"
 								style="margin-right:5px" ajax="true"
-								update="@(.edit_promise_modal)"
-								onclick="ajax:patrolPromise.setForSelectedModal(item, item.getPromiseByType('TISZTI'))"
-								oncomplete="$('.edit_promise_modal').modal();return false;"
+								update="@(.promise_edit_modal)"
+								onclick="ajax:promiseBean.setForEditModal(item.getPromiseByType('TISZTI'))"
+								oncomplete="$('.promise_edit_modal').modal();return false;"
 								rendered="#{not empty item.getPromiseByType('TISZTI').getDetails() and userController.edit}" />
-							<b:commandButton iconAwesome="plus" size="xs"
-								style="margin-right:5px" ajax="true"
-								update="@(.new_promise_modal)"
-								onclick="ajax:patrolPromise.setForNewModal(item, 'TISZTI')"
-								oncomplete="$('.new_promise_modal').modal();return false;"
-								rendered="#{empty item.getPromiseByType('TISZTI').getDetails() and userController.edit}" />
 							<h:outputText
 								value="#{item.getPromiseByType('TISZTI').getDetails()}" />
 						</div>
 					</b:dataTableColumn>
 				</t:dataTable>
 
-				<b:modal
-					title="#{patrolPromise.selectedPromise.type.label} szerkesztése"
-					styleClass="edit_promise_modal" rendered="#{userController.edit}">
-					<b:panelGrid colSpans="4,8">
-						<h:outputLabel value="Dátum" />
-						<t:datepicker value="#{patrolPromise.selectedPromise.date}" />
-						<h:outputLabel value="Helyszín" />
-						<b:inputText value="#{patrolPromise.selectedPromise.place}" />
-					</b:panelGrid>
-					<t:modalFooter mode="modify"
-						action="#{patrolPromise.savePromise(patrolController.moddedScout, patrolPromise.selectedPromise)}"
-						deleteAction="#{patrolPromise.deletePromise(patrolController.moddedScout, patrolPromise.selectedPromise)}" />
-				</b:modal>
-				<b:modal title="Új #{patrolPromise.newPromise.type.label}"
-					styleClass="new_promise_modal" rendered="#{userController.edit}">
-					<b:panelGrid colSpans="4,8">
-						<h:outputLabel value="Dátum" />
-						<t:datepicker value="#{patrolPromise.newPromise.date}" />
-						<h:outputLabel value="Helyszín" />
-						<b:inputText value="#{patrolPromise.newPromise.place}" />
-					</b:panelGrid>
-					<t:modalFooter mode="create"
-						action="#{patrolPromise.savePromise(patrolController.moddedScout, patrolPromise.newPromise)}" />
-				</b:modal>
+				<t:promiseNewModal updater="#{patrolController.loader}" />
+				<t:promiseEditModal updater="#{patrolController.loader}" />
+
 			</b:form>
 
 		</ui:define>

@@ -350,5 +350,31 @@
 			<name>updater</name>
 		</attribute>
 	</tag>
+	<tag>
+		<tag-name>feeEditModal</tag-name>
+		<source>tags/modals/feeEditModal.xhtml</source>
+		<attribute>
+			<name>edit</name>
+		</attribute>
+		<attribute>
+			<name>styleClass</name>
+		</attribute>
+		<attribute>
+			<name>updater</name>
+		</attribute>
+	</tag>
+	<tag>
+		<tag-name>feeNewModal</tag-name>
+		<source>tags/modals/feeNewModal.xhtml</source>
+		<attribute>
+			<name>edit</name>
+		</attribute>
+		<attribute>
+			<name>styleClass</name>
+		</attribute>
+		<attribute>
+			<name>updater</name>
+		</attribute>
+	</tag>
 
 </facelet-taglib>

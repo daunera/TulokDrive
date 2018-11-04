@@ -1,15 +1,13 @@
-package hu.tobias.controllers.patrol;
+package hu.tobias.beans;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
 import javax.inject.Named;
 
 import hu.tobias.entities.Fee;
@@ -19,9 +17,9 @@ import hu.tobias.services.dao.FeeDao;
 import hu.tobias.services.dao.FeeTypeTableDao;
 import hu.tobias.services.dao.ScoutDao;
 
-@Named(value = "patrolFee")
+@Named(value = "feeBean")
 @ViewScoped
-public class PatrolFeeController implements Serializable {
+public class FeeBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -32,16 +30,11 @@ public class PatrolFeeController implements Serializable {
 	@EJB
 	private FeeTypeTableDao feeTypeService;
 
-	@Inject
-	private PatrolController patrolController;
-
 	private Integer selectedYear;
 	private List<Integer> years = new ArrayList<Integer>();
 
 	private Fee selectedFee = new Fee();
 	private Fee newFee = new Fee();
-
-	private HashMap<Scout, Fee> yearFees = new HashMap<Scout, Fee>();
 
 	@PostConstruct
 	public void init() {
@@ -51,14 +44,6 @@ public class PatrolFeeController implements Serializable {
 		if (selectedYear == null) {
 			selectedYear = years.get(0);
 		}
-	}
-
-	public PatrolController getPatrolController() {
-		return patrolController;
-	}
-
-	public void setPatrolController(PatrolController patrolController) {
-		this.patrolController = patrolController;
 	}
 
 	public Integer getSelectedYear() {
@@ -93,17 +78,8 @@ public class PatrolFeeController implements Serializable {
 		this.newFee = newFee;
 	}
 
-	public HashMap<Scout, Fee> getYearFees() {
-		return yearFees;
-	}
-
-	public void setYearFees(HashMap<Scout, Fee> yearFees) {
-		this.yearFees = yearFees;
-	}
-
 	public boolean setForSelectedModal(Fee f) {
 		selectedFee = f;
-
 		return true;
 	}
 
@@ -115,30 +91,17 @@ public class PatrolFeeController implements Serializable {
 		return true;
 	}
 
-	public void saveFee(Fee f) {
+	public void saveFee(Fee f, Runnable function) {
 		if (f.getId() == null) {
 			feeService.create(f);
-			f.getScout().getFees().add(f);
-			scoutService.update(f.getScout());
 		} else
 			feeService.update(f);
-		patrolController.loadData();
+		function.run();
 	}
 
-	public void deleteFee(Fee f) {
-		for (Fee item : f.getScout().getFees()) {
-			if (item.getYear().equals(f.getYear())) {
-				f.getScout().getFees().remove(item);
-				break;
-			}
-		}
-		scoutService.update(f.getScout());
+	public void deleteFee(Fee f, Runnable function) {
 		feeService.delete(f);
-		patrolController.loadData();
-	}
-
-	public void changeEdit() {
-		patrolController.getUserController().changeEdit();
+		function.run();
 	}
 
 }

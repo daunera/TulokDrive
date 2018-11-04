@@ -2,6 +2,7 @@ package hu.tobias.controllers.troop;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -13,8 +14,6 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.RequestDispatcher;
-
-import org.apache.commons.lang3.StringUtils;
 
 import hu.tobias.controllers.Permission;
 import hu.tobias.controllers.UserController;
@@ -32,34 +31,31 @@ import hu.tobias.services.dao.TroopDao;
 @Named(value = "troopController")
 @ViewScoped
 public class TroopController implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	@EJB
 	private TroopDao troopService;
 	@EJB
 	private PatrolDao patrolService;
 	@EJB
 	private ScoutDao scoutService;
-	
+
 	@Inject
 	private UserController userController;
-	
+
 	@Inject
 	private Permission permission;
-	
+
 	private Troop troop = new Troop();
 	private int troopid;
 
 	private List<Patrol> patrolList;
-	private Patrol moddedPatrol = new Patrol();
-	
 	private List<Scout> scoutList;
-	private Scout moddedScout = new Scout();
-	
+
 	public TroopController() {
 	}
-	
+
 	@PostConstruct
 	public void init() {
 	}
@@ -74,9 +70,9 @@ public class TroopController implements Serializable {
 
 		patrolList = new ArrayList<Patrol>(troop.getPatrols());
 		Collections.sort(patrolList, new PatrolNameComparator());
-		
+
 		scoutList = new ArrayList<Scout>();
-		for(Patrol p : patrolList) {
+		for (Patrol p : patrolList) {
 			scoutList.addAll(p.getScouts());
 		}
 		Collections.sort(scoutList, new ScoutNameComparator());
@@ -122,14 +118,6 @@ public class TroopController implements Serializable {
 		this.patrolList = patrolList;
 	}
 
-	public Patrol getModdedPatrol() {
-		return moddedPatrol;
-	}
-
-	public void setModdedPatrol(Patrol moddedPatrol) {
-		this.moddedPatrol = moddedPatrol;
-	}
-
 	public List<Scout> getScoutList() {
 		return scoutList;
 	}
@@ -138,14 +126,6 @@ public class TroopController implements Serializable {
 		this.scoutList = scoutList;
 	}
 
-	public Scout getModdedScout() {
-		return moddedScout;
-	}
-
-	public void setModdedScout(Scout moddedScout) {
-		this.moddedScout = moddedScout;
-	}
-	
 	public void undoEdit() {
 		userController.changeEdit();
 		loadData();
@@ -153,14 +133,14 @@ public class TroopController implements Serializable {
 
 	public boolean isThisActiveTab(String tabName) {
 		TabName tabParam = TabName.valueOf(tabName);
-		
+
 		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 		String path = (String) externalContext.getRequestMap().get(RequestDispatcher.FORWARD_REQUEST_URI);
-		String[] pathArray = path.split("/");
+		List<String> pathArray = Arrays.asList((path.split("/")));
 
-		if (StringUtils.isNumeric(pathArray[pathArray.length-1]) && tabParam == TabName.INFO) {
+		if (pathArray.contains(tabParam.getLabel())) {
 			return true;
-		} else if (tabParam.getLabel().equals(pathArray[pathArray.length-1]))
+		} else if (pathArray.get(pathArray.size() - 2).equals("troop") && tabParam.equals(TabName.INFO))
 			return true;
 
 		return false;

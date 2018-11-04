@@ -1,6 +1,8 @@
 package hu.tobias.controllers.team;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.context.ExternalContext;
@@ -17,7 +19,7 @@ import hu.tobias.entities.enums.TabName;
 @Named(value = "teamController")
 @ViewScoped
 public class TeamController implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	@Inject
@@ -36,7 +38,7 @@ public class TeamController implements Serializable {
 	public void loadData() {
 		permission.checkTeamPermission();
 	}
-	
+
 	public UserController getUserController() {
 		return userController;
 	}
@@ -55,15 +57,16 @@ public class TeamController implements Serializable {
 
 	public boolean isThisActiveTab(String tabName) {
 		TabName tabParam = TabName.valueOf(tabName);
-		
+
 		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 		String path = (String) externalContext.getRequestMap().get(RequestDispatcher.FORWARD_REQUEST_URI);
-		String[] pathArray = path.split("/");
-		
-		if (tabParam.getLabel().equals(pathArray[pathArray.length-1])) {
+		List<String> pathArray = Arrays.asList((path.split("/")));
+
+		if (pathArray.contains(tabParam.getLabel())) {
 			return true;
 		}
 		return false;
+
 	}
 
 }

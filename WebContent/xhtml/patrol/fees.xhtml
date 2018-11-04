@@ -19,10 +19,10 @@
 					undoBean="#{userController}" undoMethod="changeEdit" />
 
 				<b:pillLinks>
-					<ui:repeat var="year" value="#{patrolFee.years}">
+					<ui:repeat var="year" value="#{feeBean.years}">
 						<b:navLink value="#{year}"
 							href="#{patrolController.patrol.getPatrolUrl()}/fees/#{year}"
-							active="#{patrolFee.selectedYear eq year}" />
+							active="#{feeBean.selectedYear eq year}" />
 					</ui:repeat>
 				</b:pillLinks>
 
@@ -34,87 +34,51 @@
 						orderable="false">
 						<div>
 							<b:commandButton iconAwesome="pencil" ajax="true"
-								update="@(.edit_fee_modal)"
-								onclick="ajax:patrolFee.setForSelectedModal(item.getFeeByYear(patrolFee.selectedYear))"
-								oncomplete="$('.edit_fee_modal').modal();return false;"
-								rendered="#{not empty item.getFeeByYear(patrolFee.selectedYear) }" />
+								update="@(.fee_edit_modal)"
+								onclick="ajax:feeBean.setForSelectedModal(item.getFeeByYear(feeBean.selectedYear))"
+								oncomplete="$('.fee_edit_modal').modal();return false;"
+								rendered="#{not empty item.getFeeByYear(feeBean.selectedYear) }" />
 							<b:commandButton iconAwesome="plus" ajax="true"
-								update="@(.new_fee_modal)"
-								onclick="ajax:patrolFee.setForNewModal(item, patrolFee.selectedYear)"
-								oncomplete="$('.new_fee_modal').modal();return false;"
-								rendered="#{empty item.getFeeByYear(patrolFee.selectedYear)}" />
+								update="@(.fee_new_modal)"
+								onclick="ajax:feeBean.setForNewModal(item, feeBean.selectedYear)"
+								oncomplete="$('.fee_new_modal').modal();return false;"
+								rendered="#{empty item.getFeeByYear(feeBean.selectedYear)}" />
 						</div>
 					</b:dataTableColumn>
 					<b:dataTableColumn label="Státusz">
 						<h:outputText
-							value="#{item.getFeeByYear(patrolFee.selectedYear).status.label}" />
+							value="#{item.getFeeByYear(feeBean.selectedYear).status.label}" />
 					</b:dataTableColumn>
 					<b:dataTableColumn label="Összeg">
 						<h:outputText
-							value="#{item.getFeeByYear(patrolFee.selectedYear).amount} Ft"
-							rendered="#{not empty item.getFeeByYear(patrolFee.selectedYear).amount}" />
+							value="#{item.getFeeByYear(feeBean.selectedYear).amount} Ft"
+							rendered="#{not empty item.getFeeByYear(feeBean.selectedYear).amount}" />
 						<h:outputText value=""
-							rendered="#{empty item.getFeeByYear(patrolFee.selectedYear).amount}" />
+							rendered="#{empty item.getFeeByYear(feeBean.selectedYear).amount}" />
 					</b:dataTableColumn>
 					<b:dataTableColumn label="Támogatás">
 						<h:outputText
-							value="#{item.getFeeByYear(patrolFee.selectedYear).support} Ft"
-							rendered="#{not empty item.getFeeByYear(patrolFee.selectedYear).support and item.getFeeByYear(patrolFee.selectedYear).support ne 0}" />
+							value="#{item.getFeeByYear(feeBean.selectedYear).support} Ft"
+							rendered="#{not empty item.getFeeByYear(feeBean.selectedYear).support and item.getFeeByYear(feeBean.selectedYear).support ne 0}" />
 						<h:outputText value=""
-							rendered="#{empty item.getFeeByYear(patrolFee.selectedYear).support or item.getFeeByYear(patrolFee.selectedYear).support eq 0}" />
+							rendered="#{empty item.getFeeByYear(feeBean.selectedYear).support or item.getFeeByYear(feeBean.selectedYear).support eq 0}" />
 					</b:dataTableColumn>
 					<b:dataTableColumn label="Befizetés napja">
 						<h:outputText
-							value="#{item.getFeeByYear(patrolFee.selectedYear).completeDate}">
+							value="#{item.getFeeByYear(feeBean.selectedYear).completeDate}">
 							<f:convertDateTime pattern="yyyy.MM.dd" />
 						</h:outputText>
 					</b:dataTableColumn>
 					<b:dataTableColumn label="Egyéb">
 						<h:outputText
-							value="#{item.getFeeByYear(patrolFee.selectedYear).getOtherInfo()}" />
+							value="#{item.getFeeByYear(feeBean.selectedYear).getOtherInfo()}" />
 					</b:dataTableColumn>
 
 				</t:dataTable>
-				<b:modal
-					title="#{patrolFee.selectedFee.scout.person.getFullName()} #{patrolFee.selectedFee.year}. évi tagdíj szerkesztése"
-					styleClass="edit_fee_modal" rendered="#{userController.edit}">
-					<b:panelGrid colSpans="4,8">
-						<h:outputLabel value="Státusz" />
-						<t:dropdown list="#{enums.feeStatuses}"
-							value="#{patrolFee.selectedFee.status}" />
-						<h:outputLabel value="Összeg" />
-						<b:inputText value="#{patrolFee.selectedFee.amount}" />
-						<h:outputLabel value="Támogatás" />
-						<b:inputText value="#{patrolFee.selectedFee.support}" />
-						<h:outputLabel value="Befizetés napja" />
-						<t:datepicker value="#{patrolFee.selectedFee.completeDate}" />
-						<h:outputLabel value="Megjegyzés" />
-						<b:inputTextarea value="#{patrolFee.selectedFee.other}" rows="2" />
-					</b:panelGrid>
-					<t:modalFooter mode="modify"
-						action="#{patrolFee.saveFee(patrolFee.selectedFee)}"
-						deleteAction="#{patrolFee.deleteFee(patrolFee.selectedFee)}" />
-				</b:modal>
 
-				<b:modal
-					title="#{patrolFee.newFee.scout.person.getFullName()} #{patrolFee.newFee.year}. évre új tagdíj"
-					styleClass="new_fee_modal" rendered="#{userController.edit}">
-					<b:panelGrid colSpans="4,8">
-						<h:outputLabel value="Státusz" />
-						<t:dropdown list="#{enums.feeStatuses}"
-							value="#{patrolFee.newFee.status}" />
-						<h:outputLabel value="Összeg" />
-						<b:inputText value="#{patrolFee.newFee.amount}" />
-						<h:outputLabel value="Támogatás" />
-						<b:inputText value="#{patrolFee.newFee.support}" />
-						<h:outputLabel value="Befizetés napja" />
-						<t:datepicker value="#{patrolFee.newFee.completeDate}" />
-						<h:outputLabel value="Megjegyzés" />
-						<b:inputTextarea value="#{patrolFee.newFee.other}" rows="2" />
-					</b:panelGrid>
-					<t:modalFooter mode="save"
-						action="#{patrolFee.saveFee(patrolFee.newFee)}" />
-				</b:modal>
+				<t:feeEditModal updater="#{patrolController.loader}" />
+				<t:feeNewModal updater="#{patrolController.loader}" />
+
 			</b:form>
 
 		</ui:define>

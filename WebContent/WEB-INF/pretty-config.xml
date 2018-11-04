@@ -94,9 +94,10 @@
 		<view-id value="/xhtml/patrol/fees.xhtml" />
 		<action>#{patrolController.loadData}</action>
 	</url-mapping>
-	
+
 	<url-mapping id="patrolFees">
-		<pattern value="/patrol/#{patrolController.patrolid}/fees/#{patrolFee.selectedYear}" />
+		<pattern
+			value="/patrol/#{patrolController.patrolid}/fees/#{feeBean.selectedYear}" />
 		<view-id value="/xhtml/patrol/fees.xhtml" />
 		<action>#{patrolController.loadData}</action>
 	</url-mapping>
@@ -148,7 +149,7 @@
 		<view-id value="/xhtml/team/leader.xhtml" />
 		<action>#{teamController.loadData}</action>
 	</url-mapping>
-	
+
 	<url-mapping id="teamTroop">
 		<pattern value="/team/troop" />
 		<view-id value="/xhtml/team/troop.xhtml" />

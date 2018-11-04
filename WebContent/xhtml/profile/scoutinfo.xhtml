@@ -70,9 +70,9 @@
 					<b:row styleClass="pulledRow">
 						<h:outputText value="Képesítések" styleClass="subTitle" />
 						<b:commandButton value="Új" iconAwesome="plus" size="md"
-							ajax="true" update="@(.new_qualification_modal)"
-							onclick="ajax:profileScout.setForNewQualificationModal(profileController.scout)"
-							oncomplete="$('.new_qualification_modal').modal();return false;"
+							ajax="true" update="@(.qualification_new_modal)"
+							onclick="ajax:qualificationBean.setForNewModal(profileController.scout)"
+							oncomplete="$('.qualification_new_modal').modal();return false;"
 							rendered="#{userController.edit}" />
 					</b:row>
 					<t:table>
@@ -82,49 +82,16 @@
 									style="padding-left:20px;" />
 								<b:commandButton iconAwesome="pencil" size="xs"
 									style="margin-left:5px" ajax="true"
-									update="@(.edit_qualification_modal)"
-									onclick="ajax:profileScout.setForEditQualificationModal(item)"
-									oncomplete="$('.edit_qualification_modal').modal();return false;"
+									update="@(.qualification_edit_modal)"
+									onclick="ajax:qualificationBean.setForEditModal(item)"
+									oncomplete="$('.qualification_edit_modal').modal();return false;"
 									rendered="#{userController.edit}" />
 							</t:row>
 						</ui:repeat>
 					</t:table>
 
-					<b:modal
-						title="#{profileScout.selectedQualification.type.label} képesítés szerkesztése"
-						styleClass="edit_qualification_modal"
-						rendered="#{userController.edit}">
-						<b:panelGrid colSpans="4,8">
-							<h:outputLabel value="VK" />
-							<b:inputText value="#{profileScout.selectedQualification.course}"
-								placeholder="pl. ŐVK2012 PUF" />
-							<h:outputLabel value="Dátum" />
-							<t:datepicker value="#{profileScout.selectedQualification.date}" />
-							<h:outputLabel value="Helyszín" />
-							<b:inputText value="#{profileScout.selectedQualification.place}" />
-						</b:panelGrid>
-						<t:modalFooter mode="modify"
-							action="#{profileScout.saveQualification(profileScout.selectedQualification)}"
-							deleteAction="#{profileScout.deleteQualification(profileScout.selectedQualification)}" />
-					</b:modal>
-
-					<b:modal title="Új képesítés" styleClass="new_qualification_modal"
-						rendered="#{userController.edit}">
-						<b:panelGrid colSpans="4,8">
-							<h:outputLabel value="Típus" />
-							<t:dropdown list="#{enums.qualifications}"
-								value="#{profileScout.newQualification.type}" />
-							<h:outputLabel value="VK" />
-							<b:inputText value="#{profileScout.newQualification.course}"
-								placeholder="pl. ŐVK2012 PUF" />
-							<h:outputLabel value="Dátum" />
-							<t:datepicker value="#{profileScout.newQualification.date}" />
-							<h:outputLabel value="Helyszín" />
-							<b:inputText value="#{profileScout.newQualification.place}" />
-						</b:panelGrid>
-						<t:modalFooter mode="create"
-							action="#{profileScout.saveQualification(profileScout.newQualification)}" />
-					</b:modal>
+					<t:qualificationEditModal updater="#{profileScout.loader}" />
+					<t:qualificationNewModal updater="#{profileScout.loader}" />
 
 					<br />
 					<b:row styleClass="pulledRow">

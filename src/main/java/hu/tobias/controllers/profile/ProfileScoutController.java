@@ -14,11 +14,9 @@ import javax.inject.Named;
 import hu.tobias.entities.Challenge;
 import hu.tobias.entities.Promise;
 import hu.tobias.entities.Qualification;
-import hu.tobias.entities.Scout;
 import hu.tobias.services.comparator.ChallengeComparator;
 import hu.tobias.services.comparator.PromiseComparator;
 import hu.tobias.services.comparator.QualificationComparator;
-import hu.tobias.services.dao.QualificationDao;
 import hu.tobias.services.dao.ScoutDao;
 
 @Named(value = "profileScout")
@@ -29,8 +27,6 @@ public class ProfileScoutController implements Serializable {
 
 	@EJB
 	private ScoutDao scoutService;
-	@EJB
-	private QualificationDao qualificationService;
 
 	@Inject
 	private ProfileController profileController;
@@ -38,9 +34,6 @@ public class ProfileScoutController implements Serializable {
 	private List<Promise> promiseList;
 	private List<Challenge> challengeList;
 	private List<Qualification> qualificationList;
-
-	private Qualification newQualification = new Qualification();
-	private Qualification selectedQualification = new Qualification();
 
 	private Runnable loader = new Runnable() {
 
@@ -88,14 +81,6 @@ public class ProfileScoutController implements Serializable {
 		this.profileController = profileController;
 	}
 
-	public Qualification getNewQualification() {
-		return newQualification;
-	}
-
-	public void setNewQualification(Qualification newQualification) {
-		this.newQualification = newQualification;
-	}
-
 	public List<Promise> getPromiseList() {
 		return promiseList;
 	}
@@ -120,14 +105,6 @@ public class ProfileScoutController implements Serializable {
 		this.qualificationList = qualificationList;
 	}
 
-	public Qualification getSelectedQualification() {
-		return selectedQualification;
-	}
-
-	public void setSelectedQualification(Qualification selectedQualification) {
-		this.selectedQualification = selectedQualification;
-	}
-
 	public Runnable getLoader() {
 		return loader;
 	}
@@ -141,34 +118,4 @@ public class ProfileScoutController implements Serializable {
 		profileController.getUserController().changeEdit();
 	}
 
-	public boolean setForNewQualificationModal(Scout s) {
-		newQualification = new Qualification(s);
-		return true;
-	}
-
-	public boolean setForEditQualificationModal(Qualification q) {
-		selectedQualification = q;
-		return true;
-	}
-
-	public void deleteQualification(Qualification q) {
-		qualificationList.remove(q);
-		scoutService.update(q.getScout());
-		qualificationService.delete(q);
-
-		profileController.loadData();
-		loadQualifications();
-	}
-
-	public void saveQualification(Qualification q) {
-		if (q.getId() == null) {
-			qualificationService.create(q);
-			qualificationList.add(q);
-			scoutService.update(q.getScout());
-		} else
-			qualificationService.update(q);
-
-		profileController.loadData();
-		loadQualifications();
-	}
 }

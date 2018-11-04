@@ -52,9 +52,11 @@
 
 					<b:row styleClass="pulledRow">
 						<h:outputText value="Őrstagok" styleClass="subTitle" />
-						<b:button value="Új őrstag" iconAwesome="plus" size="md"
-							rendered="#{userController.edit}"
-							onclick="$('.scout_modal').modal()" />
+						<b:commandButton value="Új őrstag" iconAwesome="plus" ajax="true"
+							update="@(.scout_modal)"
+							onclick="ajax:patrolInfo.setForNewScoutModal()"
+							oncomplete="$('.scout_modal').modal();return false;" size="md"
+							rendered="#{userController.edit}" />
 					</b:row>
 					<t:dataTable value="#{patrolController.patrol.scouts}"
 						order="status"
@@ -63,9 +65,13 @@
 						<b:dataTableColumn>
 							<b:row styleClass="pulledRow">
 								<t:entityLink entity="#{item}" />
-								<b:commandButton iconAwesome="trash" value="Töröl" size="xs"
-									action="#{patrolInfo.deleteScout(item)}"
-									rendered="#{userController.edit}" style="margin-left:10px;" />
+								<b:commandButton value="Töröl" iconAwesome="trash" ajax="true"
+									update="@(.delete_scout_modal)"
+									onclick="ajax:patrolInfo.setForDeleteScoutModal(item)"
+									oncomplete="$('.delete_scout_modal').modal();return false;"
+									size="xs" rendered="#{userController.edit}"
+									style="margin-left:10px;" />
+
 							</b:row>
 						</b:dataTableColumn>
 					</t:dataTable>
@@ -75,7 +81,7 @@
 				</b:panelGrid>
 
 				<b:modal
-					title="Új cserkész a(z) #{patrolController.patrol.getName()} őrsbe"
+					title="Új cserkész a(z) #{patrolController.patrol.name} őrsbe"
 					rendered="#{userController.edit}" styleClass="scout_modal">
 					<b:tabView pills="true">
 						<b:tab title="Új cserkész létrehozása">
@@ -94,19 +100,30 @@
 							<h:outputText
 								value="Minden más adatot a személyes oldalon tudsz majd beállítani." />
 							<t:modalFooter mode="create"
-								action="#{patrolInfo.saveNewScout()}" />
+								action="#{patrolInfo.saveScout(patrolInfo.newScout)}" />
 						</b:tab>
 						<b:tab title="Meglévő cserkészek közül választás">
 							<br />
 							<b:panelGrid colSpans="12">
 								<h:outputLabel value="Válassz a listából" />
-								<t:dropdown list="#{patrolInfo.allScouts}"
+								<t:dropdown list="#{utils.orderScoutList(patrolInfo.scouts)}"
 									value="#{patrolInfo.selectedScout}" mode="scout" />
 							</b:panelGrid>
 							<t:modalFooter mode="select"
-								action="#{patrolInfo.saveSelectedScout(patrolInfo.selectedScout)}" />
+								action="#{patrolInfo.saveScout(patrolInfo.selectedScout)}" />
 						</b:tab>
 					</b:tabView>
+				</b:modal>
+
+				<b:modal
+					title="#{patrolInfo.selectedScout.person.getFullName()} törlése a(z) #{patrolController.patrol.name} őrsből"
+					styleClass="delete_scout_modal" rendered="#{userController.edit}">
+					<b:panelGrid colSpans="12">
+						<h:outputLabel
+							value="Biztosan szeretnéd törölni #{patrolInfo.selectedScout.person.getFullName()} nevű cserkészt a(z) #{patrolController.patrol.name} őrsből?" />
+						<t:modalFooter mode="delete"
+							action="#{patrolInfo.deleteScout(patrolInfo.selectedScout)}" />
+					</b:panelGrid>
 				</b:modal>
 
 			</b:form>

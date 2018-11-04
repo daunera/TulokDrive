@@ -26,17 +26,17 @@ import hu.tobias.services.dao.ScoutDao;
 @Named(value = "patrolController")
 @ViewScoped
 public class PatrolController implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	@EJB
 	private PatrolDao patrolService;
 	@EJB
 	private ScoutDao scoutService;
-	
+
 	@Inject
 	private UserController userController;
-	
+
 	@Inject
 	private Permission permission;
 
@@ -92,7 +92,7 @@ public class PatrolController implements Serializable {
 	public void setPatrolid(int patrolid) {
 		this.patrolid = patrolid;
 	}
-	
+
 	public Scout getModdedScout() {
 		return moddedScout;
 	}
@@ -100,17 +100,17 @@ public class PatrolController implements Serializable {
 	public void setModdedScout(Scout moddedScout) {
 		this.moddedScout = moddedScout;
 	}
-	
+
 	public void undoEdit() {
 		userController.changeEdit();
 		loadData();
 	}
-	
+
 	public void saveScoutEdit() {
-		for(Scout s : patrol.getScouts()) {
+		for (Scout s : patrol.getScouts()) {
 			scoutService.update(s);
 		}
-		for(Leader l : patrol.getLeaders()) {
+		for (Leader l : patrol.getLeaders()) {
 			scoutService.update(l.getScout());
 		}
 		userController.changeEdit();
@@ -118,14 +118,14 @@ public class PatrolController implements Serializable {
 
 	public boolean isThisActiveTab(String tabName) {
 		TabName tabParam = TabName.valueOf(tabName);
-		
+
 		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 		String path = (String) externalContext.getRequestMap().get(RequestDispatcher.FORWARD_REQUEST_URI);
 		List<String> pathArray = Arrays.asList((path.split("/")));
-		
+
 		if (pathArray.contains(tabParam.getLabel())) {
 			return true;
-		} else if (pathArray.get(pathArray.size()-2).equals("patrol") && tabParam.equals(TabName.INFO))
+		} else if (pathArray.get(pathArray.size() - 2).equals("patrol") && tabParam.equals(TabName.INFO))
 			return true;
 
 		return false;

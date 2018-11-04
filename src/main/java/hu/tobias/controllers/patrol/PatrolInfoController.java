@@ -2,7 +2,6 @@ package hu.tobias.controllers.patrol;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -11,9 +10,10 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import hu.tobias.entities.Leader;
 import hu.tobias.entities.Person;
 import hu.tobias.entities.Scout;
-import hu.tobias.services.comparator.ScoutNameComparator;
+import hu.tobias.entities.enums.Status;
 import hu.tobias.services.dao.PatrolDao;
 import hu.tobias.services.dao.PersonDao;
 import hu.tobias.services.dao.ScoutDao;
@@ -34,18 +34,17 @@ public class PatrolInfoController implements Serializable {
 	@Inject
 	private PatrolController patrolController;
 
-	private Scout newScout;
+	private Scout newScout = new Scout();
 	private Scout selectedScout;
-	private List<Scout> allScouts;
+	private List<Scout> scouts = new ArrayList<Scout>();
 
 	public PatrolInfoController() {
 	}
 
 	@PostConstruct
 	public void init() {
-		allScouts = new ArrayList<Scout>(scoutService.findAllWithoutPatrol());
-		Collections.sort(allScouts, new ScoutNameComparator());
-		newScout = createNewScout();
+		newScout = new Scout();
+		newScout.setPerson(new Person());
 	}
 
 	public PatrolController getPatrolController() {
@@ -72,12 +71,12 @@ public class PatrolInfoController implements Serializable {
 		this.selectedScout = selectedScout;
 	}
 
-	public List<Scout> getAllScouts() {
-		return allScouts;
+	public List<Scout> getScouts() {
+		return scouts;
 	}
 
-	public void setAllScouts(List<Scout> allScouts) {
-		this.allScouts = allScouts;
+	public void setScouts(List<Scout> scouts) {
+		this.scouts = scouts;
 	}
 
 	public void saveEdit() {
@@ -86,38 +85,44 @@ public class PatrolInfoController implements Serializable {
 		patrolController.getUserController().changeEdit();
 	}
 
+	public boolean setForNewScoutModal() {
+		scouts = scoutService.findAllWithoutPatrol();
+		for (Leader l : patrolController.getPatrol().getLeaders()) {
+			scouts.remove(l.getScout());
+		}
+		newScout = new Scout();
+		newScout.setPerson(new Person());
+		newScout.getPerson().setGender(patrolController.getPatrol().getGender());
+
+		if (!scouts.isEmpty()) {
+			selectedScout = scouts.get(0);
+		}
+
+		return true;
+	}
+
+	public boolean setForDeleteScoutModal(Scout s) {
+		selectedScout = s;
+		return true;
+	}
+
 	public void deleteScout(Scout s) {
-		patrolController.getPatrol().getScouts().remove(s);
-		patrolService.update(patrolController.getPatrol());
-
-		allScouts.add(s);
-		Collections.sort(allScouts, new ScoutNameComparator());
+		s.setPatrol(null);
+		scoutService.update(s);
+		patrolController.loadData();
 	}
 
-	private Scout createNewScout() {
-		Scout tmpScout = new Scout();
-		tmpScout.setPerson(new Person());
-		tmpScout.getPerson().setGender(patrolController.getPatrol().getGender());
-
-		return tmpScout;
-	}
-
-	public void saveNewScout() {
-		personService.create(newScout.getPerson());
-		scoutService.create(newScout);
-
-		saveScoutToPatrol(newScout);
-		newScout = createNewScout();
-	}
-
-	public void saveSelectedScout(Scout s) {
-		saveScoutToPatrol(s);
-		allScouts.remove(s);
-	}
-
-	private void saveScoutToPatrol(Scout s) {
-		patrolController.getPatrol().getScouts().add(s);
-		patrolService.update(patrolController.getPatrol());
+	public void saveScout(Scout s) {
+		s.setStatus(Status.ACTIVE);
+		if (s.getId() == null) {
+			personService.create(s.getPerson());
+			s.setPatrol(patrolController.getPatrol());
+			scoutService.create(s);
+		} else {
+			s.setPatrol(patrolController.getPatrol());
+			scoutService.update(s);
+		}
+		patrolController.loadData();
 	}
 
 }

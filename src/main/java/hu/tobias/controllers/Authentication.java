@@ -15,11 +15,8 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
-import org.mindrot.jbcrypt.BCrypt;
-
 import hu.tobias.entities.Leader;
 import hu.tobias.services.dao.LeaderDao;
-import hu.tobias.services.utils.Utils;
 
 @Named(value = "authentication")
 @ViewScoped
@@ -79,18 +76,12 @@ public class Authentication implements Serializable {
 		HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
 
 		try {
+			request.login(username, password);
 			Leader user = userService.findUserByUsername(username);
-			if (Utils.isEmpty(user.getSalt())) {
-				user.setSalt(BCrypt.gensalt());
-				userService.update(user);
-			}
-			request.login(username, BCrypt.hashpw(password, user.getSalt()));
-
 			user.setLastlogin(new Date());
 			userService.update(user);
 			externalContext.getSessionMap().put("user", user);
 			externalContext.redirect(originalURL);
-
 		} catch (ServletException e) {
 			alertErr = true;
 		}

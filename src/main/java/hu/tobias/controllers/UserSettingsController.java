@@ -147,10 +147,6 @@ public class UserSettingsController implements Serializable {
 
 	public boolean checkPasswords() {
 		boolean okay = true;
-		if (Utils.isEmpty(userController.getLeader().getSalt())) {
-			userController.getLeader().setSalt(BCrypt.gensalt());
-			leaderService.update(userController.getLeader());
-		}
 
 		if (Utils.isEmpty(oldPassword) || Utils.isEmpty(newPassword) || Utils.isEmpty(newPasswordAgain)) {
 			setErrorMessage("Üres valamelyik mező");

@@ -50,7 +50,7 @@ public class Utils {
 	}
 
 	public static String generatePassword() {
-		return RandomStringUtils.randomAlphabetic(10);
+		return RandomStringUtils.randomAlphanumeric(10);
 	}
 
 	public static String getHelpMailto() {

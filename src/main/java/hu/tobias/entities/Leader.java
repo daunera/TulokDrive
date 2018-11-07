@@ -54,22 +54,17 @@ public class Leader implements Serializable {
 	private Boolean god = false;
 	private Boolean uniformer = false;
 
-	private String salt;
-
 	public Leader() {
-		this.salt = BCrypt.gensalt();
 	}
 
 	public Leader(Integer id) {
 		this.id = id;
-		this.salt = BCrypt.gensalt();
 	}
 
 	public Leader(Integer id, String username, String password) {
 		this.id = id;
 		this.username = username;
-		this.salt = BCrypt.gensalt();
-		this.password = BCrypt.hashpw(password, salt);
+		this.password = BCrypt.hashpw(password, BCrypt.gensalt());
 	}
 
 	public Integer getId() {
@@ -85,7 +80,7 @@ public class Leader implements Serializable {
 	}
 
 	public void setPassword(String password) {
-		this.password = BCrypt.hashpw(password, getSalt());
+		this.password = BCrypt.hashpw(password, BCrypt.gensalt());
 	}
 
 	public String getUsername() {
@@ -244,17 +239,6 @@ public class Leader implements Serializable {
 			return true;
 		else
 			return uniformer;
-	}
-
-	public String getSalt() {
-		if (Utils.isEmpty(this.salt)) {
-			this.salt = BCrypt.gensalt();
-		}
-		return salt;
-	}
-
-	public void setSalt(String salt) {
-		this.salt = salt;
 	}
 
 }

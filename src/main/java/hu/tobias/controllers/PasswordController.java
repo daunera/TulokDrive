@@ -69,6 +69,8 @@ public class PasswordController implements Serializable {
 
 		if (hoursBetween >= 0 && hoursBetween < 25) {
 			valid = true;
+		} else {
+			passwordService.delete(newPw);
 		}
 	}
 
@@ -81,7 +83,7 @@ public class PasswordController implements Serializable {
 				NewPassword newRow = new NewPassword();
 				newRow.setUser(user);
 				newRow.setCreated(new Date());
-				newRow.setCode(RandomStringUtils.randomAlphabetic(16));
+				newRow.setCode(RandomStringUtils.randomAlphanumeric(32));
 				passwordService.create(newRow);
 				emailBean.sendToDoPwChangeMail(user.getEmail(), user.getPersonalName(), "newpw/" + newRow.getCode());
 

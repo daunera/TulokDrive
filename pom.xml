@@ -80,6 +80,7 @@
 			<groupId>org.picketbox</groupId>
 			<artifactId>picketbox</artifactId>
 			<version>5.1.0.Final</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 

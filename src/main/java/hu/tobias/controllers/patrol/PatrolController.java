@@ -124,7 +124,7 @@ public class PatrolController implements Serializable {
 		}
 		userController.changeEdit();
 	}
-	
+
 	public void savePersonalEdit() {
 		for (Scout s : patrol.getScouts()) {
 			personService.update(s.getPerson());

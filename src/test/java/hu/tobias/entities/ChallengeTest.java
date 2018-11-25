@@ -34,7 +34,7 @@ public class ChallengeTest {
 	}
 
 	@Test
-	public void constructor() {
+	public void testConstructor() {
 		assertEquals(challenge1.getScout().getId().equals(1), true);
 		assertEquals(challenge1.getType(), ChallengeType.CS1);
 
@@ -44,7 +44,7 @@ public class ChallengeTest {
 	}
 
 	@Test
-	public void equals() {
+	public void testEquals() {
 		assertEquals(challenge1.equals(challenge2), true);
 		assertEquals(challenge1.equals(challenge3), false);
 		assertEquals(new Challenge().equals(challenge3), false);
@@ -52,13 +52,13 @@ public class ChallengeTest {
 	}
 
 	@Test
-	public void getFullInfo() {
+	public void testGetFullInfo() {
 		assertEquals(challenge1.getFullInfo(), "Újonc (1970.01.01, Budapest)");
 		assertEquals(challenge2.getFullInfo(), "Próba");
 	}
 
 	@Test
-	public void getDetails() {
+	public void testGetDetails() {
 		assertEquals(challenge1.getDetails(), "1970.01.01, Budapest");
 		assertEquals(challenge2.getDetails(), "Megszerezte");
 	}

@@ -31,7 +31,7 @@ public class AddressTest {
 	}
 	
 	@Test
-	public void equals() {
+	public void testEquals() {
 		assertEquals(address1.equals(address2), true);
 		assertEquals(address1.equals(address3), false);
 		assertEquals(address4.equals(address1), false);
@@ -39,13 +39,13 @@ public class AddressTest {
 	}
 	
 	@Test
-	public void getFullAddress() {
+	public void testGetFullAddress() {
 		assertEquals(address1.getFullAddress(), "Magyarország, 1111 Budapest, Kis utca 1, 1. emelet");
 		assertEquals(address2.getFullAddress(), "Magyarország, null Budapest, null");
 	}
 	
 	@Test
-	public void getFullAddressWtihPhone() {
+	public void testGetFullAddressWtihPhone() {
 		assertEquals(address1.getFullAddressWithPhone(), "Magyarország, 1111 Budapest, Kis utca 1, 1. emelet, 0611234567");
 		assertEquals(address2.getFullAddressWithPhone(), "Magyarország, null Budapest, null");
 		assertEquals(address4.getFullAddressWithPhone(), "Új cím hozzáadása");

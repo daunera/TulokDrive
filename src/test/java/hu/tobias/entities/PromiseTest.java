@@ -34,7 +34,7 @@ public class PromiseTest {
 	}
 
 	@Test
-	public void constructor() {
+	public void testConstructor() {
 		assertEquals(promise1.getScout().getId().equals(1), true);
 		assertEquals(promise1.getType(), PromiseType.CS);
 
@@ -44,7 +44,7 @@ public class PromiseTest {
 	}
 
 	@Test
-	public void equals() {
+	public void testEquals() {
 		assertEquals(promise1.equals(promise2), true);
 		assertEquals(promise1.equals(promise3), false);
 		assertEquals(new Promise().equals(promise3), false);
@@ -52,13 +52,13 @@ public class PromiseTest {
 	}
 
 	@Test
-	public void getFullInfo() {
+	public void testGetFullInfo() {
 		assertEquals(promise1.getFullInfo(), "Cserkész fogadalom (1970.01.01, Budapest)");
 		assertEquals(promise2.getFullInfo(), "Fogadalom");
 	}
 
 	@Test
-	public void getDetails() {
+	public void testGetDetails() {
 		assertEquals(promise1.getDetails(), "1970.01.01, Budapest");
 		assertEquals(promise2.getDetails(), "Letette");
 	}

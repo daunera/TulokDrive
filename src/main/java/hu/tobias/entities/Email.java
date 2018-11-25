@@ -38,7 +38,6 @@ public class Email {
 		this.lines = new ArrayList<String>();
 		this.lines.add(b);
 		setLink(l);
-		setDefaultLink();
 	}
 
 	public String getToAddress() {
@@ -103,7 +102,6 @@ public class Email {
 		ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
 		this.link = context.getRequestScheme() + "://" + context.getRequestServerName() + ":"
 				+ context.getRequestServerPort() + context.getRequestContextPath();
-		
 	}
 
 }

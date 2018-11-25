@@ -36,7 +36,7 @@ public class FeeTest {
 	}
 
 	@Test
-	public void constructor() {
+	public void testConstructor() {
 		assertEquals(fee1.getScout().getId().equals(1), true);
 		assertEquals(fee1.getStatus(), FeeStatusType.CSPK);
 
@@ -44,7 +44,7 @@ public class FeeTest {
 	}
 
 	@Test
-	public void equals() {
+	public void testEquals() {
 		assertEquals(fee1.equals(fee2), true);
 		assertEquals(fee1.equals(fee3), false);
 		assertEquals(new Fee().equals(fee3), false);
@@ -52,13 +52,13 @@ public class FeeTest {
 	}
 
 	@Test
-	public void getFullInfo() {
+	public void testGetFullInfo() {
 		assertEquals(fee1.getFullInfo(), "2010 - kp cspknál (1970.01.01)");
 		assertEquals(fee2.getFullInfo(), "nem fizetett (2018.11.25)");
 	}
 
 	@Test
-	public void getOtherInfo() {
+	public void testGetOtherInfo() {
 		assertEquals(fee1.getOtherInfo(), "befizető: apa, ausztrál dollárban");
 		assertEquals(fee2.getOtherInfo(), null);
 	}

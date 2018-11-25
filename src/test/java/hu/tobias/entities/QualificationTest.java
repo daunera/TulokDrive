@@ -35,7 +35,7 @@ public class QualificationTest {
 	}
 
 	@Test
-	public void constructor() {
+	public void testConstructor() {
 		assertEquals(qualification1.getScout().getId().equals(1), true);
 		assertEquals(qualification1.getType(), QualificationType.OV);
 
@@ -45,7 +45,7 @@ public class QualificationTest {
 	}
 
 	@Test
-	public void equals() {
+	public void testEquals() {
 		assertEquals(qualification1.equals(qualification2), true);
 		assertEquals(qualification1.equals(qualification3), false);
 		assertEquals(new Qualification().equals(qualification3), false);
@@ -53,7 +53,7 @@ public class QualificationTest {
 	}
 
 	@Test
-	public void getFullInfo() {
+	public void testGetFullInfo() {
 		assertEquals(qualification1.getFullInfo(), "őrsvezetői (PUF2010, 1970.01.01, Budapest)");
 		assertEquals(qualification2.getFullInfo(), "képesítés");
 	}

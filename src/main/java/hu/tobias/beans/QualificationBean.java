@@ -9,7 +9,6 @@ import javax.inject.Named;
 import hu.tobias.entities.Qualification;
 import hu.tobias.entities.Scout;
 import hu.tobias.services.dao.QualificationDao;
-import hu.tobias.services.dao.ScoutDao;
 
 @Named(value = "qualificationBean")
 @ViewScoped
@@ -17,8 +16,6 @@ public class QualificationBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@EJB
-	private ScoutDao scoutService;
 	@EJB
 	private QualificationDao qualificationService;
 

@@ -120,7 +120,15 @@ public class Fee implements Serializable {
 	}
 
 	public String getFullInfo() {
-		return year.toString() + " - " + status.getLabel() + " (" + Utils.simpleDate(completeDate) + ")";
+		String text = "";
+		if (year != null)
+			text += year.toString() + " - " + status.getLabel();
+		else
+			text += status.getLabel();
+
+		text += " (" + Utils.simpleDate(completeDate) + ")";
+
+		return text;
 	}
 
 	public String getOtherInfo() {

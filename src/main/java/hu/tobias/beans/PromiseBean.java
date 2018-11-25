@@ -9,7 +9,6 @@ import javax.inject.Named;
 import hu.tobias.entities.Promise;
 import hu.tobias.entities.Scout;
 import hu.tobias.services.dao.PromiseDao;
-import hu.tobias.services.dao.ScoutDao;
 
 @Named(value = "promiseBean")
 @ViewScoped
@@ -17,8 +16,6 @@ public class PromiseBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@EJB
-	private ScoutDao scoutService;
 	@EJB
 	private PromiseDao promiseService;
 

@@ -15,7 +15,6 @@ import hu.tobias.entities.Scout;
 import hu.tobias.entities.enums.FeeStatusType;
 import hu.tobias.services.dao.FeeDao;
 import hu.tobias.services.dao.FeeTypeTableDao;
-import hu.tobias.services.dao.ScoutDao;
 
 @Named(value = "feeBean")
 @ViewScoped
@@ -23,8 +22,6 @@ public class FeeBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@EJB
-	private ScoutDao scoutService;
 	@EJB
 	private FeeDao feeService;
 	@EJB

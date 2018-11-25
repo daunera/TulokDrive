@@ -41,6 +41,11 @@ public class Qualification implements Serializable {
 	public Qualification(Scout s) {
 		this.scout = s;
 	}
+	
+	public Qualification(Scout s, QualificationType qt) {
+		this.scout = s;
+		this.type = qt;
+	}
 
 	public Integer getId() {
 		return id;
@@ -91,7 +96,11 @@ public class Qualification implements Serializable {
 	}
 
 	public String getFullInfo() {
-		String text = type.getLabel();
+		String text = "";
+		if (type != null)
+				text = type.getLabel();
+		else
+			text = "képesítés";
 
 		String subtext = "";
 		if (!Utils.isEmpty(course))

@@ -9,7 +9,6 @@ import javax.inject.Named;
 import hu.tobias.entities.Challenge;
 import hu.tobias.entities.Scout;
 import hu.tobias.services.dao.ChallengeDao;
-import hu.tobias.services.dao.ScoutDao;
 
 @Named(value = "challengeBean")
 @ViewScoped
@@ -17,8 +16,6 @@ public class ChallengeBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@EJB
-	private ScoutDao scoutService;
 	@EJB
 	private ChallengeDao challengeService;
 

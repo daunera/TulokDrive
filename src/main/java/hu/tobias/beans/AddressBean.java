@@ -4,13 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
 import javax.inject.Named;
 
-import hu.tobias.controllers.UserController;
 import hu.tobias.entities.Address;
 import hu.tobias.entities.Scout;
 import hu.tobias.services.dao.AddressDao;
@@ -27,9 +24,6 @@ public class AddressBean implements Serializable {
 	@EJB
 	private AddressDao addressService;
 	
-	@Inject
-	private UserController userController;
-	
 	private List<Address> addresses = new ArrayList<Address>();
 	private Address newAddress = new Address();
 	private Address selectedAddress = new Address();
@@ -38,16 +32,9 @@ public class AddressBean implements Serializable {
 	
 	public AddressBean() {}
 	
-	@PostConstruct
-	public void init() {
-	}
-
-	public UserController getUserController() {
-		return userController;
-	}
-
-	public void setUserController(UserController userController) {
-		this.userController = userController;
+	public AddressBean(PersonDao pd, AddressDao ad) {
+		personService = pd;
+		addressService = ad;
 	}
 
 	public List<Address> getAddresses() {

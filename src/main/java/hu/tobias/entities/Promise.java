@@ -87,7 +87,11 @@ public class Promise implements Serializable {
 	}
 
 	public String getFullInfo() {
-		String text = type.getLabel();
+		String text = "";
+		if (type != null)
+				text = type.getLabel();
+		else
+			text = "Fogadalom";
 
 		String subtext = "";
 		if (date != null)

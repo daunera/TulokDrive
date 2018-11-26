@@ -85,7 +85,7 @@ public class TroopTest {
 
 	@Test
 	public void testGetAllLeader() {
-		assertEquals(troop1.getAllLeaderNum(), 3); // getAllLeader és gePatrolLeader is lefut és visszaadja a leadereket
+		assertEquals(troop1.getAllLeaderNum(), 3); // getAllLeader és getPatrolLeader is lefut és visszaadja a leadereket
 		assertEquals(troop2.getAllLeaderNum(), 0);
 	}
 

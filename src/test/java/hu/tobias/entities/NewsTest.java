@@ -7,6 +7,8 @@ import java.util.Date;
 import org.junit.Before;
 import org.junit.Test;
 
+import hu.tobias.services.utils.Utils;
+
 public class NewsTest {
 
 	private News news1;
@@ -17,7 +19,7 @@ public class NewsTest {
 	public void before() {
 		news1 = new News(new Leader(1));
 		news2 = new News();
-		now = new Date();
+		now = Utils.now();
 
 		news1.setId(1);
 		news2.setId(1);

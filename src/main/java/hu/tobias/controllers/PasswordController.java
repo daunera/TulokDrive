@@ -3,7 +3,6 @@ package hu.tobias.controllers;
 import java.io.Serializable;
 import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
-import java.util.Date;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -16,6 +15,7 @@ import hu.tobias.entities.Leader;
 import hu.tobias.entities.NewPassword;
 import hu.tobias.services.dao.LeaderDao;
 import hu.tobias.services.dao.NewPasswordDao;
+import hu.tobias.services.utils.Utils;
 
 @Named(value = "passwordController")
 @ViewScoped
@@ -82,7 +82,7 @@ public class PasswordController implements Serializable {
 				Leader user = userService.findUserByUsername(username);
 				NewPassword newRow = new NewPassword();
 				newRow.setUser(user);
-				newRow.setCreated(new Date());
+				newRow.setCreated(Utils.now());
 				newRow.setCode(RandomStringUtils.randomAlphanumeric(32));
 				passwordService.create(newRow);
 				emailBean.sendToDoPwChangeMail(user.getEmail(), user.getPersonalName(), "newpw/" + newRow.getCode());

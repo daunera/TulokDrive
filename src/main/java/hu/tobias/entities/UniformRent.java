@@ -152,16 +152,16 @@ public class UniformRent implements Serializable {
 		Date result = null;
 
 		if (renttype.equals(RentType.VERYOLD))
-			result = new Date();
+			result = Utils.now();
 
 		else if (renttype.equals(RentType.OLD)) {
 			if (scout.getPromiseByType("CS") != null)
-				result = new Date();
+				result = Utils.now();
 			else if (scout.getStatus().equals(Status.QUITTED))
-				result = new Date();
+				result = Utils.now();
 			else {
 				if (scout.getPatrol().getActualClass() > 5)
-					result = new Date();
+					result = Utils.now();
 				else if (scout.getPatrol().getActualClass() != 0) {
 					Calendar c = Calendar.getInstance();
 					c.setTime(scout.getPatrol().getBirthdate());
@@ -183,10 +183,10 @@ public class UniformRent implements Serializable {
 
 		} else if (renttype.equals(RentType.NOW)) {
 			if (scout.getStatus().equals(Status.QUITTED))
-				result = new Date();
+				result = Utils.now();
 			else {
 				if (scout.getPatrol().getActualClass() > 5) {
-					result = new Date();
+					result = Utils.now();
 				} else if (scout.getPatrol().getActualClass() != 0) {
 					Calendar c = Calendar.getInstance();
 					c.setTime(scout.getPatrol().getBirthdate());
@@ -198,18 +198,18 @@ public class UniformRent implements Serializable {
 			}
 
 		} else
-			result = new Date();
+			result = Utils.now();
 
-		Date dt = new Date();
+		Date dt = Utils.now();
 		Calendar c = Calendar.getInstance();
 		c.setTime(dt);
 		c.add(Calendar.DATE, 1);
 		dt = c.getTime();
 
-		if (result.before(dt))
-			return "MOST";
-		else if (result == null)
+		if (result == null)
 			return "PASSZ";
+		else if (result.before(dt))
+			return "MOST";
 		else
 			return Utils.simpleDate(result);
 	}

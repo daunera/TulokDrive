@@ -3,7 +3,6 @@ package hu.tobias.controllers.uniform;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -19,6 +18,7 @@ import hu.tobias.entities.UniformRent;
 import hu.tobias.services.comparator.ScoutNameComparator;
 import hu.tobias.services.dao.ScoutDao;
 import hu.tobias.services.dao.UniformRentDao;
+import hu.tobias.services.utils.Utils;
 
 @Named(value = "uniformController")
 @ViewScoped
@@ -165,14 +165,14 @@ public class UniformController implements Serializable {
 	
 	public boolean setForRentBackModal(UniformRent r) {
 		selectedRent = r;
-		selectedRent.setReturndate(new Date());
+		selectedRent.setReturndate(Utils.now());
 		return true;
 	}
 
 	public void backingRent(UniformRent r) {
 		r.setReturned(true);
 		if(r.getReturndate() == null) {
-			r.setReturndate(new Date());
+			r.setReturndate(Utils.now());
 		}
 		uniformService.update(r);
 

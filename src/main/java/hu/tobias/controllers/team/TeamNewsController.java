@@ -2,7 +2,6 @@ package hu.tobias.controllers.team;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -14,6 +13,7 @@ import javax.inject.Named;
 import hu.tobias.entities.Leader;
 import hu.tobias.entities.News;
 import hu.tobias.services.dao.NewsDao;
+import hu.tobias.services.utils.Utils;
 
 @Named(value = "teamNews")
 @ViewScoped
@@ -101,7 +101,7 @@ public class TeamNewsController implements Serializable {
 	public List<News> getActualNews() {
 		List<News> result = new ArrayList<News>();
 		for (News n : news) {
-			if (n.getExpire().after(new Date()))
+			if (n.getExpire().after(Utils.now()))
 				result.add(n);
 		}
 		return result;
@@ -110,7 +110,7 @@ public class TeamNewsController implements Serializable {
 	public List<News> getExpiredNews() {
 		List<News> result = new ArrayList<News>();
 		for (News n : news) {
-			if (n.getExpire().before(new Date()))
+			if (n.getExpire().before(Utils.now()))
 				result.add(n);
 		}
 		return result;

@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -47,6 +48,10 @@ public class Utils {
 	public static int ageInYear(final Date d) {
 		LocalDate date = d.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		return Period.between(date, LocalDate.now()).getYears();
+	}
+	
+	public static Date now() {
+		return Calendar.getInstance().getTime();
 	}
 
 	public static String generatePassword() {

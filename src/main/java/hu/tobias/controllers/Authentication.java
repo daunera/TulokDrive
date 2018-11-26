@@ -2,7 +2,6 @@ package hu.tobias.controllers;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -17,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import hu.tobias.entities.Leader;
 import hu.tobias.services.dao.LeaderDao;
+import hu.tobias.services.utils.Utils;
 
 @Named(value = "authentication")
 @ViewScoped
@@ -78,7 +78,7 @@ public class Authentication implements Serializable {
 		try {
 			request.login(username, password);
 			Leader user = userService.findUserByUsername(username);
-			user.setLastlogin(new Date());
+			user.setLastlogin(Utils.now());
 			userService.update(user);
 			externalContext.getSessionMap().put("user", user);
 			externalContext.redirect(originalURL);

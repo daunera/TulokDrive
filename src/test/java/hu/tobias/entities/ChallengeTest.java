@@ -30,7 +30,6 @@ public class ChallengeTest {
 		challenge2.setId(1);
 
 		challenge3 = new Challenge();
-		challenge3.setId(2);
 	}
 
 	@Test
@@ -45,10 +44,12 @@ public class ChallengeTest {
 
 	@Test
 	public void testEquals() {
-		assertEquals(challenge1.equals(challenge2), true);
-		assertEquals(challenge1.equals(challenge3), false);
-		assertEquals(new Challenge().equals(challenge3), false);
-		assertEquals(new Challenge().equals(new Fee()), false);
+		assertEquals(challenge2.equals(challenge1), true);
+		challenge2.setId(2);
+		assertEquals(challenge2.equals(challenge1), false);
+		challenge2.setId(null);
+		assertEquals(challenge2.equals(challenge1), false);
+		assertEquals(challenge2.equals(new Fee()), false);
 	}
 
 	@Test

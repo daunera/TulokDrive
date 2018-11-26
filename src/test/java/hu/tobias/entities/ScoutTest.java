@@ -77,6 +77,7 @@ public class ScoutTest {
 		scout2.setId(2);
 		assertEquals(scout2.equals(scout1), false);
 		assertEquals(scout2.equals(new Fee()), false);
+		scout2.setId(null);
 	}
 
 	@Test

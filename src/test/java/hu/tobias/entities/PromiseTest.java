@@ -30,7 +30,6 @@ public class PromiseTest {
 		promise2.setId(1);
 
 		promise3 = new Promise();
-		promise3.setId(2);
 	}
 
 	@Test
@@ -45,10 +44,12 @@ public class PromiseTest {
 
 	@Test
 	public void testEquals() {
-		assertEquals(promise1.equals(promise2), true);
-		assertEquals(promise1.equals(promise3), false);
-		assertEquals(new Promise().equals(promise3), false);
-		assertEquals(new Promise().equals(new Fee()), false);
+		assertEquals(promise2.equals(promise1), true);
+		promise2.setId(2);
+		assertEquals(promise2.equals(promise1), false);
+		promise2.setId(null);
+		assertEquals(promise2.equals(promise1), false);
+		assertEquals(promise2.equals(new Fee()), false);
 	}
 
 	@Test

@@ -10,7 +10,7 @@ import org.junit.Test;
 import hu.tobias.entities.enums.QualificationType;
 
 public class QualificationTest {
-	
+
 	private Qualification qualification1;
 	private Qualification qualification2;
 	private Qualification qualification3;
@@ -31,7 +31,6 @@ public class QualificationTest {
 		qualification2.setId(1);
 
 		qualification3 = new Qualification();
-		qualification3.setId(2);
 	}
 
 	@Test
@@ -46,10 +45,12 @@ public class QualificationTest {
 
 	@Test
 	public void testEquals() {
-		assertEquals(qualification1.equals(qualification2), true);
-		assertEquals(qualification1.equals(qualification3), false);
-		assertEquals(new Qualification().equals(qualification3), false);
-		assertEquals(new Qualification().equals(new Fee()), false);
+		assertEquals(qualification2.equals(qualification1), true);
+		qualification2.setId(2);
+		assertEquals(qualification2.equals(qualification1), false);
+		qualification2.setId(null);
+		assertEquals(qualification2.equals(qualification1), false);
+		assertEquals(qualification2.equals(new Fee()), false);
 	}
 
 	@Test

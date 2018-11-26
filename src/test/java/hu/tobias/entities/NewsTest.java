@@ -11,16 +11,13 @@ public class NewsTest {
 
 	private News news1;
 	private News news2;
-	private News news3;
 	private Date now;
 
 	@Before
 	public void before() {
 		news1 = new News(new Leader(1));
 		news2 = new News();
-		news3 = new News();
 		now = new Date();
-		
 
 		news1.setId(1);
 		news2.setId(1);
@@ -36,13 +33,12 @@ public class NewsTest {
 
 	@Test
 	public void testEquals() {
-		assertEquals(news1.equals(news2), true);
-		assertEquals(news3.equals(news1), false);
-
-		news3.setId(2);
-		assertEquals(news3.equals(news1), false);
-
-		assertEquals(news3.equals(new Fee()), false);
+		assertEquals(news2.equals(news1), true);
+		news2.setId(2);
+		assertEquals(news2.equals(news1), false);
+		news2.setId(null);
+		assertEquals(news2.equals(news1), false);
+		assertEquals(news2.equals(new Fee()), false);
 	}
 
 }

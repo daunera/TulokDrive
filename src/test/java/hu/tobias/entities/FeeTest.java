@@ -14,7 +14,6 @@ public class FeeTest {
 
 	private Fee fee1;
 	private Fee fee2;
-	private Fee fee3;
 
 	@Before
 	public void before() {
@@ -31,9 +30,6 @@ public class FeeTest {
 
 		fee2 = new Fee();
 		fee2.setId(1);
-
-		fee3 = new Fee();
-		fee3.setId(2);
 	}
 
 	@Test
@@ -46,10 +42,12 @@ public class FeeTest {
 
 	@Test
 	public void testEquals() {
-		assertEquals(fee1.equals(fee2), true);
-		assertEquals(fee1.equals(fee3), false);
-		assertEquals(new Fee().equals(fee3), false);
-		assertEquals(fee1.equals(new Address()), false);
+		assertEquals(fee2.equals(fee1), true);
+		fee2.setId(2);
+		assertEquals(fee2.equals(fee1), false);
+		fee2.setId(null);
+		assertEquals(fee2.equals(fee1), false);
+		assertEquals(fee2.equals(new Address()), false);
 	}
 
 	@Test

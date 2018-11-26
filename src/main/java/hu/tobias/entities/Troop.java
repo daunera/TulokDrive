@@ -81,22 +81,11 @@ public class Troop implements Serializable {
 	}
 
 	public int getPatrolLeaderNum() {
-		int count = 0;
-		for (Patrol p : patrols) {
-			count += p.getLeaderNum();
-		}
-		return count;
+		return getPatrolLeader().size();
 	}
 
 	public int getAllLeaderNum() {
-		int count = getLeaderNum();
-		for (Patrol p : patrols) {
-			for (Leader l : p.getLeaders()) {
-				if (!leaders.contains(l))
-					count++;
-			}
-		}
-		return count;
+		return getAllLeader().size();
 	}
 
 	public int getActiveNum() {
@@ -118,19 +107,29 @@ public class Troop implements Serializable {
 	public Set<Leader> getPatrolLeader() {
 		Set<Leader> result = new HashSet<Leader>();
 		for (Patrol p : patrols) {
-			result.addAll(p.getLeaders());
+			for (Leader l : p.getLeaders()) {
+				boolean addFlag = true;
+				for (Leader r : result) {
+					if (r.equals(l))
+						addFlag = false;
+				}
+				if (addFlag)
+					result.add(l);
+			}
 		}
 		return result;
 	}
 
 	public Set<Leader> getAllLeader() {
-		Set<Leader> result = new HashSet<Leader>();
-		result.addAll(leaders);
-		for (Patrol p : patrols) {
-			for (Leader l : p.getLeaders()) {
-				if (!leaders.contains(l))
-					result.add(l);
+		Set<Leader> result = getPatrolLeader();
+		for (Leader l : leaders) {
+			boolean addFlag = true;
+			for (Leader r : result) {
+				if (r.equals(l))
+					addFlag = false;
 			}
+			if (addFlag)
+				result.add(l);
 		}
 		return result;
 	}

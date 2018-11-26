@@ -22,6 +22,13 @@ public class QualificationBean implements Serializable {
 	private Qualification selectedQualification = new Qualification();
 	private Qualification newQualification = new Qualification();
 
+	public QualificationBean() {
+	}
+
+	public QualificationBean(QualificationDao qd) {
+		this.qualificationService = qd;
+	}
+
 	public Qualification getSelectedQualification() {
 		return selectedQualification;
 	}

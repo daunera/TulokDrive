@@ -22,6 +22,13 @@ public class PromiseBean implements Serializable {
 	private Promise selectedPromise = new Promise();
 	private Promise newPromise = new Promise();
 
+	public PromiseBean() {
+	}
+
+	public PromiseBean(PromiseDao pd) {
+		promiseService = pd;
+	}
+
 	public Promise getSelectedPromise() {
 		return selectedPromise;
 	}

@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
@@ -33,8 +32,8 @@ public class ParentBean implements Serializable {
 	public ParentBean() {
 	}
 
-	@PostConstruct
-	public void init() {
+	public ParentBean(PersonDao pd) {
+		this.personService = pd;
 	}
 
 	public PersonDao getPersonService() {
@@ -102,9 +101,9 @@ public class ParentBean implements Serializable {
 		parents = personService.findAllInOneGender(editedGender);
 		parents.remove(s.getPerson());
 
-		if (editedGender.equals(Gender.FEMALE) && s.getPerson().hasMother())
+		if (editedGender == Gender.FEMALE && s.getPerson().hasMother())
 			selectedParent = s.getPerson().getMother();
-		else if (editedGender.equals(Gender.MALE) && s.getPerson().hasFather())
+		else if (editedGender == Gender.MALE && s.getPerson().hasFather())
 			selectedParent = s.getPerson().getFather();
 		else if (parents.size() > 0)
 			selectedParent = parents.get(0);
@@ -117,7 +116,7 @@ public class ParentBean implements Serializable {
 	}
 
 	public void saveParent(Scout s, Gender g, Person p, Runnable function) {
-		if (!g.equals(Gender.NOTDEFINED)) {
+		if (g != Gender.NOTDEFINED && g != null) {
 			if (p.getId() == null)
 				personService.create(p);
 			else
@@ -134,14 +133,18 @@ public class ParentBean implements Serializable {
 	}
 
 	public void deleteParent(Scout s, Gender g, Runnable function) {
-		if (g.equals(Gender.MALE) && s.getPerson().hasFather()) {
+		boolean modded = false;
+		if (g == Gender.MALE && s.getPerson().hasFather()) {
 			s.getPerson().setFather(null);
 			personService.update(s.getPerson());
-		} else if (g.equals(Gender.FEMALE) && s.getPerson().hasMother()) {
+			modded = true;
+		} else if (g == Gender.FEMALE && s.getPerson().hasMother()) {
 			s.getPerson().setMother(null);
 			personService.update(s.getPerson());
+			modded = true;
 		}
-		function.run();
+		if (modded)
+			function.run();
 	}
 
 }

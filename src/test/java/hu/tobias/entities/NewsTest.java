@@ -28,9 +28,9 @@ public class NewsTest {
 	@Test
 	public void testConstructor() {
 		assertEquals(news1.getSubmitter().getId().equals(1), true);
-		assertEquals(news1.getExpire(), new Date(now.getTime() + 604800000));
+		assertEquals(Utils.simpleDate(news1.getExpire()), Utils.simpleDate(new Date(now.getTime() + 604800000)));
 
-		assertEquals(news2.getExpire(), new Date(now.getTime() + 604800000));
+		assertEquals(Utils.simpleDate(news2.getExpire()), Utils.simpleDate(new Date(now.getTime() + 604800000)));
 	}
 
 	@Test

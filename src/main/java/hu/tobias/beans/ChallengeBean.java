@@ -22,6 +22,13 @@ public class ChallengeBean implements Serializable {
 	private Challenge selectedChallenge = new Challenge();
 	private Challenge newChallenge = new Challenge();
 
+	public ChallengeBean() {
+	}
+
+	public ChallengeBean(ChallengeDao cd) {
+		this.challengeService = cd;
+	}
+
 	public Challenge getSelectedChallenge() {
 		return selectedChallenge;
 	}

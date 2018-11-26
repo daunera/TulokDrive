@@ -33,6 +33,14 @@ public class FeeBean implements Serializable {
 	private Fee selectedFee = new Fee();
 	private Fee newFee = new Fee();
 
+	public FeeBean() {
+	}
+
+	public FeeBean(FeeDao fd, FeeTypeTableDao fttd) {
+		this.feeService = fd;
+		this.feeTypeService = fttd;
+	}
+
 	@PostConstruct
 	public void init() {
 		for (Integer i = LocalDateTime.now().getYear(); i >= 2016; i--)

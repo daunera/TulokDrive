@@ -150,12 +150,12 @@ public class Patrol implements Serializable {
 		else {
 			Calendar c = Calendar.getInstance();
 			c.setTime(birthdate);
-			if(c.get(Calendar.MONTH) < Calendar.SEPTEMBER) {
+			if (c.get(Calendar.MONTH) < Calendar.SEPTEMBER) {
 				c.add(Calendar.YEAR, -1);
 			}
 			c.set(Calendar.MONTH, Calendar.SEPTEMBER);
 			c.set(Calendar.DATE, 1);
-			
+
 			return Utils.ageInYear(c.getTime()) + startclass;
 		}
 	}

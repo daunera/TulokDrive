@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import hu.tobias.entities.enums.FeeStatusType;
+import hu.tobias.services.utils.Utils;
 
 public class FeeTest {
 
@@ -54,7 +55,7 @@ public class FeeTest {
 	@Test
 	public void testGetFullInfo() {
 		assertEquals(fee1.getFullInfo(), "2010 - kp cspknál (1970.01.01)");
-		assertEquals(fee2.getFullInfo(), "nem fizetett (2018.11.25)");
+		assertEquals(fee2.getFullInfo(), "nem fizetett (" + Utils.simpleDate(new Date()) + ")");
 	}
 
 	@Test

@@ -19,7 +19,7 @@ public class EmailTest {
 	private Email email1;
 	private Email email2;
 	private Email email3;
-	FacesContext context;
+	private FacesContext context;
 
 	@Before
 	public void before() {

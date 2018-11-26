@@ -24,7 +24,7 @@ public class Person implements Serializable {
 	private String firstname;
 	private String nickname;
 
-	private Date birthdate;
+	private Date birthdate = new Date();
 	private String birthplace;
 	private String nameday;
 
@@ -59,11 +59,9 @@ public class Person implements Serializable {
 	private Person mother;
 
 	public Person() {
-		super();
 	}
 
 	public Person(Gender g) {
-		super();
 		this.gender = g;
 	}
 

@@ -10,7 +10,7 @@ import javax.faces.context.FacesContext;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
+import static org.mockito.Mockito.*;
 
 import hu.tobias.mocks.ContextMocker;
 
@@ -24,12 +24,12 @@ public class EmailTest {
 	@Before
 	public void before() {
 		context = ContextMocker.mockFacesContext();
-		ExternalContext ext = Mockito.mock(ExternalContext.class);
-		Mockito.when(context.getExternalContext()).thenReturn(ext);
-		Mockito.when(ext.getRequestScheme()).thenReturn("http");
-		Mockito.when(ext.getRequestServerName()).thenReturn("tulokdrive.com");
-		Mockito.when(ext.getRequestServerPort()).thenReturn(8080);
-		Mockito.when(ext.getRequestContextPath()).thenReturn("/mailtest");
+		ExternalContext ext = mock(ExternalContext.class);
+		when(context.getExternalContext()).thenReturn(ext);
+		when(ext.getRequestScheme()).thenReturn("http");
+		when(ext.getRequestServerName()).thenReturn("tulokdrive.com");
+		when(ext.getRequestServerPort()).thenReturn(8080);
+		when(ext.getRequestContextPath()).thenReturn("/mailtest");
 
 		email1 = new Email();
 		email2 = new Email("address@mail.com", "Name Tom", "Subject", "Title", "New Line");

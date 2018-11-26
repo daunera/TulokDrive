@@ -7,7 +7,7 @@ import javax.faces.context.FacesContext;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
+import static org.mockito.Mockito.*;
 
 import hu.tobias.entities.enums.Status;
 import hu.tobias.mocks.ContextMocker;
@@ -21,9 +21,9 @@ public class TroopTest {
 	@Before
 	public void before() {
 		context = ContextMocker.mockFacesContext();
-		ExternalContext ext = Mockito.mock(ExternalContext.class);
-		Mockito.when(context.getExternalContext()).thenReturn(ext);
-		Mockito.when(ext.getRequestContextPath()).thenReturn("http://tulokdrive.com:8080");
+		ExternalContext ext = mock(ExternalContext.class);
+		when(context.getExternalContext()).thenReturn(ext);
+		when(ext.getRequestContextPath()).thenReturn("http://tulokdrive.com:8080");
 
 		troop1 = new Troop();
 		troop1.setId(1);

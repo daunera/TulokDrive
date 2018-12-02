@@ -12,3 +12,6 @@ uml/
 .env
 TODO.md
 console-log.txt
+*.png
+*.ucls
+*.uml

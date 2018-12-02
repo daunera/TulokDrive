@@ -14,9 +14,9 @@ insert into patrol (id, name, gender, birthdate, startclass, troop_id) values (9
 insert into person (id, lastname, firstname, email, phone, other, gender) values (200, 'Pipogya', 'Márton','kuncm@gmail.com','+36201231234','semmi',1);
 insert into person (id, lastname, firstname, email, phone, other, gender) values (201, 'Boroskót', 'Katus','borospiskota@gmail.com','+36201231234','tényleg',2);
 
-insert into person (id, lastname, firstname, nickname, birthdate, birthplace, email, phone, address_id, father_id, mother_id, nameday, religion, personcardid, tajid, omid, studentcardid, gender, foodsensitivity, disease, other) values (202, 'Tökély','Tóbiás', 'Toncsi','1906-01-21 01:01:01','Budapest','daunera@gmail.com', '+36205290243', 100, 200, 201, '05-25', 1, '123456ME', '110220330','74444560230','1234567890',1,'liszt, tej','rák','nincs' ) ;	
-insert into person (id, lastname, firstname, nickname, gender, religion, birthdate) values (203, 'Kis','Joana', 'Toby', 2, 1, '2000-05-27 01:01:01');
-insert into person (id, lastname, firstname, nickname, gender, religion, birthdate) values (208, 'Nyúl','Béla', 'Arnold', 1, 0,'1999-05-30 01:01:01');
+insert into person (id, lastname, firstname, nickname, birthdate, birthplace, email, phone, address_id, father_id, mother_id, nameday, religion, personcardid, tajid, omid, studentcardid, gender, foodsensitivity, disease, other) values (202, 'Tökély','Tóbiás', 'Toncsi', DATE_SUB(DATE_ADD(NOW(), INTERVAL 14 DAY), INTERVAL 32 YEAR),'Budapest','daunera@gmail.com', '+36205290243', 100, 200, 201, '05-25', 1, '123456ME', '110220330','74444560230','1234567890',1,'liszt, tej','rák','nincs' ) ;	
+insert into person (id, lastname, firstname, nickname, gender, religion, birthdate) values (203, 'Kis','Joana', 'Toby', 2, 1, DATE_SUB(DATE_ADD(NOW(), INTERVAL 10 DAY), INTERVAL 10 YEAR));
+insert into person (id, lastname, firstname, nickname, gender, religion, birthdate) values (208, 'Nyúl','Béla', 'Arnold', 1, 0, DATE_SUB(DATE_ADD(NOW(), INTERVAL 5 DAY), INTERVAL 23 YEAR));
 
 insert into scout (id, ecsetcode, person_id, status, joindate, leavedate, scoutcard) values(300,'DG3041-6', 202, 1, '2015-01-01 01:01:01', '2015-01-01 01:01:01', 2);
 insert into scout (id, ecsetcode, person_id, status) values(301,'CB3081-8', 203, 2);
@@ -47,10 +47,10 @@ insert into fee (id, scout_id, year, amount, support, completedate, status) valu
 insert into fee (id, scout_id, year, amount, support, completedate, contributor, status) values (800, 300, 2017, 3000, 3000, '2017-10-12 01:01:01', 'apja', 4);
 insert into fee (id, scout_id, year, amount, completedate, status) values (802, 300, 2018, 3000, '2018-03-03 01:01:01', 3);
 
-insert into person (id, lastname, firstname, gender, religion, birthdate) values (204, 'Kis','János', 1, 1, '1997-06-06 01:01:01');
-insert into person (id, lastname, firstname, gender, religion, birthdate) values (205, 'Nagy','Julia', 2, 2, '1993-05-01 01:01:01');
-insert into person (id, lastname, firstname, gender, religion, birthdate) values (206, 'Pék','János', 1, 3, '1990-05-26 01:01:01');
-insert into person (id, lastname, firstname, gender, religion, birthdate) values (207, 'Lakat','Klára', 2, 1, '2002-05-19 01:01:01');
+insert into person (id, lastname, firstname, gender, religion, birthdate) values (204, 'Kis','János', 1, 1, DATE_SUB(DATE_ADD(NOW(), INTERVAL 22 DAY), INTERVAL 24 YEAR));
+insert into person (id, lastname, firstname, gender, religion, birthdate) values (205, 'Nagy','Julia', 2, 2, DATE_SUB(DATE_ADD(NOW(), INTERVAL 20 DAY), INTERVAL 17 YEAR));
+insert into person (id, lastname, firstname, gender, religion, birthdate) values (206, 'Pék','János', 1, 3, DATE_SUB(DATE_ADD(NOW(), INTERVAL 30 DAY), INTERVAL 20 YEAR));
+insert into person (id, lastname, firstname, gender, religion, birthdate) values (207, 'Lakat','Klára', 2, 1, DATE_SUB(DATE_ADD(NOW(), INTERVAL 3 DAY), INTERVAL 18 YEAR));
 
 insert into scout (id, ecsetcode, person_id, status, patrol_id) values(302,'FB3081-1', 204, 1, 900);
 insert into scout (id, ecsetcode, person_id, status, patrol_id) values(303,'HB3081-2', 205, 1, 901);

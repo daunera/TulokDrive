@@ -21,10 +21,4 @@ public class NewPasswordDao extends AbstractDao<NewPassword, Integer> {
 		return em;
 	}
 
-	public NewPassword findLine(String code) {
-		return em.createQuery("SELECT n FROM NewPassword n WHERE code=:c", NewPassword.class)
-				.setParameter("c", code)
-				.getSingleResult();
-	}
-
 }

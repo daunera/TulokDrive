@@ -3,6 +3,7 @@ package hu.tobias.controllers;
 import java.io.Serializable;
 import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -10,6 +11,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.mindrot.jbcrypt.BCrypt;
 
 import hu.tobias.entities.Leader;
 import hu.tobias.entities.NewPassword;
@@ -57,7 +59,14 @@ public class PasswordController implements Serializable {
 
 	public void loadData() {
 		try {
-			newPw = passwordService.findLine(code);
+			newPw = null;
+			List<NewPassword> pws = passwordService.findAll();
+			for (NewPassword np : pws) {
+				if (BCrypt.checkpw(code, np.getCode()))
+					newPw = np;
+			}
+			if (newPw == null)
+				throw new Exception();
 		} catch (Exception e) {
 			valid = false;
 		}
@@ -83,9 +92,10 @@ public class PasswordController implements Serializable {
 				NewPassword newRow = new NewPassword();
 				newRow.setUser(user);
 				newRow.setCreated(Utils.now());
-				newRow.setCode(RandomStringUtils.randomAlphanumeric(32));
+				String secretCode = RandomStringUtils.randomAlphanumeric(32);
+				newRow.setCode(secretCode);
 				passwordService.create(newRow);
-				emailBean.sendToDoPwChangeMail(user.getEmail(), user.getPersonalName(), "newpw/" + newRow.getCode());
+				emailBean.sendToDoPwChangeMail(user.getEmail(), user.getPersonalName(), "newpw/" + secretCode);
 
 				alertDone = true;
 			}

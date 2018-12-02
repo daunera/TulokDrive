@@ -6,6 +6,8 @@ import java.util.Date;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 @Entity
 @Table(name = "newpassword")
 public class NewPassword implements Serializable {
@@ -43,7 +45,7 @@ public class NewPassword implements Serializable {
 	}
 
 	public void setCode(String code) {
-		this.code = code;
+		this.code = BCrypt.hashpw(code, BCrypt.gensalt());
 	}
 
 	public Leader getUser() {

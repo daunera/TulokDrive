@@ -70,16 +70,17 @@ public class PasswordController implements Serializable {
 		} catch (Exception e) {
 			valid = false;
 		}
+		if (newPw != null) {
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(newPw.getCreated());
 
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(newPw.getCreated());
+			Long hoursBetween = ChronoUnit.HOURS.between(cal.toInstant(), Calendar.getInstance().toInstant());
 
-		Long hoursBetween = ChronoUnit.HOURS.between(cal.toInstant(), Calendar.getInstance().toInstant());
-
-		if (hoursBetween >= 0 && hoursBetween < 25) {
-			valid = true;
-		} else {
-			passwordService.delete(newPw);
+			if (hoursBetween >= 0 && hoursBetween < 25) {
+				valid = true;
+			} else {
+				passwordService.delete(newPw);
+			}
 		}
 	}
 

@@ -21,7 +21,7 @@ public class PromiseBeanTest {
 	private Scout scout;
 	private int runFlag = 0;
 
-	private Runnable runabbleStub = new Runnable() {
+	private Runnable runnableStub = new Runnable() {
 
 		@Override
 		public void run() {
@@ -84,13 +84,13 @@ public class PromiseBeanTest {
 	@Test
 	public void testSavePromise() {
 		runFlag = 0;
-		promiseBean.savePromise(new Promise(), runabbleStub);
+		promiseBean.savePromise(new Promise(), runnableStub);
 		assertEquals(promiseDb.getId().intValue(), 10);
 		assertEquals(runFlag, 1);
 
 		Promise p2 = new Promise();
 		p2.setId(11);
-		promiseBean.savePromise(p2, runabbleStub);
+		promiseBean.savePromise(p2, runnableStub);
 		assertEquals(promiseDb.getId().intValue(), 11);
 		assertEquals(runFlag, 2);
 	}
@@ -98,7 +98,7 @@ public class PromiseBeanTest {
 	@Test
 	public void testDeletePromise() {
 		runFlag = 0;
-		promiseBean.deletePromise(null, runabbleStub);
+		promiseBean.deletePromise(null, runnableStub);
 		assertEquals(promiseDb, null);
 		assertEquals(runFlag, 1);
 	}

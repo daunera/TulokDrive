@@ -19,7 +19,7 @@ public class ChallengeBeanTest {
 	private Scout scout;
 	private int runFlag = 0;
 
-	private Runnable runabbleStub = new Runnable() {
+	private Runnable runnableStub = new Runnable() {
 
 		@Override
 		public void run() {
@@ -82,13 +82,13 @@ public class ChallengeBeanTest {
 	@Test
 	public void testSaveChallenge() {
 		runFlag = 0;
-		challengeBean.saveChallenge(new Challenge(), runabbleStub);
+		challengeBean.saveChallenge(new Challenge(), runnableStub);
 		assertEquals(challengeDb.getId().intValue(), 10);
 		assertEquals(runFlag, 1);
 
 		Challenge c2 = new Challenge();
 		c2.setId(11);
-		challengeBean.saveChallenge(c2, runabbleStub);
+		challengeBean.saveChallenge(c2, runnableStub);
 		assertEquals(challengeDb.getId().intValue(), 11);
 		assertEquals(runFlag, 2);
 	}
@@ -96,7 +96,7 @@ public class ChallengeBeanTest {
 	@Test
 	public void testDeleteChallenge() {
 		runFlag = 0;
-		challengeBean.deleteChallenge(null, runabbleStub);
+		challengeBean.deleteChallenge(null, runnableStub);
 		assertEquals(challengeDb, null);
 		assertEquals(runFlag, 1);
 	}

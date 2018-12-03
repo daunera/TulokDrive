@@ -26,7 +26,7 @@ public class FeeBeanTest {
 	private Scout scout;
 	private int runFlag = 0;
 
-	private Runnable runabbleStub = new Runnable() {
+	private Runnable runnableStub = new Runnable() {
 
 		@Override
 		public void run() {
@@ -117,13 +117,13 @@ public class FeeBeanTest {
 	@Test
 	public void testSaveFee() {
 		runFlag = 0;
-		feeBean.saveFee(new Fee(), runabbleStub);
+		feeBean.saveFee(new Fee(), runnableStub);
 		assertEquals(feeDb.getId().intValue(), 10);
 		assertEquals(runFlag, 1);
 
 		Fee f2 = new Fee();
 		f2.setId(11);
-		feeBean.saveFee(f2, runabbleStub);
+		feeBean.saveFee(f2, runnableStub);
 		assertEquals(feeDb.getId().intValue(), 11);
 		assertEquals(runFlag, 2);
 	}
@@ -131,7 +131,7 @@ public class FeeBeanTest {
 	@Test
 	public void testDeleteFee() {
 		runFlag = 0;
-		feeBean.deleteFee(null, runabbleStub);
+		feeBean.deleteFee(null, runnableStub);
 		assertEquals(feeDb, null);
 		assertEquals(runFlag, 1);
 	}

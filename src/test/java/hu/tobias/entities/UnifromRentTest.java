@@ -34,7 +34,7 @@ public class UnifromRentTest {
 	@Test
 	public void testConstructor() {
 		assertEquals(uniform1.getScout().equals(scout), true);
-		assertEquals(uniform1.getBegindate(), now);
+		assertEquals(Utils.simpleDate(uniform1.getBegindate()), Utils.simpleDate(now));
 		assertEquals(uniform1.getRenttype(), RentType.NOW);
 		assertEquals(uniform1.getUniformsize(), Size.NOTDEFINED);
 

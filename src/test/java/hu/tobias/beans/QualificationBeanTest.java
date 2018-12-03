@@ -21,7 +21,7 @@ public class QualificationBeanTest {
 	private Scout scout;
 	private int runFlag = 0;
 
-	private Runnable runabbleStub = new Runnable() {
+	private Runnable runnableStub = new Runnable() {
 
 		@Override
 		public void run() {
@@ -84,13 +84,13 @@ public class QualificationBeanTest {
 	@Test
 	public void testSaveQualification() {
 		runFlag = 0;
-		qualificationBean.saveQualification(new Qualification(), runabbleStub);
+		qualificationBean.saveQualification(new Qualification(), runnableStub);
 		assertEquals(qualificationDb.getId().intValue(), 10);
 		assertEquals(runFlag, 1);
 
 		Qualification q2 = new Qualification();
 		q2.setId(11);
-		qualificationBean.saveQualification(q2, runabbleStub);
+		qualificationBean.saveQualification(q2, runnableStub);
 		assertEquals(qualificationDb.getId().intValue(), 11);
 		assertEquals(runFlag, 2);
 	}
@@ -98,7 +98,7 @@ public class QualificationBeanTest {
 	@Test
 	public void testDeleteQualification() {
 		runFlag = 0;
-		qualificationBean.deleteQualification(null, runabbleStub);
+		qualificationBean.deleteQualification(null, runnableStub);
 		assertEquals(qualificationDb, null);
 		assertEquals(runFlag, 1);
 	}

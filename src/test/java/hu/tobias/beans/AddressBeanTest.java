@@ -26,7 +26,7 @@ public class AddressBeanTest {
 	private Scout scout;
 	private int runFlag = 0;
 
-	private Runnable runabbleStub = new Runnable() {
+	private Runnable runnableStub = new Runnable() {
 
 		@Override
 		public void run() {
@@ -99,14 +99,14 @@ public class AddressBeanTest {
 	public void testSaveAddress() {
 		runFlag = 0;
 
-		addressBean.saveAddress(scout, new Address(), runabbleStub);
+		addressBean.saveAddress(scout, new Address(), runnableStub);
 		assertEquals(addressDb.getId().intValue(), 1);
 		assertEquals(personDb.getAddress().getId().intValue(), 1);
 		assertEquals(runFlag, 1);
 
 		Address a2 = new Address();
 		a2.setId(2);
-		addressBean.saveAddress(scout, a2, runabbleStub);
+		addressBean.saveAddress(scout, a2, runnableStub);
 		assertEquals(addressDb.getId().intValue(), 2);
 	}
 
@@ -115,11 +115,11 @@ public class AddressBeanTest {
 		runFlag = 0;
 		scout.getPerson().setAddress(new Address());
 
-		addressBean.deleteAddress(scout, runabbleStub);
+		addressBean.deleteAddress(scout, runnableStub);
 		assertEquals(personDb.getAddress(), null);
 		assertEquals(runFlag, 1);
 		
-		addressBean.deleteAddress(scout, runabbleStub);
+		addressBean.deleteAddress(scout, runnableStub);
 		assertEquals(personDb.getAddress(), null);
 		assertEquals(runFlag, 2);
 	}

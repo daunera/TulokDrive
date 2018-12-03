@@ -26,7 +26,7 @@ public class ParentBeanTest {
 	private Scout scout;
 	private int runFlag = 0;
 
-	private Runnable runabbleStub = new Runnable() {
+	private Runnable runnableStub = new Runnable() {
 
 		@Override
 		public void run() {
@@ -114,21 +114,21 @@ public class ParentBeanTest {
 	public void testSaveParent() {
 		runFlag = 0;
 		personDb = null;
-		parentBean.saveParent(scout, null, null, runabbleStub);
+		parentBean.saveParent(scout, null, null, runnableStub);
 		assertEquals(runFlag, 0);
-		parentBean.saveParent(scout, Gender.NOTDEFINED, null, runabbleStub);
+		parentBean.saveParent(scout, Gender.NOTDEFINED, null, runnableStub);
 		assertEquals(runFlag, 0);
 
 		Person p1 = new Person();
 		p1.setId(20);
 		p1.setGender(Gender.MALE);
-		parentBean.saveParent(scout, Gender.MALE, p1, runabbleStub);
+		parentBean.saveParent(scout, Gender.MALE, p1, runnableStub);
 		assertEquals(personDb.getFather().getId().intValue(), 20);
 		assertEquals(runFlag, 1);
 
 		Person p2 = new Person();
 		p2.setGender(Gender.FEMALE);
-		parentBean.saveParent(scout, Gender.MALE, p2, runabbleStub);
+		parentBean.saveParent(scout, Gender.MALE, p2, runnableStub);
 		assertEquals(personDb.getMother().getId().intValue(), 10);
 		assertEquals(runFlag, 2);
 	}
@@ -138,21 +138,21 @@ public class ParentBeanTest {
 		runFlag = 0;
 		scout.getPerson().setFather(null);
 		scout.getPerson().setMother(null);
-		parentBean.deleteParent(null, null, runabbleStub);
+		parentBean.deleteParent(null, null, runnableStub);
 		assertEquals(runFlag, 0);
-		parentBean.deleteParent(scout, Gender.MALE, runabbleStub);
+		parentBean.deleteParent(scout, Gender.MALE, runnableStub);
 		assertEquals(runFlag, 0);
-		parentBean.deleteParent(scout, Gender.FEMALE, runabbleStub);
+		parentBean.deleteParent(scout, Gender.FEMALE, runnableStub);
 		assertEquals(runFlag, 0);
 
 		scout.getPerson().setFather(new Person(Gender.MALE));
-		parentBean.deleteParent(scout, Gender.MALE, runabbleStub);
+		parentBean.deleteParent(scout, Gender.MALE, runnableStub);
 		assertEquals(personDb.equals(scout.getPerson()), true);
 		assertEquals(personDb.hasFather(), false);
 		assertEquals(runFlag, 1);
 
 		scout.getPerson().setMother(new Person(Gender.FEMALE));
-		parentBean.deleteParent(scout, Gender.FEMALE, runabbleStub);
+		parentBean.deleteParent(scout, Gender.FEMALE, runnableStub);
 		assertEquals(personDb.equals(scout.getPerson()), true);
 		assertEquals(personDb.hasMother(), false);
 		assertEquals(runFlag, 2);

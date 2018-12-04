@@ -36,13 +36,13 @@ public class AddressBeanIT {
 	}
 
 	@EJB
-	AddressDao addressService;
+	private AddressDao addressService;
 	@EJB
-	PersonDao personService;
+	private PersonDao personService;
 	@EJB
-	ScoutDao scoutService;
+	private ScoutDao scoutService;
 
-	AddressBean addressBean;
+	private AddressBean addressBean;
 
 	private Person person;
 	private Scout scout;
